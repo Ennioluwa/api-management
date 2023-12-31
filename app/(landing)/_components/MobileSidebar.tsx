@@ -1,23 +1,28 @@
 "use client";
 
 import { Menu } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 
-import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { onClose, onOpen } from "@/redux/features/navigationSlice";
 import Sidebar from "./Sidebar";
+import { useAppDispatch, useAppSelector, useAppStore } from "@/lib/hooks";
 
 export const MobileSidebar = () => {
   const pathname = usePathname();
   const [isMounted, setIsMounted] = useState(false);
+  const store = useAppStore();
+  const initialized = useRef(false);
+  if (!initialized.current) {
+    initialized.current = true;
+  }
 
-  const { isOpen } = useSelector((state: RootState) => state.navigation);
-  const dispatch = useDispatch();
+  const { isOpen } = useAppSelector((state: RootState) => state.navigation);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     setIsMounted(true);

@@ -1,3 +1,5 @@
+"use client";
+
 import { FC } from "react";
 import HeroPage from "./_components/HeroPage";
 import OpenAccount from "./_components/OpenAccount";
