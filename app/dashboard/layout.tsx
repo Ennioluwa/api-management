@@ -1,20 +1,18 @@
-"use client";
-
+import type { Metadata } from "next";
 import { Inter as FontSans } from "next/font/google";
-import "./globals.css";
+import "../globals.css";
 import { cn } from "@/lib/utils";
-import { Provider } from "react-redux";
-import { store } from "@/redux/store";
+import Navbar from "./_components/Navbar";
 
 export const fontSans = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",
 });
 
-// export const metadata: Metadata = {
-//   title: "Api Management",
-//   description: "An api management application",
-// };
+export const metadata: Metadata = {
+  title: "Api Management",
+  description: "An api management application",
+};
 
 export default function RootLayout({
   children,
@@ -30,7 +28,8 @@ export default function RootLayout({
           fontSans.variable
         )}
       >
-        <Provider store={store}>{children}</Provider>
+        <Navbar />
+        {children}
       </body>
     </html>
   );
