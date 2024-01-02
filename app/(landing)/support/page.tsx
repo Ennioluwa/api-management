@@ -10,6 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Home2 } from "iconsax-react";
 import { ChevronRight } from "lucide-react";
 import Link from "next/link";
+import HomeNav from "../_components/HomeNav";
 
 interface QuestionsProps {
   title: string;
@@ -142,14 +143,7 @@ const Questions = ({}) => {
   return (
     <div className=" bg-[#F0F4F9] text-dark text-center p-5 lg:p-10 min-h-[calc(100vh_-_80px)]">
       <div className="lg:container">
-        <div className=" flex items-center justify-center gap-2 mb-6 text-xs font-bold text-dark ">
-          <Link href="/" className=" contents">
-            <Home2 variant="Outline" size="18px" color="#292D32" />
-            <span className=" font-normal">Home</span>
-          </Link>
-          <ChevronRight size="16px" />
-          <span className=" text-black">Help and Support</span>
-        </div>
+        <HomeNav text="Help and Support" />
         <h3 className=" text-4xl font-bold mb-2.5">Help and Suport</h3>
         <h4 className=" text-xl mb-2.5 pb-6">
           Find answers to frequently asked qestions before signing up for an

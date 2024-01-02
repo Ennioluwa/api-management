@@ -41,7 +41,7 @@ const Navbar = () => {
             })}
           </div>
         </div>
-        <div className=" items-center gap-3 hidden lg:flex">
+        <div className=" items-center gap-3 hidden xl:flex">
           <Button variant={"outline"}>
             <Code variant="Bold" size="18px" />
             REQUEST A DEMO

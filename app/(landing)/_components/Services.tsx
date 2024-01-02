@@ -67,7 +67,7 @@ const Services: FC<ServicesProps> = ({}) => {
         </div>
         <div className="flex flex-col md:flex-row justify-between items-center gap-x-20">
           <div className="flex flex-col md:flex-row items-center gap-x-7">
-            <h5 className=" text-4xl font-bold mb-2.5 max-w-[276px]">
+            <h5 className=" text-4xl font-bold mb-2.5 max-w-[276px] text-left">
               Our service is Feature-Rich
             </h5>
             <p className=" text-xl mb-2.5 max-w-[500px] text-left">
