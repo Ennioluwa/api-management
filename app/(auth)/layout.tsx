@@ -1,4 +1,4 @@
-import Navbar from "./_components/Navbar";
+import type { Metadata } from "next";
 import "../globals.css";
 
 export default function RootLayout({
@@ -6,10 +6,5 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <div>
-      <Navbar />
-      {children}
-    </div>
-  );
+  return <div>{children}</div>;
 }

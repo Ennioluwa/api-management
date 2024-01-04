@@ -46,10 +46,12 @@ const Navbar = () => {
             <Code variant="Bold" size="18px" />
             REQUEST A DEMO
           </Button>
-          <Button>
-            <UserCirlceAdd variant="Bold" size="18px" />
-            GET STARTED
-          </Button>
+          <Link href="/login">
+            <Button>
+              <UserCirlceAdd variant="Bold" size="18px" />
+              GET STARTED
+            </Button>
+          </Link>
         </div>
         <MobileSidebar />
       </div>

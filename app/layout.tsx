@@ -3,6 +3,7 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import { Metadata } from "next";
 import StoreProvider from "./StoreProvider";
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -27,7 +28,12 @@ export default function RootLayout({
           inter.className
         )}
       >
-        <StoreProvider>{children}</StoreProvider>
+        <StoreProvider>
+          <main>
+            {children}
+            <Toaster />
+          </main>
+        </StoreProvider>
       </body>
     </html>
   );

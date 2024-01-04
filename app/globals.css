@@ -80,3 +80,18 @@ html,
     @apply bg-background text-foreground;
   }
 }
+
+.inputStyle {
+  margin-left: auto;
+  margin-right: auto;
+  width: 50px !important;
+  height: 50px;
+  border-radius: 5px;
+  border: 0px;
+  background: #f0f4f9;
+  font-size: 20px;
+}
+
+.inputStyle :focus {
+  background: #031f42;
+}

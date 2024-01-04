@@ -1,12 +1,5 @@
-import type { Metadata } from "next";
-import "../globals.css";
-import { cn } from "@/lib/utils";
 import Navbar from "./_components/Navbar";
-
-export const metadata: Metadata = {
-  title: "Api Management",
-  description: "An api management application",
-};
+import "../globals.css";
 
 export default function RootLayout({
   children,
@@ -14,16 +7,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <head />
-      <body
-        className={cn(
-          "min-h-screen bg-background font-sans antialiased container mx-auto"
-        )}
-      >
-        <Navbar />
-        <div className=" pt-20 ">{children}</div>
-      </body>
-    </html>
+    <div>
+      <Navbar />
+      <div className=" pt-20 ">{children}</div>
+    </div>
   );
 }

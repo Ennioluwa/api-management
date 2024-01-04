@@ -1,0 +1,200 @@
+"use client";
+
+import * as z from "zod";
+import { useForm } from "react-hook-form";
+import { useEffect, useState, useTransition } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
+
+import { LoginSchema } from "@/schemas";
+import { Input } from "@/components/ui/input";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Button } from "@/components/ui/button";
+// import { FormError } from "@/components/form-error";
+// import { FormSuccess } from "@/components/form-success";
+// import { login } from "@/actions/login";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import OtpInput from "react-otp-input";
+import { useUserLogin } from "@/lib/hooks/useUserLogin";
+import Modal from "@/components/Modal";
+import { ShieldSecurity } from "iconsax-react";
+import { useToast } from "@/components/ui/use-toast";
+import { useOtpUserLogin } from "@/lib/hooks/useOtpUserLogin";
+
+export const LoginForm = () => {
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl");
+
+  const [error, setError] = useState<string | undefined>("");
+  const [success, setSuccess] = useState<string | undefined>("");
+  const [isPending, startTransition] = useTransition();
+  const [open, setOpen] = useState(false);
+  const [otp, setOtp] = useState("");
+  const [email, setEmail] = useState("");
+  const form = useForm<z.infer<typeof LoginSchema>>({
+    resolver: zodResolver(LoginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+  const { toast } = useToast();
+  const router = useRouter();
+
+  const { data, mutate: login, isSuccess, isError } = useUserLogin();
+  const {
+    data: otpData,
+    mutate: otpLogin,
+    isSuccess: isOtpSuccess,
+    isError: isOtpError,
+  } = useOtpUserLogin();
+
+  useEffect(() => {
+    try {
+      if (isOtpSuccess && otpData) {
+        console.log(isOtpSuccess, otpData, "otp success state");
+        toast({
+          title: "OTP verified successfully",
+        });
+        console.log(otpData, "otp", otpData.data.tokenSet);
+
+        localStorage.setItem("access-token", otpData?.data.tokenSet.jwtToken);
+        localStorage.setItem(
+          "refresh-token",
+          otpData?.data.tokenSet.refreshToken
+        );
+        router.replace("/dashboard");
+      } else if (isOtpError) {
+        console.log(isOtpError, otpData, "error state");
+        toast({
+          description: "Wrong OTP. Please try again",
+        });
+      } else return;
+    } catch (error) {
+      console.log(error);
+    }
+  }, [isOtpSuccess, isOtpError]);
+
+  useEffect(() => {
+    if (isSuccess) {
+      console.log(isSuccess, data, "success state");
+      toast({
+        title: "Log in successful",
+        description: "Please enter otp sent to the email address",
+      });
+      setOpen(true);
+    } else if (isError) {
+      console.log(isError, data, "error state");
+      toast({
+        description: "Log in failed",
+      });
+    } else return;
+  }, [isSuccess, isError]);
+
+  const onSubmit = (values: z.infer<typeof LoginSchema>) => {
+    setError("");
+    setSuccess("");
+    console.log(values);
+    const { email, password } = values;
+    login({ email, password });
+    setEmail(email);
+  };
+  const handleOtpSubmit = () => {
+    otpLogin({ email, otp });
+  };
+
+  return (
+    <>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <div className="space-y-4">
+            <>
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        disabled={isPending}
+                        placeholder="Enter Email Address"
+                        type="email"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        disabled={isPending}
+                        placeholder="Create a Password"
+                        type="text"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </>
+          </div>
+          {/* <FormError message={error || urlError} />
+          <FormSuccess message={success} /> */}
+          <p className=" text-xs text-black text-center ">
+            Forgot your password?{" "}
+            <Link className="text-bgPrimary font-bold" href="/reset-password">
+              Reset it here
+            </Link>
+          </p>
+          {/* TODO: add disabled state when all the fields have not been added */}
+          <Button disabled={isPending} type="submit" className="w-full">
+            LOGIN
+          </Button>
+        </form>
+      </Form>
+
+      <Modal
+        title="ENTER OTP"
+        content={
+          <p>
+            To verify your identity, we’ve sent an OTP to your Email Address{" "}
+          </p>
+        }
+        icon={ShieldSecurity}
+        isOtp
+        otp={otp}
+        setOtp={setOtp}
+        open={open}
+        setOpen={setOpen}
+        cancelButton="Close"
+        primaryButton="Confirm & Proceed"
+        primaryButtonAction={handleOtpSubmit}
+      />
+    </>
+  );
+};
