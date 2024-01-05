@@ -81,7 +81,7 @@ export const LoginForm = () => {
           "refresh-token",
           otpData?.data.tokenSet.refreshToken
         );
-        router.replace("/dashboard");
+        router.push("/otpSuccess");
       } else if (isOtpError) {
         console.log(isOtpError, otpData, "error state");
         toast({

@@ -9,7 +9,7 @@ const page: FC<pageProps> = ({}) => {
     <div>
       <Navbar text="Log-on to your Account" link="/login" />
       <div className=" pt-40 container max-w-xl mx-auto">
-        <h3 className=" text-xl font-bold mb-2.5">Login to your Account</h3>
+        <h3 className=" text-xl font-bold mb-2.5">Create a new Account</h3>
         <h4 className=" text-sm mb-2.5 pb-7">
           Welcome to our service. We’re thrilled that you’re interested in using
           our service.
