@@ -8,11 +8,11 @@ import { FC, useEffect } from "react";
 interface UsersProps {}
 
 const Users: FC<UsersProps> = ({}) => {
-  const { isPending, isError, data, error } = useQuery({
-    queryKey: ["todos"],
-    queryFn: fetchUserList,
-  });
-  console.log(isPending, isError, data, error);
+  // const { isPending, isError, data, error } = useQuery({
+  //   queryKey: ["todos"],
+  //   queryFn: fetchUserList,
+  // });
+  // console.log(isPending, isError, data, error);
   return <div>Users</div>;
 };
 

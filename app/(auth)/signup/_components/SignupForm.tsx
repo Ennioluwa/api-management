@@ -3,7 +3,7 @@
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { useEffect, useState, useTransition } from "react";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 
@@ -35,6 +35,10 @@ import {
 import OtpInput from "react-otp-input";
 import { useUserLogin } from "@/lib/hooks/useUserLogin";
 import { useUserRegister } from "@/lib/hooks/useUserRegister";
+import { ShieldSecurity } from "iconsax-react";
+import Modal from "@/components/Modal";
+import { useOtpUserLogin } from "@/lib/hooks/useOtpUserLogin";
+import { useToast } from "@/components/ui/use-toast";
 
 export const SignupForm = () => {
   const searchParams = useSearchParams();
@@ -42,9 +46,11 @@ export const SignupForm = () => {
 
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
-  const [isPending, startTransition] = useTransition();
   const [open, setOpen] = useState(false);
   const [otp, setOtp] = useState("");
+  const { toast } = useToast();
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof SignupSchema>>({
     resolver: zodResolver(SignupSchema),
     defaultValues: {
@@ -56,19 +62,54 @@ export const SignupForm = () => {
     },
   });
 
-  const { data, mutate: register, isSuccess, isError } = useUserRegister();
+  const {
+    data,
+    mutate: register,
+    isSuccess,
+    isError,
+    isPending,
+  } = useUserRegister();
+
+  const {
+    data: otpData,
+    mutate: otpLogin,
+    isSuccess: isOtpSuccess,
+    isError: isOtpError,
+    isPending: isOtpPending,
+  } = useOtpUserLogin();
+
+  useEffect(() => {
+    try {
+      if (isOtpSuccess && otpData) {
+        console.log(isOtpSuccess, otpData, "otp success state");
+        toast({
+          title: "OTP verified successfully",
+        });
+        router.push("/login");
+      } else if (isOtpError) {
+        console.log(isOtpError, otpData, "error state");
+        toast({
+          description: "Wrong OTP. Please try again",
+        });
+      } else return;
+    } catch (error) {
+      console.log(error);
+    }
+  }, [isOtpSuccess, isOtpError]);
 
   useEffect(() => {
     if (isSuccess) {
       console.log(isSuccess, data, "success state");
-
-      // toast.success("Login Successful!");
-      // localStorage.setItem("access-token", data.auth_token);
-      // localStorage.setItem("refresh-token", data.refresh_token);
+      toast({
+        title: "Sign up successful",
+        description: "Please enter otp sent to the email address",
+      });
+      setOpen(true);
     } else if (isError) {
       console.log(isError, data, "error state");
-
-      // toast.error("Login failed!");
+      toast({
+        description: "Sign up failed",
+      });
     } else return;
   }, [isSuccess, isError]);
 
@@ -78,11 +119,10 @@ export const SignupForm = () => {
     console.log(values);
     const { firstName, lastName, email, password, phone } = values;
     register({ email, password, firstName, lastName, phone });
-
-    // setOpen(true);
   };
+
   const handleOtpSubmit = () => {
-    console.log(otp);
+    otpLogin({ email: form.getValues().email, otp });
   };
 
   return (
@@ -190,53 +230,44 @@ export const SignupForm = () => {
             Have an Existing Account? <Link href="/login">Sign in Here</Link>
           </p>
           {/* TODO: add disabled state when all the fields have not been added */}
-          <Button disabled={isPending} type="submit" className="w-full">
-            CREATE ACCOUNT
+          <Button
+            disabled={
+              isPending ||
+              !form.getValues().email ||
+              !form.getValues().password ||
+              !form.getValues().firstName ||
+              !form.getValues().lastName ||
+              !form.getValues().phone
+            }
+            type="submit"
+            className="w-full"
+          >
+            {isPending ? "CREATING ACCOUNT..." : "CREATE ACCOUNT"}
           </Button>
         </form>
       </Form>
-      <AlertDialog open={open} onOpenChange={setOpen}>
-        <AlertDialogContent className=" bg-white">
-          <AlertDialogHeader>
-            <AlertDialogTitle>ENTER OTP</AlertDialogTitle>
-            <AlertDialogDescription>
-              <span>
-                To verify your identity, we’ve sent an OTP to your Email Address
-              </span>
-              <span>Nusaiba.sabiu@gmail.com</span>
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <OtpInput
-            value={otp}
-            onChange={setOtp}
-            numInputs={6}
-            // placeholder=''
-            // renderSeparator={<span>&nbsp;&nbsp;</span>}
-            renderInput={(props) => (
-              <input {...props} className="bg-[#F0F4F9]" />
-            )}
-            inputStyle={{
-              border: "1px solid transparent",
-              borderRadius: "8px",
-              width: "3.2rem",
-              height: "4rem",
-              fontSize: "16px",
-              color: "#000",
-              fontWeight: "400",
-              caretColor: "blue",
-            }}
-            shouldAutoFocus
-            inputType="password"
-          />
-          <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={handleOtpSubmit}>
-              Continue
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
-      <p onClick={() => setOpen(true)}>Popw</p>
+      <Modal
+        title="ENTER OTP"
+        content={
+          <>
+            <p>
+              To verify your identity, we’ve sent an OTP to your Email Address{" "}
+            </p>
+            <p className=" text-bgPrimary font-bold pt-2">
+              {form.getValues().email}
+            </p>
+          </>
+        }
+        icon={ShieldSecurity}
+        isOtp
+        otp={otp}
+        setOtp={setOtp}
+        open={open}
+        setOpen={setOpen}
+        cancelButton="Close"
+        primaryButton="Confirm & Proceed"
+        primaryButtonAction={handleOtpSubmit}
+      />
     </>
   );
 };

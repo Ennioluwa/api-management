@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { FC } from "react";
 
 interface OpenAccountProps {}
@@ -26,6 +27,7 @@ const accountSteps = [
 ];
 
 const OpenAccount: FC<OpenAccountProps> = ({}) => {
+  const router = useRouter();
   return (
     <div className="py-10 lg:py-20 bg-[#F0F4F9] text-dark text-center px-5 lg:px-10">
       <div className="lg:container">
@@ -55,7 +57,12 @@ const OpenAccount: FC<OpenAccountProps> = ({}) => {
                   <h6 className=" text-bgPrimary mb-5">STEP {step.position}</h6>
                   <h5 className=" text-4xl font-bold mb-2">{step.title}</h5>
                   <p className=" text-base">{step.subtitle}</p>
-                  <Button className="my-5">GET STARTED</Button>
+                  <Button
+                    onClick={() => router.push("/login")}
+                    className="my-5"
+                  >
+                    GET STARTED
+                  </Button>
                   <div className=" w-[215px] h-[2px] border-[1.5px] border-dashed" />
                 </div>
               ))}

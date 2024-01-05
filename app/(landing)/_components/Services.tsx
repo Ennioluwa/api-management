@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Chart } from "iconsax-react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { FC } from "react";
 
 interface ServicesProps {}
@@ -41,6 +42,7 @@ const services = [
 ];
 
 const Services: FC<ServicesProps> = ({}) => {
+  const router = useRouter();
   return (
     <div className="pt-10 bg-blue-50 lg:pt-20 text-dark text-center px-5 lg:px-10">
       <div className="lg:container">
@@ -75,7 +77,7 @@ const Services: FC<ServicesProps> = ({}) => {
               increase yor productivity at work and manage your project easily
             </p>
           </div>
-          <Button>GET STARTED</Button>
+          <Button onClick={() => router.push("login")}>GET STARTED</Button>
         </div>
         <div className=" space-y-10 pt-32">
           {services.map((service, index) => (
@@ -98,7 +100,9 @@ const Services: FC<ServicesProps> = ({}) => {
                   increase yor productivity at work and manage your project
                   easily
                 </p>
-                <Button className=" w-fit">GET STARTED</Button>
+                <Button onClick={() => router.push("login")} className=" w-fit">
+                  GET STARTED
+                </Button>
               </div>
             </div>
           ))}

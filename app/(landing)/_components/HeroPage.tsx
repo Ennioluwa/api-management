@@ -11,6 +11,7 @@ import {
   CarouselPrevious,
   type CarouselApi,
 } from "@/components/ui/carousel";
+import { useRouter } from "next/navigation";
 
 interface HeroPageProps {}
 
@@ -44,6 +45,7 @@ const heroProps = [
 const HeroPage: FC<HeroPageProps> = ({}) => {
   const [api, setApi] = useState<CarouselApi>();
   const [active, setActive] = useState(0);
+  const router = useRouter();
 
   const onDotButtonClick = useCallback(
     (index: number) => {
@@ -73,7 +75,7 @@ const HeroPage: FC<HeroPageProps> = ({}) => {
                       <p className="my-4 text-gray-500">{item.subtitle}</p>
                       <div className="w-full lg:w-1/4 my-4">
                         <Button
-                          // onClick={() => router.push("/auth/login")}
+                          onClick={() => router.push("/login")}
                           className="uppercase font-bold rounded-lg"
                         >
                           Get Started

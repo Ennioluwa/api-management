@@ -45,7 +45,6 @@ export const LoginForm = () => {
 
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
-  const [isPending, startTransition] = useTransition();
   const [open, setOpen] = useState(false);
   const [otp, setOtp] = useState("");
   const [email, setEmail] = useState("");
@@ -59,12 +58,13 @@ export const LoginForm = () => {
   const { toast } = useToast();
   const router = useRouter();
 
-  const { data, mutate: login, isSuccess, isError } = useUserLogin();
+  const { data, mutate: login, isSuccess, isError, isPending } = useUserLogin();
   const {
     data: otpData,
     mutate: otpLogin,
     isSuccess: isOtpSuccess,
     isError: isOtpError,
+    isPending: isOtpPending,
   } = useOtpUserLogin();
 
   useEffect(() => {
@@ -117,6 +117,7 @@ export const LoginForm = () => {
     login({ email, password });
     setEmail(email);
   };
+
   const handleOtpSubmit = () => {
     otpLogin({ email, otp });
   };
@@ -172,8 +173,14 @@ export const LoginForm = () => {
             </Link>
           </p>
           {/* TODO: add disabled state when all the fields have not been added */}
-          <Button disabled={isPending} type="submit" className="w-full">
-            LOGIN
+          <Button
+            disabled={
+              isPending || !form.getValues().email || !form.getValues().password
+            }
+            type="submit"
+            className="w-full"
+          >
+            {isPending ? "LOGGING IN" : "LOGIN"}
           </Button>
         </form>
       </Form>
