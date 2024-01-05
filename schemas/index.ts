@@ -17,6 +17,7 @@ export const ContactSchema = z.object({
     message: "Message body is required",
   }),
 });
+
 export const SignupSchema = z.object({
   email: z.string().email({
     message: "Email is required",
@@ -34,11 +35,39 @@ export const SignupSchema = z.object({
     message: "Phone number is required",
   }),
 });
+
 export const LoginSchema = z.object({
   email: z.string().email({
     message: "Email is required",
   }),
   password: z.string().min(6, {
     message: "Minimum 6 characters required",
+  }),
+});
+
+export const BusinessInformationSchema = z.object({
+  businessType: z.string().min(1, {
+    message: "Business type is required",
+  }),
+  businessName: z.string().min(1, {
+    message: "Business name is required",
+  }),
+  businessIndustry: z.string().min(1, {
+    message: "Business industry is required",
+  }),
+  businessLocation: z.string().min(1, {
+    message: "Business Location is required",
+  }),
+});
+
+export const BusinessIdentitySchema = z.object({
+  businessTpid: z.string().min(1, {
+    message: "Business TPID is required",
+  }),
+  branchId: z.string().min(1, {
+    message: "Branch ID is required",
+  }),
+  businessSerialNumber: z.string().min(1, {
+    message: "Business serial number is required",
   }),
 });

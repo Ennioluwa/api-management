@@ -18,13 +18,13 @@ interface ModalProps {
   content: ReactNode;
   icon: Icon;
   isOtp?: boolean;
-  otp: string;
-  setOtp: Dispatch<SetStateAction<string>>;
+  otp?: string;
+  setOtp?: Dispatch<SetStateAction<string>>;
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
-  cancelButton: string;
-  primaryButton: string;
-  primaryButtonAction: () => void;
+  cancelButton?: string;
+  primaryButton?: string;
+  primaryButtonAction?: () => void;
 }
 
 const Modal: FC<ModalProps> = ({
@@ -58,7 +58,7 @@ const Modal: FC<ModalProps> = ({
               {content}
             </AlertDialogDescription>
           </AlertDialogHeader>
-          {isOtp && (
+          {isOtp && setOtp && (
             <>
               <OTPInput
                 value={otp}
