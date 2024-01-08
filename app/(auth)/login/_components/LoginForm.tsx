@@ -18,26 +18,13 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
-// import { FormError } from "@/components/form-error";
-// import { FormSuccess } from "@/components/form-success";
-// import { login } from "@/actions/login";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import OtpInput from "react-otp-input";
 import { useUserLogin } from "@/lib/hooks/useUserLogin";
 import Modal from "@/components/Modal";
 import { ShieldSecurity } from "iconsax-react";
 import { useToast } from "@/components/ui/use-toast";
 import { useOtpUserLogin } from "@/lib/hooks/useOtpUserLogin";
+import { useAppDispatch } from "@/lib/hooks";
+import { loginUser } from "@/redux/features/userSlice";
 
 export const LoginForm = () => {
   const searchParams = useSearchParams();
@@ -57,6 +44,7 @@ export const LoginForm = () => {
   });
   const { toast } = useToast();
   const router = useRouter();
+  const dispatch = useAppDispatch();
 
   const { data, mutate: login, isSuccess, isError, isPending } = useUserLogin();
   const {
@@ -76,12 +64,13 @@ export const LoginForm = () => {
         });
         console.log(otpData, "otp", otpData.data.tokenSet);
 
-        localStorage.setItem("access-token", otpData?.data.tokenSet.jwtToken);
-        localStorage.setItem(
-          "refresh-token",
-          otpData?.data.tokenSet.refreshToken
-        );
-        router.push("/otpSuccess");
+        dispatch(loginUser(otpData.data));
+
+        if (otpData.data.setupStatus === "Completed") {
+          router.push("/dashboard");
+        } else {
+          router.push("/otpSuccess");
+        }
       } else if (isOtpError) {
         console.log(isOtpError, otpData, "error state");
         toast({
@@ -196,6 +185,8 @@ export const LoginForm = () => {
         isOtp
         otp={otp}
         setOtp={setOtp}
+        isPending={isOtpPending}
+        isPendingText="Confirming"
         open={open}
         setOpen={setOpen}
         cancelButton="Close"

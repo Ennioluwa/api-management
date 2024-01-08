@@ -259,6 +259,8 @@ export const SignupForm = () => {
           </>
         }
         icon={ShieldSecurity}
+        isPending={isOtpPending}
+        isPendingText="Confirming"
         isOtp
         otp={otp}
         setOtp={setOtp}

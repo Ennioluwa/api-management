@@ -1,9 +1,19 @@
+"use client";
+
+import isAdminAuth from "@/components/isAdminAuth";
+import { useAppSelector } from "@/lib/hooks";
 import { FC } from "react";
 
 interface NavbarProps {}
 
 const Navbar: FC<NavbarProps> = ({}) => {
-  return <div>Navbar</div>;
+  const { userData } = useAppSelector((state) => state.user);
+  return (
+    <div>
+      Navbar
+      {userData?.firstName}
+    </div>
+  );
 };
 
-export default Navbar;
+export default isAdminAuth(Navbar);
