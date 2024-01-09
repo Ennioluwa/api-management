@@ -1,22 +1,24 @@
 import { FC } from "react";
+import ProcessedInvoices from "./ProcessedInvoices";
+import TotalExpenses from "./TotalExpenses";
+import ApiRequests from "./ApiRequests";
 
 interface AppUsageProps {}
 
 const AppUsage: FC<AppUsageProps> = ({}) => {
   return (
     <div className=" text-white bg-bgPrimary p-6 rounded-lg">
-      <h5>App Usage</h5>
-      <p>
+      <h5 className=" font-bold">App Usage</h5>
+      <p className=" text-xs pt-3">
         View your daily, weekly, and monthly usage of the service via this
         oversimplified overview interface to help you understand how you are
         using the service.
       </p>
-      <div className=" flex flex-col lg:flex-row">
-        <div>
-          <p>INVOICES PROCESSED</p>
-          <p>129324</p>
-          <p>Compared to 399201 last month</p>
-        </div>
+
+      <div className=" pt-6 flex flex-wrap flex-col lg:flex-row gap-6 items-center justify-between w-full">
+        <ProcessedInvoices />
+        <TotalExpenses />
+        <ApiRequests />
       </div>
     </div>
   );

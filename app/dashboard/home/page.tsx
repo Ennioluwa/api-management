@@ -11,9 +11,9 @@ const Home = () => {
 
   return (
     <div className="lg:container flex flex-col gap-5">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col md:flex-row gap-4 md:items-center justify-between">
         <h1 className=" font-bold text-4xl text-dark">Dashboard</h1>
-        <div className=" rounded bg-white flex gap-1 items-center">
+        <div className=" rounded bg-white flex gap-1 items-center w-fit">
           <p
             onClick={() => setDate("today")}
             className={`px-2 py-1 rounded cursor-pointer ${
@@ -48,8 +48,8 @@ const Home = () => {
       </div>
 
       <AppUsage />
-      <div className=" grid grid-cols-1 md:grid-cols-3 gap-5">
-        <div className=" col-span-1 md:col-span-2 flex flex-col gap-5">
+      <div className=" grid grid-cols-1 lg:grid-cols-3 gap-5">
+        <div className=" col-span-1 lg:col-span-2 flex flex-col gap-5 h-full">
           <EarningReport />
           <InvoiceProcessing />
         </div>

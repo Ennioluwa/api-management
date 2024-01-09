@@ -24,7 +24,7 @@ const Sidebar: FC<SidebarProps> = ({}) => {
   console.log(dashboard, "dashboard");
 
   return (
-    <aside className=" hidden md:flex h-full">
+    <aside className="fixed hidden md:flex h-full">
       <div className="  overflow-y-auto h-[calc(100vh-80px)] w-[240px] z-50 ">
         <div className="flex flex-col gap-1 px-3 py-8">
           <div className=" flex flex-col gap-1">

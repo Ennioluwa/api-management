@@ -67,7 +67,7 @@ export const LoginForm = () => {
         dispatch(loginUser(otpData.data));
 
         if (otpData.data.setupStatus === "Completed") {
-          router.push("/dashboard");
+          router.push("/dashboard/home");
         } else {
           router.push("/otpSuccess");
         }

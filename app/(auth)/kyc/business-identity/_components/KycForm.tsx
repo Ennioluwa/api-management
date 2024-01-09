@@ -85,7 +85,7 @@ export const KycForm = () => {
   };
   const handleModalClose = () => {
     setOpen(false);
-    router.push("/dashboard");
+    router.push("/dashboard/home");
   };
 
   return (
