@@ -1,12 +1,12 @@
 "use client";
 
 import Logo from "@/app/(landing)/_components/Logo";
-import isAdminAuth from "@/components/isAdminAuth";
 import { Input } from "@/components/ui/input";
 import { useAppSelector } from "@/lib/hooks";
 import { Message, Notification } from "iconsax-react";
 import { FC } from "react";
 import { Search } from "./SearchInput";
+import IsAdminAuth from "@/components/isAdminAuth";
 
 interface NavbarProps {}
 
@@ -32,4 +32,4 @@ const Navbar: FC<NavbarProps> = ({}) => {
   );
 };
 
-export default isAdminAuth(Navbar);
+export default IsAdminAuth(Navbar);

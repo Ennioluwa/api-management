@@ -4,7 +4,7 @@ import axiosClient from "@/lib/axiosInstance";
 import { useQuery } from "@tanstack/react-query";
 import { FC } from "react";
 import Users from "./_components/Users";
-import isAdminAuth from "@/components/isAdminAuth";
+import IsAdminAuth from "@/components/isAdminAuth";
 
 interface pageProps {}
 
@@ -17,4 +17,4 @@ const page: FC<pageProps> = ({}) => {
   );
 };
 
-export default isAdminAuth(page);
+export default IsAdminAuth(page);

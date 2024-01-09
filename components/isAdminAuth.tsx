@@ -5,8 +5,8 @@ import { redirect } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { loginUser } from "@/redux/features/userSlice";
 
-export default function isAdminAuth(Component: any) {
-  return function isAdminAuth(props: any) {
+export default function IsAdminAuth(Component: any) {
+  return function IsAdminAuth(props: any) {
     const [auth, setAuth] = useState<any>(null);
     const [userData, setUserData] = useState<any>(null);
     const dispatch = useAppDispatch();
