@@ -10,7 +10,7 @@ const MyActivities: FC<MyActivitiesProps> = ({}) => {
       <div className=" flex flex-col gap-4">
         {items.map((number, index) => {
           return (
-            <div className=" flex flex-col gap-4">
+            <div key={index} className=" flex flex-col gap-4">
               <div className=" flex justify-between items-center">
                 <div>
                   <h4 className=" font-bold pb-2">Invoice Generation</h4>

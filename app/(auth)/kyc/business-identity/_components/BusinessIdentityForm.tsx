@@ -5,7 +5,6 @@ import { useForm } from "react-hook-form";
 import { useEffect, useState, useTransition } from "react";
 import { redirect, useRouter, useSearchParams } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Link from "next/link";
 
 import { BusinessIdentitySchema } from "@/schemas";
 import { Input } from "@/components/ui/input";
@@ -18,31 +17,17 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { useUserLogin } from "@/lib/hooks/useUserLogin";
 import Modal from "@/components/Modal";
 import { ShieldSecurity } from "iconsax-react";
 import { useToast } from "@/components/ui/use-toast";
-import { useOtpUserLogin } from "@/lib/hooks/useOtpUserLogin";
+import { useBusinessIdentity } from "@/lib/hooks/useBusinessIdentity";
+import { useAppSelector } from "@/lib/hooks";
+import IsAdminAuth from "@/components/isAdminAuth";
 
-export const KycForm = () => {
-  const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl");
-
-  const [error, setError] = useState<string | undefined>("");
-  const [success, setSuccess] = useState<string | undefined>("");
-  const [isPending, startTransition] = useTransition();
+const BusinessIdentityForm = () => {
   const [open, setOpen] = useState(false);
-  const [otp, setOtp] = useState("");
+  const { userData } = useAppSelector((state) => state.user);
 
   const form = useForm<z.infer<typeof BusinessIdentitySchema>>({
     resolver: zodResolver(BusinessIdentitySchema),
@@ -55,33 +40,38 @@ export const KycForm = () => {
   const { toast } = useToast();
   const router = useRouter();
 
-  const { data, mutate: identityKyc, isSuccess, isError } = useUserLogin();
-  console.log(form.getValues().businessSerialNumber, "serial number");
+  const {
+    data,
+    mutate: identityKyc,
+    isPending,
+    isSuccess,
+    isError,
+  } = useBusinessIdentity();
 
   useEffect(() => {
     if (isSuccess) {
       console.log(isSuccess, data, "success state");
       toast({
-        title: "Log in successful",
-        description: "Please enter otp sent to the email address",
+        title: "Successful",
+        description: "Information under review",
       });
       setOpen(true);
     } else if (isError) {
       console.log(isError, data, "error state");
       toast({
-        description: "Log in failed",
+        description: "An error has occured",
       });
     } else return;
   }, [isSuccess, isError]);
 
   const onSubmit = (values: z.infer<typeof BusinessIdentitySchema>) => {
-    setError("");
-    setSuccess("");
     console.log(values);
     const { businessTpid, branchId, businessSerialNumber } = values;
-    form.reset();
-    setOpen(true);
-    // identityKyc({ email, password });
+    identityKyc({
+      tpin: businessTpid,
+      branchId,
+      deviceSerialNumber: businessSerialNumber,
+    });
   };
   const handleModalClose = () => {
     setOpen(false);
@@ -166,8 +156,6 @@ export const KycForm = () => {
               <hr />
             </>
           </div>
-          {/* <FormError message={error || urlError} />
-          <FormSuccess message={success} /> */}
 
           {/* TODO: add disabled state when all the fields have not been added */}
           <Button disabled={isPending} type="submit" className="w-full">
@@ -193,3 +181,4 @@ export const KycForm = () => {
     </>
   );
 };
+export default IsAdminAuth(BusinessIdentityForm);

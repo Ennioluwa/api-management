@@ -11,7 +11,7 @@ const AccountUsers: FC<AccountUsersProps> = ({}) => {
       <div className=" flex flex-col gap-4">
         {items.map((number, index) => {
           return (
-            <div className=" flex flex-col gap-4">
+            <div key={index} className=" flex flex-col gap-4">
               <div className=" flex justify-between items-center">
                 <div className=" flex gap-4 items-center">
                   <p className=" h-10 w-10 rounded-full bg-gray-200"></p>

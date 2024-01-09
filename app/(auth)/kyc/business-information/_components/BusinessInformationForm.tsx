@@ -32,16 +32,12 @@ import { useUserLogin } from "@/lib/hooks/useUserLogin";
 import Modal from "@/components/Modal";
 import { ShieldSecurity } from "iconsax-react";
 import { useToast } from "@/components/ui/use-toast";
-import { useOtpUserLogin } from "@/lib/hooks/useOtpUserLogin";
+import { useBusinessInformation } from "@/lib/hooks/useBusinessInformation";
+import { useAppSelector } from "@/lib/hooks";
 
-export const KycForm = () => {
-  const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl");
-
-  const [error, setError] = useState<string | undefined>("");
-  const [success, setSuccess] = useState<string | undefined>("");
-  const [isPending, startTransition] = useTransition();
+const BusinessInformationForm = () => {
   const [open, setOpen] = useState(false);
+  const { userData } = useAppSelector((state) => state.user);
 
   const form = useForm<z.infer<typeof BusinessInformationSchema>>({
     resolver: zodResolver(BusinessInformationSchema),
@@ -55,7 +51,13 @@ export const KycForm = () => {
   const { toast } = useToast();
   const router = useRouter();
 
-  const { data, mutate: login, isSuccess, isError } = useUserLogin();
+  const {
+    data,
+    mutate: informationKyc,
+    isSuccess,
+    isError,
+    isPending,
+  } = useBusinessInformation();
 
   useEffect(() => {
     if (isSuccess) {
@@ -70,14 +72,15 @@ export const KycForm = () => {
   }, [isSuccess, isError]);
 
   const onSubmit = (values: z.infer<typeof BusinessInformationSchema>) => {
-    setError("");
-    setSuccess("");
     console.log(values);
     const { businessType, businessName, businessIndustry, businessLocation } =
       values;
-    // form.reset();
-    setOpen(true);
-    // login({ email, password });
+    informationKyc({
+      name: businessName,
+      email: businessIndustry,
+      address: businessType,
+      country: businessLocation,
+    });
   };
 
   const handleModalClose = () => {
@@ -235,12 +238,16 @@ export const KycForm = () => {
               <hr />
             </>
           </div>
-          {/* <FormError message={error || urlError} />
-          <FormSuccess message={success} /> */}
 
           {/* TODO: add disabled state when all the fields have not been added */}
           <Button
-            disabled={isPending || !form.getValues().businessIndustry}
+            disabled={
+              isPending ||
+              !form.getValues().businessType ||
+              !form.getValues().businessIndustry ||
+              !form.getValues().businessName ||
+              !form.getValues().businessLocation
+            }
             type="submit"
             className="w-full"
           >
@@ -266,3 +273,5 @@ export const KycForm = () => {
     </>
   );
 };
+
+export default BusinessInformationForm;
