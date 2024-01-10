@@ -11,10 +11,10 @@ const MyActivities: FC<MyActivitiesProps> = ({}) => {
         {items.map((number, index) => {
           return (
             <div key={index} className=" flex flex-col gap-4">
-              <div className=" flex justify-between items-center">
+              <div className=" flex flex-wrap justify-between items-center">
                 <div>
                   <h4 className=" font-bold pb-2">Invoice Generation</h4>
-                  <div className="flex gap-2">
+                  <div className="flex flex-wrap gap-2">
                     <p>22/2/2022</p>
                     <p>9:35:51 PM</p>
                   </div>
