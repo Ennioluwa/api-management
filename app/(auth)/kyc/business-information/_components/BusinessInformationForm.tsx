@@ -7,7 +7,6 @@ import { redirect, useRouter, useSearchParams } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 
-import { BusinessInformationSchema } from "@/schemas";
 import { Input } from "@/components/ui/input";
 import {
   Form,
@@ -28,21 +27,19 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { useUserLogin } from "@/lib/hooks/useUserLogin";
 import Modal from "@/components/Modal";
 import { ShieldSecurity } from "iconsax-react";
 import { useToast } from "@/components/ui/use-toast";
 import { useBusinessInformation } from "@/lib/hooks/useBusinessInformation";
-import { useAppSelector } from "@/lib/hooks";
+import { BusinessInformationSchema } from "@/schemas";
 
 const BusinessInformationForm = () => {
   const [open, setOpen] = useState(false);
-  const { userData } = useAppSelector((state) => state.user);
 
   const form = useForm<z.infer<typeof BusinessInformationSchema>>({
     resolver: zodResolver(BusinessInformationSchema),
     defaultValues: {
-      businessType: "",
+      businessAddress: "",
       businessName: "",
       businessIndustry: "",
       businessLocation: "",
@@ -73,12 +70,16 @@ const BusinessInformationForm = () => {
 
   const onSubmit = (values: z.infer<typeof BusinessInformationSchema>) => {
     console.log(values);
-    const { businessType, businessName, businessIndustry, businessLocation } =
-      values;
+    const {
+      businessAddress,
+      businessName,
+      businessIndustry,
+      businessLocation,
+    } = values;
     informationKyc({
       name: businessName,
       email: businessIndustry,
-      address: businessType,
+      address: businessAddress,
       country: businessLocation,
     });
   };
@@ -88,52 +89,12 @@ const BusinessInformationForm = () => {
     router.push("/kyc/business-identity");
   };
 
-  console.log(form.getValues().businessName, "business name");
-
   return (
     <>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           <div className="space-y-6">
             <>
-              <FormField
-                control={form.control}
-                name="businessType"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>What kind of business do you run?</FormLabel>
-                    <FormControl>
-                      <Select
-                        value={field.value}
-                        onValueChange={field.onChange}
-                        disabled={isPending}
-                      >
-                        <SelectTrigger className="w-full">
-                          <SelectValue placeholder="Select Business Type" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectGroup>
-                            <SelectLabel>Business Type</SelectLabel>
-                            <SelectItem value="technology">
-                              Technology
-                            </SelectItem>
-                            <SelectItem value="agriculture">
-                              Agriculture
-                            </SelectItem>
-                            <SelectItem value="construction">
-                              Construction
-                            </SelectItem>
-                            <SelectItem value="aviation">Aviation</SelectItem>
-                            <SelectItem value="fashion">Fashion</SelectItem>
-                          </SelectGroup>
-                        </SelectContent>
-                      </Select>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <hr />
               <FormField
                 control={form.control}
                 name="businessName"
@@ -201,15 +162,34 @@ const BusinessInformationForm = () => {
               <hr />
               <FormField
                 control={form.control}
-                name="businessLocation"
+                name="businessAddress"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Verify your business location</FormLabel>
+                    <FormLabel>Verify your business address</FormLabel>
                     <FormDescription>
                       You will need to upload a copy of you utility bill
                       associated to this address in the documentation part of
                       the onboarding.
                     </FormDescription>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        disabled={isPending}
+                        placeholder="Your Business Address"
+                        type="text"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <hr />
+              <FormField
+                control={form.control}
+                name="businessLocation"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Verify your business country</FormLabel>
                     <FormControl>
                       <Select
                         value={field.value}
@@ -243,7 +223,7 @@ const BusinessInformationForm = () => {
           <Button
             disabled={
               isPending ||
-              !form.getValues().businessType ||
+              !form.getValues().businessAddress ||
               !form.getValues().businessIndustry ||
               !form.getValues().businessName ||
               !form.getValues().businessLocation

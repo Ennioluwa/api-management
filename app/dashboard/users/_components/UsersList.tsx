@@ -74,13 +74,13 @@ const UsersList: FC<UsersListProps> = ({}) => {
           <TabsTrigger value="unverified">Unverified</TabsTrigger>
         </TabsList>
         <TabsContent className=" px-5" value="all">
-          <DataTable columns={columns} data={data} />
+          <DataTable type="all" columns={columns} data={data} />
         </TabsContent>
         <TabsContent className=" px-5" value="verified">
-          <DataTable columns={columns} data={data} />
+          <DataTable type="verified" columns={columns} data={data} />
         </TabsContent>
         <TabsContent className=" px-5" value="unverified">
-          <DataTable columns={columns} data={data} />
+          <DataTable type="unverified" columns={columns} data={data} />
         </TabsContent>
       </Tabs>
     </div>

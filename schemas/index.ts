@@ -46,14 +46,14 @@ export const LoginSchema = z.object({
 });
 
 export const BusinessInformationSchema = z.object({
-  businessType: z.string().min(1, {
-    message: "Business type is required",
-  }),
   businessName: z.string().min(1, {
     message: "Business name is required",
   }),
   businessIndustry: z.string().min(1, {
     message: "Business industry is required",
+  }),
+  businessAddress: z.string().min(1, {
+    message: "Business address is required",
   }),
   businessLocation: z.string().min(1, {
     message: "Business Location is required",

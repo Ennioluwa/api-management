@@ -15,16 +15,34 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { useQuery } from "@tanstack/react-query";
+import { fetchUsers } from "@/lib/hooks/api/users.api";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  type: string;
 }
 
 export function DataTable<TData, TValue>({
-  columns,
   data,
+  columns,
+  type,
 }: DataTableProps<TData, TValue>) {
+  const {
+    isPending,
+    isError,
+    data: usersData,
+    error,
+  } = useQuery({
+    queryKey: ["users"],
+    queryFn: fetchUsers,
+    // keepPreviousData: true,
+    // staleTime: 5000,
+  });
+
+  console.log(usersData);
+
   const table = useReactTable({
     data,
     columns,
