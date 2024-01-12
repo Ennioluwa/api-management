@@ -14,8 +14,6 @@ const Authenticated: FC<AuthenticatedProps> = ({ children }) => {
   useLayoutEffect(() => {
     if (userData?.setupStatus === "Completed") {
       return redirect("/dashboard/home");
-    } else if (userData?.setupStatus === "AccountCreated") {
-      return redirect("/kyc/business-information");
     } else return;
   }, []);
   return <>{children}</>;

@@ -21,13 +21,11 @@ import { fetchUsers } from "@/lib/hooks/api/users.api";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  type: string;
 }
 
 export function DataTable<TData, TValue>({
   data,
   columns,
-  type,
 }: DataTableProps<TData, TValue>) {
   const {
     isPending,

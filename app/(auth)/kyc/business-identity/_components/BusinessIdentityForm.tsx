@@ -49,20 +49,19 @@ const BusinessIdentityForm = () => {
   } = useBusinessIdentity();
 
   useEffect(() => {
-    setOpen(true);
-    // if (isSuccess) {
-    //   console.log(isSuccess, data, "success state");
-    //   toast({
-    //     title: "Successful",
-    //     description: "Information under review",
-    //   });
-    //   setOpen(true);
-    // } else if (isError) {
-    //   console.log(isError, data, "error state");
-    //   toast({
-    //     description: "An error has occured",
-    //   });
-    // } else return;
+    if (isSuccess) {
+      console.log(isSuccess, data, "success state");
+      toast({
+        title: "Successful",
+        description: "Information under review",
+      });
+      setOpen(true);
+    } else if (isError) {
+      console.log(isError, data, "error state");
+      toast({
+        description: "An error has occured",
+      });
+    } else return;
   }, [isSuccess, isError]);
 
   const onSubmit = (values: z.infer<typeof BusinessIdentitySchema>) => {

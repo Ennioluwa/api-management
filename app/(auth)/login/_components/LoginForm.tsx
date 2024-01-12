@@ -69,7 +69,7 @@ export const LoginForm = () => {
         if (otpData.data.setupStatus === "Completed") {
           router.push("/dashboard/home");
         } else {
-          router.push("/otpSuccess");
+          router.push("/kyc");
         }
       } else if (isOtpError) {
         console.log(isOtpError, otpData, "error state");

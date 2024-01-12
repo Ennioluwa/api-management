@@ -2,8 +2,8 @@
 
 import { FC } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { DataTable } from "../../home/_components/data-table";
 import { User, columns } from "./columns";
+import { DataTable } from "./data-table";
 
 interface UsersListProps {}
 

@@ -1,16 +1,17 @@
 import { FC } from "react";
-import Navbar from "./_components/Navbar";
 import Link from "next/link";
 import { TickSquare } from "iconsax-react";
 import { Button } from "@/components/ui/button";
+import Navbar from "./_components/Navbar";
+import Authenticated from "./_components/Authenticated";
 
 interface pageProps {}
 
 const page: FC<pageProps> = ({}) => {
   return (
-    <div>
+    <Authenticated>
       <Navbar />
-      <div className=" pt-10">
+      <div className=" py-40 px-5">
         <div className="container max-w-[430px] p-8 border rounded-lg flex flex-col justify-center items-center gap-8 text-center">
           <TickSquare
             size="161px"
@@ -39,7 +40,7 @@ const page: FC<pageProps> = ({}) => {
           </div>
         </div>
       </div>
-    </div>
+    </Authenticated>
   );
 };
 
