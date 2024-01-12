@@ -1,25 +1,29 @@
 import { useMutation } from "@tanstack/react-query";
 import axiosClient from "../axiosInstance";
 
-type UserData = {
+export type UserManagementData = {
+  firstName: string;
+  lastName: string;
   email: string;
-  otp: string;
+  roles: string[];
 };
 
-const postUserData = async (data: UserData) => {
-  const res = await axiosClient.post("api/otp", data).then((res) => {
-    console.log(res);
+const postUserManagementData = async (data: UserManagementData) => {
+  const res = await axiosClient
+    .post("/api/usermanagement", data)
+    .then((res) => {
+      console.log(res);
 
-    return {
-      data: res.data.data,
-    };
-  });
+      return {
+        data: res.data.data,
+      };
+    });
 
   return res;
 };
 
-export const useOtpUserLogin = () => {
+export const useUserManagement = () => {
   return useMutation({
-    mutationFn: (data: UserData) => postUserData(data),
+    mutationFn: (data: UserManagementData) => postUserManagementData(data),
   });
 };

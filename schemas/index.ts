@@ -71,3 +71,22 @@ export const BusinessIdentitySchema = z.object({
     message: "Business serial number is required",
   }),
 });
+
+const optionSchema = z.object({
+  label: z.string(),
+  value: z.string(),
+  disable: z.boolean().optional(),
+});
+
+export const AddUserModalSchema = z.object({
+  email: z.string().email({
+    message: "Email is required",
+  }),
+  firstName: z.string().min(1, {
+    message: "First name is required",
+  }),
+  lastName: z.string().min(1, {
+    message: "Last name is required",
+  }),
+  roles: z.array(optionSchema).min(1),
+});

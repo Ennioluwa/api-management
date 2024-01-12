@@ -1,12 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
 import navigationSlice from "./features/navigationSlice";
 import userSlice from "./features/userSlice";
+import addUserSlice from "./features/addUserSlice";
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
       navigation: navigationSlice,
       user: userSlice,
+      userManagement: addUserSlice,
     },
   });
 };

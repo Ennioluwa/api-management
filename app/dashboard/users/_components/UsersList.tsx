@@ -1,64 +1,24 @@
 "use client";
 
-import { FC } from "react";
+import { FC, useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { User, columns } from "./columns";
+import { columns } from "./columns";
 import { DataTable } from "./data-table";
+import { useQuery } from "@tanstack/react-query";
+import { fetchUsers } from "@/lib/hooks/api/users.api";
+import AddUserModal from "./add-user-modal";
 
 interface UsersListProps {}
 
 const UsersList: FC<UsersListProps> = ({}) => {
-  const data: User[] = [
-    {
-      name: "Al-Mohammad Aliyu",
-      email: "almohammad@gmail.com",
-      role: "IT Support",
-      access: "Custom ",
-      action: 12342134,
-    },
-    {
-      name: "Al-Mohammad Aliyu",
-      email: "almohammad@gmail.com",
-      role: "IT Support",
-      access: "Custom ",
-      action: 12342134,
-    },
-    {
-      name: "Al-Mohammad Aliyu",
-      email: "almohammad@gmail.com",
-      role: "IT Support",
-      access: "Custom ",
-      action: 12342134,
-    },
-    {
-      name: "Al-Mohammad Aliyu",
-      email: "almohammad@gmail.com",
-      role: "IT Support",
-      access: "Custom ",
-      action: 12342134,
-    },
-    {
-      name: "Al-Mohammad Aliyu",
-      email: "almohammad@gmail.com",
-      role: "IT Support",
-      access: "Custom ",
-      action: 12342134,
-    },
-    {
-      name: "Al-Mohammad Aliyu",
-      email: "almohammad@gmail.com",
-      role: "IT Support",
-      access: "Custom ",
-      action: 12342134,
-    },
-    {
-      name: "Al-Mohammad Aliyu",
-      email: "almohammad@gmail.com",
-      role: "IT Support",
-      access: "Custom ",
-      action: 12342134,
-    },
-  ];
+  const { isPending, isError, data, error } = useQuery({
+    queryKey: ["users"],
+    queryFn: fetchUsers,
+    // keepPreviousData: true,
+    // staleTime: 5000,
+  });
+  console.log(data);
+
   return (
     <div className=" bg-white rounded-lg mt-5">
       <div className=" p-5">
@@ -83,6 +43,7 @@ const UsersList: FC<UsersListProps> = ({}) => {
           <DataTable type="unverified" columns={columns} data={data} />
         </TabsContent>
       </Tabs>
+      <AddUserModal />
     </div>
   );
 };
