@@ -24,7 +24,7 @@ import { ShieldSecurity } from "iconsax-react";
 import { useToast } from "@/components/ui/use-toast";
 import { useOtpUserLogin } from "@/lib/hooks/useOtpUserLogin";
 import { useAppDispatch } from "@/lib/hooks";
-import { loginUser } from "@/redux/features/userSlice";
+import { loginUser, logoutUser } from "@/redux/features/userSlice";
 
 export const LoginForm = () => {
   const searchParams = useSearchParams();
@@ -97,6 +97,10 @@ export const LoginForm = () => {
       });
     } else return;
   }, [isSuccess, isError]);
+
+  useEffect(() => {
+    dispatch(logoutUser());
+  }, []);
 
   const onSubmit = (values: z.infer<typeof LoginSchema>) => {
     setError("");
