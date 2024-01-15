@@ -58,9 +58,7 @@ const Modal: FC<ModalProps> = ({
             <AlertDialogTitle className=" font-bold text-3xl uppercase text-bgPrimary">
               {title}
             </AlertDialogTitle>
-            <AlertDialogDescription className=" text-black text-base">
-              {content}
-            </AlertDialogDescription>
+            <div className=" text-black text-base">{content}</div>
           </AlertDialogHeader>
           {isOtp && setOtp && (
             <>

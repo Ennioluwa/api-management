@@ -23,18 +23,16 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { UserTag } from "iconsax-react";
+import { CardPos, UserTag } from "iconsax-react";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  type: string;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
-  type,
 }: DataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] =
@@ -113,15 +111,18 @@ export function DataTable<TData, TValue>({
             <TableRow>
               <TableCell colSpan={columns.length} className=" text-center">
                 <div className="flex flex-col items-center justify-center py-8">
-                  <UserTag
+                  <CardPos
                     variant="Bulk"
                     color="#0062FF"
                     className=" h-[100px] w-[100px]"
                   />
                   <h6 className=" font-bold pt-4 pb-2">
-                    There are no users yet.
+                    There are no transactions yet.
                   </h6>
-                  <p>Click Add to create new users</p>
+                  <p>
+                    When you perform a transaction on your account, they will
+                    appear here
+                  </p>
                 </div>
               </TableCell>
             </TableRow>

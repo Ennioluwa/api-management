@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import navigationSlice from "./features/navigationSlice";
 import userSlice from "./features/userSlice";
 import addUserSlice from "./features/addUserSlice";
+import apiKeySlice from "./features/apiKeySlice";
 
 export const makeStore = () => {
   return configureStore({
@@ -9,6 +10,7 @@ export const makeStore = () => {
       navigation: navigationSlice,
       user: userSlice,
       userManagement: addUserSlice,
+      apiKey: apiKeySlice,
     },
   });
 };

@@ -6,6 +6,7 @@ export type UserManagementData = {
   lastName: string;
   email: string;
   roles: string[];
+  emailConfirmed?: boolean;
 };
 
 const postUserManagementData = async (data: UserManagementData) => {

@@ -45,6 +45,26 @@ export const LoginSchema = z.object({
   }),
 });
 
+export const ForgotPasswordSchema = z.object({
+  email: z.string().email({
+    message: "Email is required",
+  }),
+});
+
+export const PasswordResetSchema = z
+  .object({
+    password: z
+      .string()
+      .min(6, { message: "Password must be at least 6 characters" }),
+    confirmPassword: z
+      .string()
+      .min(6, { message: "Password must be at least 6 characters" }),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    path: ["confirmPassword"],
+    message: "Passwords does not match",
+  });
+
 export const BusinessInformationSchema = z.object({
   businessName: z.string().min(1, {
     message: "Business name is required",
@@ -89,4 +109,16 @@ export const AddUserModalSchema = z.object({
     message: "Last name is required",
   }),
   roles: z.array(optionSchema).min(1),
+});
+
+export const AddApiKeySchema = z.object({
+  email: z.string().email({
+    message: "App contact email is required",
+  }),
+  name: z.string().min(1, {
+    message: "App name is required",
+  }),
+  description: z.string().min(1, {
+    message: "App description is required",
+  }),
 });

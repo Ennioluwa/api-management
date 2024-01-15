@@ -44,6 +44,18 @@ export const userSlice = createSlice({
         localStorage.removeItem("refresh-token");
       }
     },
+    setSetupStatus: (
+      state,
+      action: PayloadAction<"Completed" | "AccountCreated" | "CompanyCreated">
+    ) => {
+      if (!state.userData) {
+        return;
+      }
+      let newData = state.userData;
+      newData.setupStatus = action.payload;
+      state.userData.setupStatus = action.payload;
+      localStorage.setItem("userData", JSON.stringify(newData));
+    },
     logoutUser: (state) => {
       state.userData = null;
       localStorage.removeItem("userData");
@@ -54,6 +66,6 @@ export const userSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { loginUser, logoutUser } = userSlice.actions;
+export const { loginUser, logoutUser, setSetupStatus } = userSlice.actions;
 
 export default userSlice.reducer;

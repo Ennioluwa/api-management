@@ -32,6 +32,8 @@ import { ShieldSecurity } from "iconsax-react";
 import { useToast } from "@/components/ui/use-toast";
 import { useBusinessInformation } from "@/lib/hooks/useBusinessInformation";
 import { BusinessInformationSchema } from "@/schemas";
+import { setSetupStatus } from "@/redux/features/userSlice";
+import { useAppDispatch } from "@/lib/hooks";
 
 const BusinessInformationForm = () => {
   const [open, setOpen] = useState(false);
@@ -47,6 +49,7 @@ const BusinessInformationForm = () => {
   });
   const { toast } = useToast();
   const router = useRouter();
+  const dispatch = useAppDispatch();
 
   const {
     data,
@@ -59,6 +62,7 @@ const BusinessInformationForm = () => {
   useEffect(() => {
     if (isSuccess) {
       console.log(isSuccess, data, "success state");
+      dispatch(setSetupStatus("CompanyCreated"));
       setOpen(true);
     } else if (isError) {
       console.log(isError, data, "error state");

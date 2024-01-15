@@ -7,7 +7,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 
-import { LoginSchema } from "@/schemas";
+import { ForgotPasswordSchema } from "@/schemas";
 import { Input } from "@/components/ui/input";
 import {
   Form,
@@ -18,35 +18,35 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
-import { useUserLogin } from "@/lib/hooks/useUserLogin";
 import Modal from "@/components/Modal";
 import { ShieldSecurity } from "iconsax-react";
 import { useToast } from "@/components/ui/use-toast";
 import { useOtpUserLogin } from "@/lib/hooks/useOtpUserLogin";
 import { useAppDispatch } from "@/lib/hooks";
 import { loginUser, logoutUser } from "@/redux/features/userSlice";
+import { useForgotPassword } from "@/lib/hooks/UseForgotPassword";
 
-export const LoginForm = () => {
-  const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl");
-
-  const [error, setError] = useState<string | undefined>("");
-  const [success, setSuccess] = useState<string | undefined>("");
+export const ForgotPasswordForm = () => {
   const [open, setOpen] = useState(false);
   const [otp, setOtp] = useState("");
   const [email, setEmail] = useState("");
-  const form = useForm<z.infer<typeof LoginSchema>>({
-    resolver: zodResolver(LoginSchema),
+  const form = useForm<z.infer<typeof ForgotPasswordSchema>>({
+    resolver: zodResolver(ForgotPasswordSchema),
     defaultValues: {
       email: "",
-      password: "",
     },
   });
   const { toast } = useToast();
   const router = useRouter();
   const dispatch = useAppDispatch();
 
-  const { data, mutate: login, isSuccess, isError, isPending } = useUserLogin();
+  const {
+    data,
+    mutate: forgotPassword,
+    isSuccess,
+    isError,
+    isPending,
+  } = useForgotPassword();
   const {
     data: otpData,
     mutate: otpLogin,
@@ -57,25 +57,18 @@ export const LoginForm = () => {
 
   useEffect(() => {
     try {
-      if (isOtpSuccess && otpData) {
+      if (isOtpSuccess) {
         console.log(isOtpSuccess, otpData, "otp success state");
         toast({
           title: "OTP verified successfully",
         });
-        console.log(otpData, "otp", otpData.data.tokenSet);
-
-        dispatch(loginUser(otpData.data));
-
-        if (otpData.data.setupStatus === "Completed") {
-          router.push("/dashboard/home");
-        } else {
-          router.push("/kyc");
-        }
+        router.push("/password-reset");
       } else if (isOtpError) {
         console.log(isOtpError, otpData, "error state");
         toast({
           description: "Wrong OTP. Please try again",
         });
+        router.push("/password-reset");
       } else return;
     } catch (error) {
       console.log(error);
@@ -86,15 +79,17 @@ export const LoginForm = () => {
     if (isSuccess) {
       console.log(isSuccess, data, "success state");
       toast({
-        title: "Log in successful",
+        title: "Link sent",
         description: "Please enter otp sent to the email address",
       });
       setOpen(true);
     } else if (isError) {
       console.log(isError, data, "error state");
       toast({
-        description: "Log in failed",
+        title: "Password reset failed",
+        description: "Please check if email address exists",
       });
+      setOpen(true);
     } else return;
   }, [isSuccess, isError]);
 
@@ -102,12 +97,10 @@ export const LoginForm = () => {
     dispatch(logoutUser());
   }, []);
 
-  const onSubmit = (values: z.infer<typeof LoginSchema>) => {
-    setError("");
-    setSuccess("");
+  const onSubmit = (values: z.infer<typeof ForgotPasswordSchema>) => {
     console.log(values);
-    const { email, password } = values;
-    login({ email, password });
+    const { email } = values;
+    forgotPassword({ email });
     setEmail(email);
   };
 
@@ -138,41 +131,15 @@ export const LoginForm = () => {
                   </FormItem>
                 )}
               />
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        disabled={isPending}
-                        placeholder="Enter Password"
-                        type="text"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
             </>
           </div>
-          {/* <FormError message={error || urlError} />
-          <FormSuccess message={success} /> */}
-          <p className=" text-xs text-black text-center ">
-            Forgot your password?{" "}
-            <Link className="text-bgPrimary font-bold" href="/forgot-password">
-              Reset it here
-            </Link>
-          </p>
+
           <Button
-            disabled={
-              isPending || !form.getValues().email || !form.getValues().password
-            }
+            disabled={isPending || !form.getValues().email}
             type="submit"
             className="w-full"
           >
-            {isPending ? "LOGGING IN" : "LOGIN"}
+            {isPending ? "PROCEEDING" : "PROCEED"}
           </Button>
         </form>
       </Form>
@@ -182,6 +149,7 @@ export const LoginForm = () => {
         content={
           <p>
             To verify your identity, we’ve sent an OTP to your Email Address{" "}
+            {email}
           </p>
         }
         icon={ShieldSecurity}

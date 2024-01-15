@@ -1,6 +1,6 @@
 import Navbar from "../_components/Navbar";
+import Authenticated from "./_components/Authenticated";
 import BusinessInformationForm from "./_components/BusinessInformationForm";
-import Authenticated from "./Authenticated";
 
 const page = ({}) => {
   return (

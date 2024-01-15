@@ -22,12 +22,14 @@ import Modal from "@/components/Modal";
 import { ShieldSecurity } from "iconsax-react";
 import { useToast } from "@/components/ui/use-toast";
 import { useBusinessIdentity } from "@/lib/hooks/useBusinessIdentity";
-import { useAppSelector } from "@/lib/hooks";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import IsAdminAuth from "@/components/isAdminAuth";
+import { setSetupStatus } from "@/redux/features/userSlice";
 
 const BusinessIdentityForm = () => {
   const [open, setOpen] = useState(false);
   const { userData } = useAppSelector((state) => state.user);
+  const dispatch = useAppDispatch();
 
   const form = useForm<z.infer<typeof BusinessIdentitySchema>>({
     resolver: zodResolver(BusinessIdentitySchema),
@@ -55,12 +57,14 @@ const BusinessIdentityForm = () => {
         title: "Successful",
         description: "Information under review",
       });
+      dispatch(setSetupStatus("Completed"));
       setOpen(true);
     } else if (isError) {
       console.log(isError, data, "error state");
       toast({
         description: "An error has occured",
       });
+      setOpen(true);
     } else return;
   }, [isSuccess, isError]);
 

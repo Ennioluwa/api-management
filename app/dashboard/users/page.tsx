@@ -7,7 +7,7 @@ import UserHeader from "./_components/UserHeader";
 
 const page = () => {
   return (
-    <div className=" lg:container">
+    <div className=" lg:container lg:ml-0">
       <HomeNav text="Users Management" />
       <UserHeader />
       <UserRoles />
