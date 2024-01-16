@@ -48,13 +48,13 @@ export const sidebarData: SidebarData[] = [
     group: "Management",
   },
   {
-    name: "Subsription",
+    name: "Subscription",
     link: "/dashboard/subscription",
     icon: CardPos,
     group: "Administration",
   },
   {
-    name: "API Keys",
+    name: "Settings",
     link: "/dashboard/settings",
     icon: Setting2,
     group: "Administration",
