@@ -24,6 +24,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { UserTag } from "iconsax-react";
+import { PuffLoader } from "react-spinners";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -70,7 +71,12 @@ export function DataTable<TData, TValue>({
     getFacetedUniqueValues: getFacetedUniqueValues(),
   });
 
-  if (data === undefined) return <p>loading...</p>;
+  if (data === undefined)
+    return (
+      <div className=" w-full h-full grid place-items-center py-20">
+        <PuffLoader color="#0062FF" />
+      </div>
+    );
 
   return (
     <div className="rounded-md">

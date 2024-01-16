@@ -11,6 +11,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { ColumnDef } from "@tanstack/react-table";
 import { Edit2, Trash } from "iconsax-react";
 import AddUserModal from "./add-user-modal";
+import { PuffLoader } from "react-spinners";
 
 interface UsersListProps {}
 
@@ -102,7 +103,11 @@ const UsersList: FC<UsersListProps> = ({}) => {
           <TabsTrigger value="verified">Verified</TabsTrigger>
           <TabsTrigger value="unverified">Unverified</TabsTrigger>
         </TabsList>
-        {isPending && <p>Loading..</p>}
+        {isPending && (
+          <div className=" w-full h-full grid place-items-center py-20">
+            <PuffLoader color="#0062FF" />
+          </div>
+        )}
         {users && (
           <>
             <TabsContent className=" px-5" value="all">

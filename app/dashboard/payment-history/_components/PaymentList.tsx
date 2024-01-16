@@ -15,6 +15,7 @@ import {
   PaymentHistory,
   fetchPaymentHistory,
 } from "@/lib/hooks/api/subscription.api";
+import { PuffLoader } from "react-spinners";
 
 interface PaymentListProps {}
 
@@ -117,7 +118,11 @@ const PaymentList: FC<PaymentListProps> = ({}) => {
           <TabsTrigger value="pending">Pending</TabsTrigger>
           <TabsTrigger value="failed">Failed</TabsTrigger>
         </TabsList>
-        {isPending && <p>Loading..</p>}
+        {isPending && (
+          <div className=" w-full h-full grid place-items-center py-20">
+            <PuffLoader color="#0062FF" />
+          </div>
+        )}
         {payments && (
           <>
             <TabsContent className=" px-5" value="all">

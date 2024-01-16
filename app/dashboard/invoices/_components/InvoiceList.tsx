@@ -9,6 +9,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { DocumentDownload, Edit2, Trash } from "iconsax-react";
 import AddUserModal from "./add-user-modal";
 import { Invoice, fetchInvoices } from "@/lib/hooks/api/invoices.api";
+import { PuffLoader } from "react-spinners";
 
 interface InvoiceListProps {}
 
@@ -93,7 +94,11 @@ const InvoiceList: FC<InvoiceListProps> = ({}) => {
           <TabsTrigger value="pending">Pending Invoices</TabsTrigger>
           <TabsTrigger value="due">Due Invoices</TabsTrigger>
         </TabsList>
-        {isPending && <p>Loading..</p>}
+        {isPending && (
+          <div className=" w-full h-full grid place-items-center py-20">
+            <PuffLoader color="#0062FF" />
+          </div>
+        )}
         {invoices && (
           <>
             <TabsContent className=" px-5" value="all">
