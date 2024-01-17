@@ -126,16 +126,24 @@ const ProfilePage: FC<ProfilePageProps> = ({ setHeader }) => {
           onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-6 lg:max-w-xl mx-auto"
         >
-          <div className="space-y-4">
+          <div className="flex flex-col gap-5">
             <>
               <div className="flex flex-col md:flex-row items-center justify-between gap-5 text-left">
                 <FormField
                   control={form.control}
                   name="firstName"
                   render={({ field }) => (
-                    <FormItem className=" w-full">
+                    <FormItem className=" w-full relative">
+                      {field.value && (
+                        <FormLabel className=" absolute left-5 top-[0px] text-bgPrimary z-20 bg-white px-2.5 py-0 text-xs">
+                          First Name
+                        </FormLabel>
+                      )}
                       <FormControl>
                         <Input
+                          className={`${
+                            field.value && "border-bgPrimary bg-white "
+                          }`}
                           {...field}
                           disabled={isPending}
                           placeholder="First Name"
@@ -150,9 +158,17 @@ const ProfilePage: FC<ProfilePageProps> = ({ setHeader }) => {
                   control={form.control}
                   name="lastName"
                   render={({ field }) => (
-                    <FormItem className=" w-full">
+                    <FormItem className=" w-full relative">
+                      {field.value && (
+                        <FormLabel className=" absolute left-5 top-[0px] text-bgPrimary z-20 bg-white px-2.5 py-0 text-xs">
+                          Last Name
+                        </FormLabel>
+                      )}
                       <FormControl>
                         <Input
+                          className={`${
+                            field.value && "border-bgPrimary bg-white "
+                          }`}
                           {...field}
                           disabled={isPending}
                           placeholder="Last Name"
@@ -168,9 +184,17 @@ const ProfilePage: FC<ProfilePageProps> = ({ setHeader }) => {
                 control={form.control}
                 name="email"
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem className=" relative">
+                    {field.value && (
+                      <FormLabel className=" absolute left-5 top-[0px] text-bgPrimary z-20 bg-white px-2.5 py-0 text-xs">
+                        Email
+                      </FormLabel>
+                    )}
                     <FormControl>
                       <Input
+                        className={`${
+                          field.value && "border-bgPrimary bg-white "
+                        }`}
                         {...field}
                         disabled={isPending}
                         placeholder="Enter Email Address"
@@ -185,9 +209,17 @@ const ProfilePage: FC<ProfilePageProps> = ({ setHeader }) => {
                 control={form.control}
                 name="phone"
                 render={({ field }) => (
-                  <FormItem className=" pb-8">
+                  <FormItem className="relative pb-8">
+                    {field.value && (
+                      <FormLabel className=" absolute left-5 top-[0px] text-bgPrimary z-20 bg-white px-2.5 py-0 text-xs">
+                        Phone Number
+                      </FormLabel>
+                    )}
                     <FormControl>
                       <Input
+                        className={`${
+                          field.value && "border-bgPrimary bg-white "
+                        }`}
                         {...field}
                         disabled={isPending}
                         placeholder="Enter Phone Number"
