@@ -31,17 +31,22 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { Category2, Information, UserTag } from "iconsax-react";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { handleOpenChange, onClose } from "@/redux/features/addUserSlice";
 import { AddUserModalSchema } from "@/schemas";
 import { useUserManagement } from "@/lib/hooks/useUserManagement";
 import { useQueryClient } from "@tanstack/react-query";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
+import {
+  handleaddCardChange,
+  onaddCardClose,
+} from "@/redux/features/subscriptionSlice";
 
-type AddUserModalProps = {};
+type ModifyCardModalProps = {};
 
-const AddUserModal: FC<AddUserModalProps> = () => {
+const ModifyCardModal: FC<ModifyCardModalProps> = () => {
   const dispatch = useAppDispatch();
   const queryClient = useQueryClient();
-  const { isOpen } = useAppSelector((state) => state.userManagement);
+  const { addCard } = useAppSelector((state) => state.subscription);
 
   const OPTIONS: Option[] = [
     { label: "Super Admin", value: "ClientAdmins" },
@@ -82,7 +87,7 @@ const AddUserModal: FC<AddUserModalProps> = () => {
         title: "User successfully added",
         description: "An email has been sent to the user to be added",
       });
-      dispatch(onClose());
+      dispatch(onaddCardClose());
       queryClient.refetchQueries({ queryKey: ["users"] });
       queryClient.invalidateQueries({ queryKey: ["users"] });
     } else if (isError) {
@@ -105,21 +110,21 @@ const AddUserModal: FC<AddUserModalProps> = () => {
   return (
     <div>
       <AlertDialog
-        open={isOpen}
-        onOpenChange={() => dispatch(handleOpenChange())}
+        open={addCard}
+        onOpenChange={() => dispatch(handleaddCardChange())}
       >
-        <AlertDialogContent className="p-0 bg-transparent ">
-          <div className=" bg-[rgba(255,255,255,0.8)] p-5 rounded-lg">
+        <AlertDialogContent className=" bg-transpare t p-0 ">
+          <div className=" bg-white/80  p-5 rounded-lg">
             <div className=" flex items-center gap-5 text-left">
-              <div className=" p-2.5 bg-white z-50 rounded-lg">
+              <div className=" p-2.5 bg-white rounded-lg">
                 <UserTag variant="Bulk" color="#0062FF" className=" h-5 w-5" />
               </div>
               <AlertDialogHeader className="text-left space-y-0">
                 <AlertDialogTitle className=" font-bold">
-                  Create a New User
+                  Modify Card
                 </AlertDialogTitle>
                 <AlertDialogDescription className="text-xs">
-                  Create a new user and assign them to roles
+                  Change existing parameters of this card
                 </AlertDialogDescription>
               </AlertDialogHeader>
             </div>
@@ -131,10 +136,56 @@ const AddUserModal: FC<AddUserModalProps> = () => {
                 <div className="">
                   <div className=" p-5 bg-white rounded-lg mt-5 flex flex-col gap-5">
                     <>
-                      <h6 className=" text-black text-xs flex items-center gap-2.5">
-                        <Information variant="Bulk" size={18} color="#2E2E3A" />
-                        Basic User Information
-                      </h6>
+                      <FormField
+                        control={form.control}
+                        name="email"
+                        render={({ field }) => (
+                          <FormItem className=" relative">
+                            {field.value && (
+                              <FormLabel className=" absolute left-5 top-[0px] text-bgPrimary z-20 bg-white px-2.5 py-0 text-xs">
+                                Card Name
+                              </FormLabel>
+                            )}
+                            <FormControl>
+                              <Input
+                                {...field}
+                                disabled={isPending}
+                                placeholder="Enter Card Name"
+                                type="text"
+                                className={`${
+                                  field.value && "border-bgPrimary bg-white"
+                                }`}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="email"
+                        render={({ field }) => (
+                          <FormItem className=" relative">
+                            {field.value && (
+                              <FormLabel className=" absolute left-5 top-[0px] text-bgPrimary z-20 bg-white px-2.5 py-0 text-xs">
+                                Card Number
+                              </FormLabel>
+                            )}
+                            <FormControl>
+                              <Input
+                                {...field}
+                                disabled={isPending}
+                                placeholder="Enter Card Number"
+                                type="number"
+                                className={`${
+                                  field.value && "border-bgPrimary bg-white"
+                                }`}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
                       <div className="flex flex-col md:flex-row items-center justify-between gap-5 text-left">
                         <FormField
                           control={form.control}
@@ -143,15 +194,15 @@ const AddUserModal: FC<AddUserModalProps> = () => {
                             <FormItem className=" flex-1 relative">
                               {field.value && (
                                 <FormLabel className=" absolute left-5 top-[0px] text-bgPrimary z-20 bg-white px-2.5 py-0 text-xs">
-                                  First Name
+                                  CCV
                                 </FormLabel>
                               )}
                               <FormControl>
                                 <Input
                                   {...field}
                                   disabled={isPending}
-                                  placeholder="First Name"
-                                  type="text"
+                                  placeholder="CCV"
+                                  type="number"
                                   className={`${
                                     field.value && "border-bgPrimary bg-white "
                                   }`}
@@ -168,15 +219,15 @@ const AddUserModal: FC<AddUserModalProps> = () => {
                             <FormItem className=" flex-1 relative">
                               {field.value && (
                                 <FormLabel className=" absolute left-5 top-[0px] text-bgPrimary z-20 bg-white px-2.5 py-0 text-xs">
-                                  Last Name
+                                  Expiry Date
                                 </FormLabel>
                               )}
                               <FormControl>
                                 <Input
                                   {...field}
                                   disabled={isPending}
-                                  placeholder="Last Name"
-                                  type="text"
+                                  placeholder="Expiry Date"
+                                  type="date"
                                   className={`${
                                     field.value && "border-bgPrimary bg-white "
                                   }`}
@@ -189,53 +240,24 @@ const AddUserModal: FC<AddUserModalProps> = () => {
                       </div>
                       <FormField
                         control={form.control}
-                        name="email"
+                        name="lastName"
                         render={({ field }) => (
-                          <FormItem className=" relative">
+                          <FormItem className=" flex-1 relative">
                             {field.value && (
                               <FormLabel className=" absolute left-5 top-[0px] text-bgPrimary z-20 bg-white px-2.5 py-0 text-xs">
-                                Email
+                                Expiry Date
                               </FormLabel>
                             )}
                             <FormControl>
-                              <Input
-                                {...field}
-                                disabled={isPending}
-                                placeholder="Enter Email Address"
-                                type="email"
-                                className={`${
-                                  field.value && "border-bgPrimary bg-white"
-                                }`}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <h6 className=" text-black text-xs flex items-center gap-2.5">
-                        <Category2 variant="Bulk" size={18} color="#2E2E3A" />
-                        Assign Role to user
-                      </h6>
-                      <FormField
-                        control={form.control}
-                        name="roles"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormControl>
-                              <MultipleSelector
-                                value={field.value}
-                                onChange={field.onChange}
-                                options={OPTIONS}
-                                className={`${
-                                  field.value && "border-bgPrimary bg-white"
-                                }`}
-                                placeholder="Add More Roles..."
-                                emptyIndicator={
-                                  <p className="text-center text-lg leading-10 text-bgPrimary ">
-                                    No results found.
-                                  </p>
-                                }
-                              />
+                              <div className="flex items-center space-x-2">
+                                <Switch
+                                  disabled={isPending}
+                                  id="airplane-mode"
+                                />
+                                <Label htmlFor="airplane-mode">
+                                  Make default
+                                </Label>
+                              </div>
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -249,7 +271,7 @@ const AddUserModal: FC<AddUserModalProps> = () => {
                     variant="ghost"
                     className="flex-1 bg-white font-bold text-bgPrimary"
                     type="button"
-                    onClick={() => dispatch(onClose())}
+                    onClick={() => dispatch(onaddCardClose())}
                   >
                     CANCEL
                   </Button>
@@ -264,7 +286,7 @@ const AddUserModal: FC<AddUserModalProps> = () => {
                     type="submit"
                     className="flex-1"
                   >
-                    {isPending ? "CREATING USER..." : "CREATE USER"}
+                    {isPending ? "SAVING..." : "SAVE INFORMATION"}
                   </Button>
                 </div>
               </form>
@@ -276,4 +298,4 @@ const AddUserModal: FC<AddUserModalProps> = () => {
   );
 };
 
-export default AddUserModal;
+export default ModifyCardModal;

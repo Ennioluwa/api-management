@@ -108,7 +108,7 @@ const UsersList: FC<UsersListProps> = ({}) => {
             <PuffLoader color="#0062FF" />
           </div>
         )}
-        {users && (
+        {!isPending && (
           <>
             <TabsContent className=" px-5" value="all">
               <DataTable type="all" columns={columns} data={allUsers} />

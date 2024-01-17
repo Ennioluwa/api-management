@@ -99,7 +99,7 @@ const InvoiceList: FC<InvoiceListProps> = ({}) => {
             <PuffLoader color="#0062FF" />
           </div>
         )}
-        {invoices && (
+        {!isPending && (
           <>
             <TabsContent className=" px-5" value="all">
               <DataTable columns={columns} data={allInvoices} />

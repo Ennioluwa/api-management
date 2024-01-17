@@ -4,22 +4,20 @@ import { FC, useEffect, useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { DataTable } from "./data-table";
 import { useQuery } from "@tanstack/react-query";
-import { fetchUsers } from "@/lib/hooks/api/users.api";
-import { deleteUser } from "@/lib/hooks/api/users.api";
 import { UserManagementData } from "@/lib/hooks/useUserManagement";
 import { useQueryClient } from "@tanstack/react-query";
 import { ColumnDef } from "@tanstack/react-table";
 import { DocumentDownload, Edit2, Trash } from "iconsax-react";
-import AddUserModal from "./add-user-modal";
 import {
   PaymentHistory,
   fetchPaymentHistory,
 } from "@/lib/hooks/api/subscription.api";
 import { PuffLoader } from "react-spinners";
+import ChangePaymentMethod from "./change-payment-option";
 
-interface PaymentListProps {}
+interface SubscriptionListProps {}
 
-const PaymentList: FC<PaymentListProps> = ({}) => {
+const SubscriptionList: FC<SubscriptionListProps> = ({}) => {
   const {
     isPending,
     isError,
@@ -55,11 +53,11 @@ const PaymentList: FC<PaymentListProps> = ({}) => {
       cell: (info) => `${info.row.original.terminalId}`,
     },
     {
-      header: "Channel",
+      header: "Users",
       accessorKey: "paymentMethod",
       cell: (info) => (
         <div className="flex items-center gap-2">
-          <p>{info.row.original.paymentMethod}</p>
+          <p>{info.row.original.totalUsers}</p>
         </div>
       ),
     },
@@ -76,18 +74,7 @@ const PaymentList: FC<PaymentListProps> = ({}) => {
     {
       header: "Status",
       cell: (info) =>
-        info.row.original.status === "Active" ? "Approved" : "Pending",
-    },
-    {
-      header: "Action",
-      cell: (info) => (
-        <div className="flex items-center gap-2">
-          <DocumentDownload
-            variant="Bulk"
-            // onClick={() => handleDeleteUser(info.row.original)}
-          />
-        </div>
-      ),
+        info.row.original.status === "Active" ? "Active" : "Expired",
     },
   ];
 
@@ -104,19 +91,19 @@ const PaymentList: FC<PaymentListProps> = ({}) => {
   });
 
   return (
-    <div className=" bg-white rounded-lg mt-5">
+    <div className=" bg-white rounded-lg">
       <div className=" p-5">
-        <h3 className=" font-bold pb-2.5 ">Billing History</h3>
-        <p className=" w-full md:w-2/3 lg:w-1/2 text-xs">
-          View all transaction history made through your Account
+        <h3 className=" font-bold pb-2.5 ">Subscriptions List</h3>
+        <p className=" w-full text-xs">
+          From here you can see a list of all you subscriptions and their
+          statuses as they’re tabbed into different sections.
         </p>
       </div>
       <Tabs defaultValue="all" className="">
         <TabsList className=" my-2 p-0">
-          <TabsTrigger value="all">All Transactions</TabsTrigger>
-          <TabsTrigger value="approved">Approved</TabsTrigger>
-          <TabsTrigger value="pending">Pending</TabsTrigger>
-          <TabsTrigger value="failed">Failed</TabsTrigger>
+          <TabsTrigger value="all">All Subscription</TabsTrigger>
+          <TabsTrigger value="active">Active</TabsTrigger>
+          <TabsTrigger value="expired">Expired</TabsTrigger>
         </TabsList>
         {isPending && (
           <div className=" w-full h-full grid place-items-center py-20">
@@ -130,31 +117,24 @@ const PaymentList: FC<PaymentListProps> = ({}) => {
             </TabsContent>
             <TabsContent className=" px-5" value="approved">
               <DataTable
-                type="verified"
+                type="active"
                 columns={columns}
                 data={approvedPayments}
               />
             </TabsContent>
             <TabsContent className=" px-5" value="pending">
               <DataTable
-                type="unverified"
+                type="expired"
                 columns={columns}
                 data={pendingPayments}
-              />
-            </TabsContent>
-            <TabsContent className=" px-5" value="failed">
-              <DataTable
-                type="unverified"
-                columns={columns}
-                data={failedPayments}
               />
             </TabsContent>
           </>
         )}
       </Tabs>
-      <AddUserModal />
+      <ChangePaymentMethod />
     </div>
   );
 };
 
-export default PaymentList;
+export default SubscriptionList;

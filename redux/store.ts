@@ -3,6 +3,7 @@ import navigationSlice from "./features/navigationSlice";
 import userSlice from "./features/userSlice";
 import addUserSlice from "./features/addUserSlice";
 import apiKeySlice from "./features/apiKeySlice";
+import subscriptionSlice from "./features/subscriptionSlice";
 
 export const makeStore = () => {
   return configureStore({
@@ -11,6 +12,7 @@ export const makeStore = () => {
       user: userSlice,
       userManagement: addUserSlice,
       apiKey: apiKeySlice,
+      subscription: subscriptionSlice,
     },
   });
 };

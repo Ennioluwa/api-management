@@ -16,7 +16,7 @@ import { Button } from "./ui/button";
 interface ModalProps {
   title: string;
   content: ReactNode;
-  icon: Icon;
+  icon?: Icon;
   isOtp?: boolean;
   otp?: string;
   setOtp?: Dispatch<SetStateAction<string>>;
@@ -27,6 +27,7 @@ interface ModalProps {
   cancelButton?: string;
   primaryButton?: string;
   primaryButtonAction?: () => void;
+  headerTextColor?: string;
 }
 
 const Modal: FC<ModalProps> = ({
@@ -43,19 +44,26 @@ const Modal: FC<ModalProps> = ({
   isPending,
   isPendingText,
   isOtp,
+  headerTextColor,
 }) => {
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogContent className=" bg-white p-0 overflow-clip border-none">
         <div className=" p-8 flex flex-col justify-center items-center">
-          <ModalIcon
-            size="75px"
-            color="#0071F2"
-            variant="Bold"
-            fill="#0071F2"
-          />
+          {ModalIcon && (
+            <ModalIcon
+              size="75px"
+              color="#0071F2"
+              variant="Bold"
+              fill="#0071F2"
+            />
+          )}
           <AlertDialogHeader className=" pt-5">
-            <AlertDialogTitle className=" font-bold text-3xl uppercase text-bgPrimary">
+            <AlertDialogTitle
+              className={`font-black text-3xl uppercase ${
+                headerTextColor ? `text-[${headerTextColor}]` : "text-bgPrimary"
+              } `}
+            >
               {title}
             </AlertDialogTitle>
             <div className=" text-black text-base">{content}</div>
