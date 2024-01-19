@@ -1,9 +1,74 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
-import { FC } from "react";
+import { fetchUsers } from "@/lib/hooks/api/users.api";
+import { useQuery } from "@tanstack/react-query";
+import { FC, useEffect, useState } from "react";
 
 interface UserRolesProps {}
 
+interface RoleCount {
+  [key: string]: number;
+}
+interface User {
+  roles: string[];
+}
+
 const UserRoles: FC<UserRolesProps> = ({}) => {
+  const [roles, setRoles] = useState<RoleCount>({});
+  const OPTIONS = [
+    { label: "Super Admin", value: "ClientAdmins" },
+    {
+      label: "Sales Representative",
+      value: "ClientSalesReps",
+    },
+    {
+      label: "Finanace Officers",
+      value: "ClientFinanceOfficers",
+    },
+  ];
+
+  const matchOptions = (option: string) => {
+    const value = OPTIONS.filter((item) => item.value === option);
+    console.log(value);
+    if (value.length) return value[0].label;
+    return option;
+  };
+  const {
+    isPending,
+    isError,
+    data: users,
+    error,
+    refetch,
+  } = useQuery({
+    queryKey: ["users"],
+    queryFn: fetchUsers,
+
+    // staleTime: 5000,
+  });
+
+  useEffect(() => {
+    if (users === (null || undefined)) return setRoles({});
+    const roles = users?.map((user) => user.roles);
+
+    const countRoles = (rolesArr: string[][]) =>
+      rolesArr.reduce((acc: RoleCount, roles: any) => {
+        roles.forEach((role: any) => {
+          if (!acc[role]) {
+            acc[role] = 0;
+          }
+          acc[role]++;
+        });
+        return acc;
+      }, {});
+
+    const roleCounts = countRoles(roles);
+
+    setRoles(roleCounts);
+  }, [users]);
+
+  console.log(roles);
+
   return (
     <div className=" rounded-lg bg-white p-5 mt-5">
       <h3 className=" font-bold pb-2.5 ">User Roles Available</h3>
@@ -13,21 +78,23 @@ const UserRoles: FC<UserRolesProps> = ({}) => {
         a user can have access to what they needs
       </p>
       <div className="flex flex-col md:flex-row w-full justify-between items-center gap-5 flex-wrap">
-        {[1, 2, 3, 4].map((role, index) => (
-          <div
-            key={index}
-            className="p-4 border border-dashed rounded-lg space-y-2 min-w-40 md:max-w-80 w-full flex-1 "
-          >
-            <h5 className=" text-xs font-bold">Super Admin</h5>
-            <h6 className=" text-xl">2 Users</h6>
-            <Button
-              className=" text-xs text-bgPrimary font-bold p-0 m-0 h-fit"
-              variant="ghost"
+        {Object.entries(roles).map(([role, count], index) => {
+          return (
+            <div
+              key={index}
+              className="p-4 border border-dashed rounded-lg space-y-2 min-w-40 md:max-w-80 w-full flex-1 "
             >
-              LEARN MORE
-            </Button>
-          </div>
-        ))}
+              <h5 className=" text-xs font-bold">{matchOptions(role)}</h5>
+              <h6 className=" text-xl">{count} Users</h6>
+              <Button
+                className=" text-xs text-bgPrimary font-bold p-0 m-0 h-fit"
+                variant="ghost"
+              >
+                LEARN MORE
+              </Button>
+            </div>
+          );
+        })}
       </div>
     </div>
   );

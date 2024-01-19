@@ -1,10 +1,9 @@
 import { useMutation } from "@tanstack/react-query";
 import axiosClient from "../axiosInstance";
+import { ApiKeyData } from "./api/apiKey.api";
 
 export type AddApiData = {
-  name: string;
-  email: string;
-  description: string;
+  ApiKeyName: string;
 };
 
 const postAddApi = async (data: AddApiData) => {
@@ -12,7 +11,7 @@ const postAddApi = async (data: AddApiData) => {
     console.log(res);
 
     return {
-      data: res.data.data,
+      data: res.data.data as ApiKeyData,
     };
   });
 

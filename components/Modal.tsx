@@ -49,7 +49,7 @@ const Modal: FC<ModalProps> = ({
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogContent className=" bg-white p-0 overflow-clip border-none">
-        <div className=" p-8 flex flex-col justify-center items-center">
+        <div className=" p-3 lg:p-8 flex flex-col justify-center items-center">
           {ModalIcon && (
             <ModalIcon
               size="75px"

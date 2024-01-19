@@ -33,6 +33,8 @@ import {
   Category2,
   Code,
   Code1,
+  Eye,
+  EyeSlash,
   Information,
   ShieldSecurity,
   UserTag,
@@ -52,13 +54,14 @@ const AddApiKey = () => {
   console.log(isOpen, "is open status");
 
   const [open, setOpen] = useState(false);
+  const [apiId, setApiId] = useState("");
+  const [apiKey, setApiKey] = useState("");
+  const [hidden, setHidden] = useState(true);
 
   const form = useForm<z.infer<typeof AddApiKeySchema>>({
     resolver: zodResolver(AddApiKeySchema),
     defaultValues: {
-      email: "",
-      name: "",
-      description: "",
+      ApiKeyName: "",
     },
   });
 
@@ -76,11 +79,14 @@ const AddApiKey = () => {
     if (isSuccess) {
       console.log(isSuccess, data, "success state");
       toast({
-        title: "User successfully added",
-        description: "An email has been sent to the user to be added",
+        title: "Api successfully added",
       });
       dispatch(onClose());
       setOpen(true);
+      console.log(data.data.apiKeyId, "api key data");
+
+      setApiKey(data.data.apiKeyId);
+      setApiId(data.data.apiKeyValue);
       queryClient.refetchQueries({ queryKey: ["api"] });
       queryClient.invalidateQueries({ queryKey: ["api"] });
     } else if (isError) {
@@ -93,9 +99,9 @@ const AddApiKey = () => {
 
   const onSubmit = (values: z.infer<typeof AddApiKeySchema>) => {
     console.log(values);
-    const { description, name, email } = values;
+    const { ApiKeyName } = values;
 
-    addApi({ name, email, description });
+    addApi(values);
   };
 
   const handleModalClose = () => {
@@ -137,7 +143,7 @@ const AddApiKey = () => {
                       </h6>
                       <FormField
                         control={form.control}
-                        name="name"
+                        name="ApiKeyName"
                         render={({ field }) => (
                           <FormItem className=" flex-1 relative">
                             {field.value && (
@@ -160,55 +166,6 @@ const AddApiKey = () => {
                           </FormItem>
                         )}
                       />
-                      <FormField
-                        control={form.control}
-                        name="email"
-                        render={({ field }) => (
-                          <FormItem className=" relative">
-                            {field.value && (
-                              <FormLabel className=" absolute left-5 top-[0px] text-bgPrimary z-20 bg-white px-2.5 py-0 text-xs">
-                                App Contact Email Address
-                              </FormLabel>
-                            )}
-                            <FormControl>
-                              <Input
-                                {...field}
-                                disabled={isPending}
-                                placeholder="Enter Email Address"
-                                type="email"
-                                className={`${
-                                  field.value && "border-bgPrimary bg-white"
-                                }`}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        control={form.control}
-                        name="description"
-                        render={({ field }) => (
-                          <FormItem className=" relative">
-                            {field.value && (
-                              <FormLabel className=" absolute left-5 top-[0px] text-bgPrimary z-20 bg-white px-2.5 py-0 text-xs">
-                                Description
-                              </FormLabel>
-                            )}
-                            <FormControl>
-                              <Textarea
-                                {...field}
-                                disabled={isPending}
-                                placeholder="Add Description"
-                                className={`${
-                                  field.value && "border-bgPrimary bg-white"
-                                }`}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
                     </>
                   </div>
                 </div>
@@ -222,12 +179,7 @@ const AddApiKey = () => {
                     CANCEL
                   </Button>
                   <Button
-                    disabled={
-                      isPending ||
-                      !form.getValues().email ||
-                      !form.getValues().name ||
-                      !form.getValues().description
-                    }
+                    disabled={isPending || !form.getValues().ApiKeyName}
                     type="submit"
                     className="flex-1"
                   >
@@ -248,16 +200,53 @@ const AddApiKey = () => {
               Your new API app has been created. Below are the relevant
               information
             </p>
-            <p>
-              By default, this application is set to “Inactive” as you can only
-              have only one API app “Active” at once. To activate, click on he
-              “Manage” button and switch the “Status” toggle from the manage
-              page
+            <p className=" text-xs pt-2">
+              By default, this application is set to “Active”. To deactivate,
+              click on he “Manage” button and switch the “Status” toggle from
+              the manage page
             </p>
-            <div>
+            <div className="font-bold mt-4 p-2.5 bg-[#F0F4F9] rounded-lg text-black space-y-2.5 text-left w-full ">
               <p className=" uppercase">New API Key info</p>
-              <p className=" uppercase">api id</p>
-              <p className="uppercase">api key</p>
+              <p className=" uppercase flex gap-3">
+                <span className=" shrink-0">api id</span>
+                <span className=" font-normal overflow-auto">{apiId}</span>
+              </p>
+              <div className=" flex items-center justify-between gap-6">
+                <p className="uppercase shrink-0">api key </p>
+                <div className=" grow w-full flex items-center gap-2">
+                  <p className=" flex flex-wrap justify-start items-center gap-2.5 p-2.5 min-h-[50px] border border-dashed border-[#9A9AAF] rounded-lg grow">
+                    {hidden
+                      ? [1, 2, 3, 4, 5, 6, 7, 8].map((_, index) => (
+                          <svg
+                            key={index}
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="12"
+                            height="12"
+                            viewBox="0 0 12 12"
+                            fill="none"
+                          >
+                            <circle cx="6" cy="6" r="6" fill="#2E2E3A" />
+                          </svg>
+                        ))
+                      : apiKey}
+                  </p>
+                  {hidden ? (
+                    <Eye
+                      variant="Bulk"
+                      size={18}
+                      onClick={() => setHidden(false)}
+                      className=" shrink-0 cursor-pointer"
+                    />
+                  ) : (
+                    <EyeSlash
+                      variant="Bulk"
+                      size={18}
+                      onClick={() => setHidden(true)}
+                      className=" shrink-0 cursor-pointer"
+                    />
+                  )}
+                </div>
+              </div>
             </div>
           </>
         }

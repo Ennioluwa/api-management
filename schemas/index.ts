@@ -112,13 +112,7 @@ export const AddUserModalSchema = z.object({
 });
 
 export const AddApiKeySchema = z.object({
-  email: z.string().email({
-    message: "App contact email is required",
-  }),
-  name: z.string().min(1, {
+  ApiKeyName: z.string().min(1, {
     message: "App name is required",
-  }),
-  description: z.string().min(1, {
-    message: "App description is required",
   }),
 });

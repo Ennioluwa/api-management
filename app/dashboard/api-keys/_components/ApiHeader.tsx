@@ -11,7 +11,7 @@ interface UserHeaderProps {}
 const UserHeader: FC<UserHeaderProps> = ({}) => {
   const dispatch = useAppDispatch();
   return (
-    <div className=" flex gap-4 items-center">
+    <div className=" flex flex-wrap gap-4 items-center">
       <h1 className=" text-4xl font-bold">API Key Manager</h1>
       <Button
         variant="outline"
