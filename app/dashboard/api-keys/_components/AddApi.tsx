@@ -42,7 +42,7 @@ import {
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { AddApiKeySchema } from "@/schemas";
 import { useQueryClient } from "@tanstack/react-query";
-import { useApiManagement } from "@/lib/hooks/useAddApi";
+import { UseApiManagement } from "@/lib/hooks/useAddApi";
 import Modal from "@/components/Modal";
 import { handleOpenChange, onClose } from "@/redux/features/apiKeySlice";
 import { Textarea } from "@/components/ui/textarea";
@@ -71,7 +71,7 @@ const AddApiKey = () => {
     isSuccess,
     isError,
     isPending,
-  } = useApiManagement();
+  } = UseApiManagement();
 
   const { toast } = useToast();
 
