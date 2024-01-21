@@ -6,6 +6,12 @@ export type AddApiData = {
   ApiKeyName: string;
 };
 
+export type ModifyApiData = {
+  apiKeyName: string;
+  isValid: boolean;
+  apiId: number;
+};
+
 const postAddApi = async (data: AddApiData) => {
   const res = await axiosClient.post("/api/apikey", data).then((res) => {
     console.log(res);
@@ -17,8 +23,30 @@ const postAddApi = async (data: AddApiData) => {
 
   return res;
 };
+const putModifyApi = async (data: ModifyApiData) => {
+  const res = await axiosClient
+    .put(`/api/apikey/${data.apiId}`, {
+      apiKeyName: data.apiKeyName,
+      isValid: data.isValid,
+    })
+    .then((res) => {
+      console.log(res);
 
-export const useApiManagement = () => {
+      return {
+        data: res.data.data as ApiKeyData,
+      };
+    });
+
+  return res;
+};
+
+export const ModifyApiManagement = () => {
+  return useMutation({
+    mutationFn: (data: ModifyApiData) => putModifyApi(data),
+  });
+};
+
+export const UseApiManagement = () => {
   return useMutation({
     mutationFn: (data: AddApiData) => postAddApi(data),
   });

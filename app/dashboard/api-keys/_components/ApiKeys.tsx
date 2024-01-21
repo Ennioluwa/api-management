@@ -1,12 +1,17 @@
 "use client";
 
+import { useAppSelector } from "@/lib/hooks";
 import { fetchApiKeys } from "@/lib/hooks/api/apiKey.api";
 import { useQuery } from "@tanstack/react-query";
 import { Edit, More, ShieldSecurity } from "iconsax-react";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { PuffLoader } from "react-spinners";
 
 const ApiKeys = () => {
+  const { userData } = useAppSelector((state) => state.user);
+
+  if (!userData) return redirect("/login");
+
   const {
     isPending,
     isError,
@@ -15,7 +20,7 @@ const ApiKeys = () => {
     refetch,
   } = useQuery({
     queryKey: ["api"],
-    queryFn: fetchApiKeys,
+    queryFn: () => fetchApiKeys({ companyId: userData.companyId }),
 
     // staleTime: 5000,
   });
@@ -57,19 +62,27 @@ const ApiKeys = () => {
                 <h6 className=" text-3xl font-bold">
                   {api.apiKeyName || "Untitled"}
                 </h6>
-                <input type="checkbox" name="active" id="api" />
+                {/* <input type="checkbox" name="active" id="api" /> */}
               </div>
               <p>
                 API ID: <span className=" font-bold">{api.apiKeyId}</span>
               </p>
               <p className=" text-xs">
-                REQUESTS MADE: <span className=" font-bold">-</span>
+                CREATED BY: <span className=" font-bold">{api.createdBy}</span>
               </p>
               <p className=" text-xs">
-                REQUESTS COMPLETED: <span className=" font-bold">-</span>
+                CREATED ON:{" "}
+                <span className=" font-bold">
+                  {formatter.format(new Date(api.created))}
+                </span>
               </p>
               <p className=" text-xs">
-                {formatter.format(new Date(api.created))}
+                DEACTIVATED ON:{" "}
+                <span className=" font-bold">
+                  {api.deactivatedOn
+                    ? formatter.format(new Date(api.deactivatedOn))
+                    : "-"}
+                </span>
               </p>
               <hr className=" border-dashed border-[#9A9AAF)]" />
               <div className="flex items-center justify-between gap-5">
@@ -92,7 +105,7 @@ const ApiKeys = () => {
                   <Edit size={20} />
                 </div>
                 <span className=" h-8 w-8 rounded-full bg-[#F0F4F9] text-black font-bold grid place-items-center ">
-                  3
+                  {api.edits}
                 </span>
                 <div className=" ml-auto">
                   <More size={20} className="" />

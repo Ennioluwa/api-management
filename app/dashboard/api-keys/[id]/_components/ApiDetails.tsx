@@ -1,12 +1,25 @@
 "use client";
 
+import Modal from "@/components/Modal";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/components/ui/use-toast";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { ApiKeyData, fetchApiKeys } from "@/lib/hooks/api/apiKey.api";
-import { useQuery } from "@tanstack/react-query";
-import { Copy, DocumentFilter, Eye, EyeSlash, More } from "iconsax-react";
+import { ModifyApiManagement } from "@/lib/hooks/useAddApi";
+import { formatter } from "@/lib/utils";
+import { modifyApiOpen } from "@/redux/features/apiKeySlice";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  Copy,
+  DocumentFilter,
+  Eye,
+  EyeSlash,
+  Information,
+  More,
+} from "iconsax-react";
+import { redirect } from "next/navigation";
 import { FC, useEffect, useState } from "react";
 import { PuffLoader } from "react-spinners";
 
@@ -16,8 +29,22 @@ interface ApiDetailsProps {
 
 const ApiDetails: FC<ApiDetailsProps> = ({ ApiKeyId }) => {
   const [hidden, setHidden] = useState(false);
+  const [active, setActive] = useState(false);
   const [api, setApi] = useState<ApiKeyData | null>(null);
+  const [toggleOff, setToggleOff] = useState(false);
+  const [toggleOn, setToggleOn] = useState(false);
   const { toast } = useToast();
+
+  const dispatch = useAppDispatch();
+
+  const {
+    isError: isToggleError,
+    isSuccess: isToggleSuccess,
+    isPending: isTogglePending,
+    mutate: modifyApi,
+  } = ModifyApiManagement();
+
+  const queryClient = useQueryClient();
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard
@@ -30,6 +57,10 @@ const ApiDetails: FC<ApiDetailsProps> = ({ ApiKeyId }) => {
       });
   };
 
+  const { userData } = useAppSelector((state) => state.user);
+
+  if (!userData) return redirect("/login");
+
   const {
     isPending,
     isError,
@@ -38,7 +69,7 @@ const ApiDetails: FC<ApiDetailsProps> = ({ ApiKeyId }) => {
     refetch,
   } = useQuery({
     queryKey: ["api"],
-    queryFn: fetchApiKeys,
+    queryFn: () => fetchApiKeys({ companyId: userData.companyId }),
   });
 
   useEffect(() => {
@@ -48,9 +79,27 @@ const ApiDetails: FC<ApiDetailsProps> = ({ ApiKeyId }) => {
         setApi(api);
       }
     }
-  }, [apiKeys]);
+  }, [apiKeys, active]);
 
-  console.log(api, "api here");
+  useEffect(() => {
+    if (isToggleSuccess) {
+      console.log(isToggleSuccess, apiKeys, "success state");
+      toast({
+        title: "Action Successful",
+        description: "Api details successfully modified",
+      });
+      setToggleOff(false);
+      setToggleOn(false);
+      setActive(!active);
+      queryClient.refetchQueries({ queryKey: ["api"] });
+      queryClient.invalidateQueries({ queryKey: ["api"] });
+    } else if (isToggleError) {
+      console.log(isToggleError, apiKeys, "error state");
+      toast({
+        description: "Api modification failed",
+      });
+    } else return;
+  }, [isToggleSuccess, isToggleError]);
 
   if (isPending || apiKeys === (undefined || null) || api === null) {
     return (
@@ -59,6 +108,16 @@ const ApiDetails: FC<ApiDetailsProps> = ({ ApiKeyId }) => {
       </div>
     );
   }
+
+  const onSubmit = (value: boolean) => {
+    if (!api) return;
+    // setActive(value);
+    if (value) {
+      setToggleOn(true);
+    } else {
+      setToggleOff(true);
+    }
+  };
 
   return (
     <div className=" p-5 rounded-lg bg-[#fff]/60">
@@ -130,18 +189,23 @@ const ApiDetails: FC<ApiDetailsProps> = ({ ApiKeyId }) => {
               <h5 className=" font-bold">ACTIVITIES</h5>
               <More />
             </div>
-            <div className=" flex gap-2.5 text-xs uppercase">
-              Number of Edits<span></span>
-            </div>
-            <div className=" flex gap-2.5 text-xs uppercase ">
-              REQUESTS COMPLETED<span></span>
-            </div>
-            <div className=" flex gap-2.5 text-xs uppercase">
-              REQUESTS MADE<span></span>
-            </div>
-            <div className=" flex gap-2.5 text-xs">
-              Number of Edits<span></span>
-            </div>
+            <p className=" text-xs">
+              CREATED BY: <span className=" font-bold">{api.createdBy}</span>
+            </p>
+            <p className=" text-xs">
+              CREATED ON:{" "}
+              <span className=" font-bold">
+                {formatter.format(new Date(api.created))}
+              </span>
+            </p>
+            <p className=" text-xs">
+              DEACTIVATED ON:{" "}
+              <span className=" font-bold">
+                {api.deactivatedOn
+                  ? formatter.format(new Date(api.deactivatedOn))
+                  : "-"}
+              </span>
+            </p>
             <hr className=" border-dashed border-[#9A9AAF]" />
             <div className="flex items-center justify-between gap-5">
               <p>App Status</p>
@@ -157,15 +221,61 @@ const ApiDetails: FC<ApiDetailsProps> = ({ ApiKeyId }) => {
             </div>
             <hr className=" border-dashed border-[#9A9AAF]" />
             <div className="flex items-center space-x-2">
-              <Label htmlFor="airplane-mode">
+              <Label htmlFor="active-status">
                 Toggle to Deactivate this App
               </Label>
-              <Switch checked={api.isValid} id="airplane-mode" />
+              <Switch
+                disabled={isTogglePending}
+                checked={api.isValid}
+                onCheckedChange={onSubmit}
+                id="active-status"
+              />
             </div>
           </div>
-          <Button>MODIFY APP</Button>
+          <Button onClick={() => dispatch(modifyApiOpen())}>MODIFY APP</Button>
         </div>
       </div>
+      <Modal
+        icon={Information}
+        title="TOGGLE OFF API?"
+        content={
+          <p>
+            When you toggle off the API, it will disrupt your current business
+            operation.
+          </p>
+        }
+        isPending={isTogglePending}
+        isPendingText="PROCESSING"
+        open={toggleOff}
+        setOpen={() => setToggleOff(!toggleOff)}
+        cancelButton="CANCEL"
+        primaryButton="CONTINUE"
+        primaryButtonAction={() => {
+          modifyApi({
+            apiId: api.id,
+            isValid: !api.isValid,
+            apiKeyName: api.apiKeyName,
+          });
+        }}
+      />
+      <Modal
+        icon={Information}
+        title="TOGGLE ON API?"
+        content={<p>Are you sure you want to toggle on the API?</p>}
+        isPending={isTogglePending}
+        isPendingText="PROCESSING"
+        open={toggleOn}
+        setOpen={() => setToggleOn(!toggleOn)}
+        cancelButton="CANCEL"
+        primaryButton="CONTINUE"
+        primaryButtonAction={() => {
+          modifyApi({
+            apiId: api.id,
+            isValid: !api.isValid,
+            apiKeyName: api.apiKeyName,
+          });
+        }}
+      />
     </div>
   );
 };

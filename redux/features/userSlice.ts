@@ -6,6 +6,7 @@ export interface UserData {
   firstName: string;
   lastName: string;
   require2FA: boolean;
+  companyId: number;
   roles: any[];
   setupStatus: string;
   tokenSet: {

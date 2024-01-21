@@ -2,6 +2,7 @@ import Link from "next/link";
 import ApiDetails from "./_components/ApiDetails";
 import { Home2 } from "iconsax-react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import ModifyApi from "./_components/ModifyApi";
 
 export default function Page({ params }: { params: { id: string } }) {
   return (
@@ -28,6 +29,7 @@ export default function Page({ params }: { params: { id: string } }) {
         Back
       </Link>
       <ApiDetails ApiKeyId={params.id} />
+      <ModifyApi ApiKeyId={params.id} />
     </div>
   );
 }
