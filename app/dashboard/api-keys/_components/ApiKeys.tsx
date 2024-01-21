@@ -10,8 +10,6 @@ import { PuffLoader } from "react-spinners";
 const ApiKeys = () => {
   const { userData } = useAppSelector((state) => state.user);
 
-  if (!userData) return redirect("/login");
-
   const {
     isPending,
     isError,
@@ -20,9 +18,7 @@ const ApiKeys = () => {
     refetch,
   } = useQuery({
     queryKey: ["api"],
-    queryFn: () => fetchApiKeys({ companyId: userData.companyId }),
-
-    // staleTime: 5000,
+    queryFn: () => fetchApiKeys({ companyId: userData?.companyId }),
   });
 
   const formatter = new Intl.DateTimeFormat("en-US", {

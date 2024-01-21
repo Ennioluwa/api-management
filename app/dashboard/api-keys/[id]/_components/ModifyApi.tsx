@@ -79,11 +79,9 @@ const ModifyApi: FC<ModifyApiProps> = ({ ApiKeyId }) => {
 
   const { userData } = useAppSelector((state) => state.user);
 
-  if (!userData) return redirect("/login");
-
   const { data: apiKeys } = useQuery({
     queryKey: ["api"],
-    queryFn: () => fetchApiKeys({ companyId: userData.companyId }),
+    queryFn: () => fetchApiKeys({ companyId: userData?.companyId }),
   });
 
   const {

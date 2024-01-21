@@ -13,7 +13,13 @@ export type ApiKeyData = {
   deactivatedOn: Date | null;
 };
 
-export const fetchApiKeys = async ({ companyId }: { companyId: number }) => {
+export const fetchApiKeys = async ({
+  companyId,
+}: {
+  companyId: number | undefined;
+}) => {
+  if (!companyId) return;
+
   const {
     data: { data },
   } = await axiosClient.get(`api/apikey/${companyId}`);

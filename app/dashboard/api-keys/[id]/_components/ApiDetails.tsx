@@ -59,8 +59,6 @@ const ApiDetails: FC<ApiDetailsProps> = ({ ApiKeyId }) => {
 
   const { userData } = useAppSelector((state) => state.user);
 
-  if (!userData) return redirect("/login");
-
   const {
     isPending,
     isError,
@@ -69,7 +67,7 @@ const ApiDetails: FC<ApiDetailsProps> = ({ ApiKeyId }) => {
     refetch,
   } = useQuery({
     queryKey: ["api"],
-    queryFn: () => fetchApiKeys({ companyId: userData.companyId }),
+    queryFn: () => fetchApiKeys({ companyId: userData?.companyId }),
   });
 
   useEffect(() => {
@@ -101,14 +99,6 @@ const ApiDetails: FC<ApiDetailsProps> = ({ ApiKeyId }) => {
     } else return;
   }, [isToggleSuccess, isToggleError]);
 
-  if (isPending || apiKeys === (undefined || null) || api === null) {
-    return (
-      <div className=" w-full h-full grid place-items-center py-20">
-        <PuffLoader color="#0062FF" />
-      </div>
-    );
-  }
-
   const onSubmit = (value: boolean) => {
     if (!api) return;
     // setActive(value);
@@ -118,6 +108,14 @@ const ApiDetails: FC<ApiDetailsProps> = ({ ApiKeyId }) => {
       setToggleOff(true);
     }
   };
+
+  if (isPending || apiKeys === (undefined || null) || api === null) {
+    return (
+      <div className=" w-full h-full grid place-items-center py-20">
+        <PuffLoader color="#0062FF" />
+      </div>
+    );
+  }
 
   return (
     <div className=" p-5 rounded-lg bg-[#fff]/60">
