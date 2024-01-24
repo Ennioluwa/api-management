@@ -11,15 +11,19 @@ import { useQueryClient } from "@tanstack/react-query";
 import { ColumnDef } from "@tanstack/react-table";
 import { DocumentDownload, Edit2, Trash } from "iconsax-react";
 import AddUserModal from "./add-user-modal";
+import { PuffLoader } from "react-spinners";
 import {
   PaymentHistory,
   fetchPaymentHistory,
-} from "@/lib/hooks/api/subscription.api";
-import { PuffLoader } from "react-spinners";
+} from "@/lib/hooks/api/payments.api";
+import { useAppSelector } from "@/lib/hooks";
+import { formatter } from "@/lib/utils";
 
 interface PaymentListProps {}
 
 const PaymentList: FC<PaymentListProps> = ({}) => {
+  const { userData } = useAppSelector((state) => state.user);
+
   const {
     isPending,
     isError,
@@ -28,7 +32,7 @@ const PaymentList: FC<PaymentListProps> = ({}) => {
     refetch,
   } = useQuery({
     queryKey: ["payments"],
-    queryFn: fetchPaymentHistory,
+    queryFn: () => fetchPaymentHistory({ companyId: userData?.companyId }),
   });
 
   const [allPayments, setAllPayments] = useState<PaymentHistory[]>([]);
@@ -52,7 +56,7 @@ const PaymentList: FC<PaymentListProps> = ({}) => {
   const columns: ColumnDef<PaymentHistory>[] = [
     {
       header: "Transaction ID.",
-      cell: (info) => `${info.row.original.terminalId}`,
+      cell: (info) => `${info.row.original.id}`,
     },
     {
       header: "Channel",
@@ -65,18 +69,36 @@ const PaymentList: FC<PaymentListProps> = ({}) => {
     },
     {
       header: "Amount",
-      accessorKey: "price",
-      cell: (info) => `-₦${info.row.original.price}`,
+      accessorKey: "amount",
+      cell: (info) => `-₦${info.row.original.amount}`,
     },
     {
       header: "Date",
       cell: (info) =>
-        info.row && formatter?.format(new Date(info.row.original.createDate)),
+        info.row && formatter?.format(new Date(info.row.original.timestamp)),
     },
     {
       header: "Status",
       cell: (info) =>
-        info.row.original.status === "Active" ? "Approved" : "Pending",
+        info.row.original.status === "Active" ? (
+          <p
+            className={` bg-[#1CA78B]/5 text-[#1CA78B] text-xs w-fit px-3 py-1.5 rounded `}
+          >
+            Approved
+          </p>
+        ) : info.row.original.status === "Pending" ? (
+          <p
+            className={` bg-[#FFCF5C]/5 text-[#FFCF5C] text-xs w-fit px-3 py-1.5 rounded `}
+          >
+            Pending
+          </p>
+        ) : (
+          <p
+            className={` bg-[#A71C1C]/5 text-[#A71C1C] text-xs w-fit px-3 py-1.5 rounded `}
+          >
+            Failed
+          </p>
+        ),
     },
     {
       header: "Action",
@@ -90,18 +112,6 @@ const PaymentList: FC<PaymentListProps> = ({}) => {
       ),
     },
   ];
-
-  const formatter = new Intl.DateTimeFormat("en-US", {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-
-    hour: "numeric",
-    minute: "2-digit",
-    second: "2-digit",
-
-    hour12: true,
-  });
 
   return (
     <div className=" bg-white rounded-lg mt-5">

@@ -9,45 +9,53 @@ import { useQueryClient } from "@tanstack/react-query";
 import { ColumnDef } from "@tanstack/react-table";
 import { DocumentDownload, Edit2, Trash } from "iconsax-react";
 import {
-  PaymentHistory,
-  fetchPaymentHistory,
+  Subscriptions,
+  fetchSubscriptions,
 } from "@/lib/hooks/api/subscription.api";
 import { PuffLoader } from "react-spinners";
 import ChangePaymentMethod from "./change-payment-option";
+import { useAppSelector } from "@/lib/hooks";
+import { formatter } from "@/lib/utils";
 
 interface SubscriptionListProps {}
 
 const SubscriptionList: FC<SubscriptionListProps> = ({}) => {
+  const { userData } = useAppSelector((state) => state.user);
+
   const {
     isPending,
     isError,
-    data: payments,
+    data: subscriptions,
     error,
     refetch,
   } = useQuery({
-    queryKey: ["payments"],
-    queryFn: fetchPaymentHistory,
+    queryKey: ["subscriptions"],
+    queryFn: () => fetchSubscriptions({ companyId: userData?.companyId }),
   });
 
-  const [allPayments, setAllPayments] = useState<PaymentHistory[]>([]);
-  const [approvedPayments, setApprovedPayments] = useState<PaymentHistory[]>(
-    []
-  );
-  const [failedPayments, setFailedPayments] = useState<PaymentHistory[]>([]);
-  const [pendingPayments, setPendingPayments] = useState<PaymentHistory[]>([]);
+  const [allSubscriptions, setAllSubscriptions] = useState<Subscriptions[]>([]);
+  const [activeSubscriptions, setActiveSubscriptions] = useState<
+    Subscriptions[]
+  >([]);
+  const [expiredSubscriptions, setExpiredSubscriptions] = useState<
+    Subscriptions[]
+  >([]);
 
   useEffect(() => {
-    if (payments) {
-      setAllPayments(payments);
+    if (subscriptions) {
+      setAllSubscriptions(subscriptions);
 
-      setApprovedPayments(payments.filter((u) => u.status === "Active"));
-      setPendingPayments(payments.filter((u) => u.status !== "Active"));
-      setFailedPayments(payments.filter((u) => u.status !== "Active"));
+      setActiveSubscriptions(
+        subscriptions.filter((u) => u.status === "Active")
+      );
+      setExpiredSubscriptions(
+        subscriptions.filter((u) => u.status !== "Active")
+      );
     }
-  }, [payments]);
+  }, [subscriptions]);
 
   const queryClient = useQueryClient();
-  const columns: ColumnDef<PaymentHistory>[] = [
+  const columns: ColumnDef<Subscriptions>[] = [
     {
       header: "Transaction ID.",
       cell: (info) => `${info.row.original.terminalId}`,
@@ -78,18 +86,6 @@ const SubscriptionList: FC<SubscriptionListProps> = ({}) => {
     },
   ];
 
-  const formatter = new Intl.DateTimeFormat("en-US", {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-
-    hour: "numeric",
-    minute: "2-digit",
-    second: "2-digit",
-
-    hour12: true,
-  });
-
   return (
     <div className=" bg-white rounded-lg">
       <div className=" p-5">
@@ -113,20 +109,20 @@ const SubscriptionList: FC<SubscriptionListProps> = ({}) => {
         {!isPending && (
           <>
             <TabsContent className=" px-5" value="all">
-              <DataTable type="all" columns={columns} data={allPayments} />
+              <DataTable type="all" columns={columns} data={allSubscriptions} />
             </TabsContent>
-            <TabsContent className=" px-5" value="approved">
+            <TabsContent className=" px-5" value="active">
               <DataTable
                 type="active"
                 columns={columns}
-                data={approvedPayments}
+                data={activeSubscriptions}
               />
             </TabsContent>
-            <TabsContent className=" px-5" value="pending">
+            <TabsContent className=" px-5" value="expired">
               <DataTable
                 type="expired"
                 columns={columns}
-                data={pendingPayments}
+                data={expiredSubscriptions}
               />
             </TabsContent>
           </>

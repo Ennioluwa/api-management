@@ -113,7 +113,7 @@ const ModifyCardModal: FC<ModifyCardModalProps> = () => {
         open={addCard}
         onOpenChange={() => dispatch(handleaddCardChange())}
       >
-        <AlertDialogContent className=" bg-transpare t p-0 ">
+        <AlertDialogContent className=" bg-[#F1F1F1] p-0 ">
           <div className=" bg-white/80  p-5 rounded-lg">
             <div className=" flex items-center gap-5 text-left">
               <div className=" p-2.5 bg-white rounded-lg">
@@ -186,7 +186,7 @@ const ModifyCardModal: FC<ModifyCardModalProps> = () => {
                           </FormItem>
                         )}
                       />
-                      <div className="flex flex-col md:flex-row items-center justify-between gap-5 text-left">
+                      <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-5 text-left">
                         <FormField
                           control={form.control}
                           name="firstName"

@@ -1,19 +1,25 @@
 import axiosClient from "@/lib/axiosInstance";
 
-export type PaymentHistory = {
+export type Subscriptions = {
   id: number;
   terminalId: string;
   price: number;
   totalUsers: number;
   status: string;
   paymentMethod: string;
-  expiryDate: string;
-  createDate: string;
+  expiryDate: Date;
+  createDate: Date;
 };
 
-export const fetchPaymentHistory = async () => {
+export const fetchSubscriptions = async ({
+  companyId,
+}: {
+  companyId: number | undefined;
+}) => {
+  if (!companyId) return;
+
   const {
     data: { data },
-  } = await axiosClient.get(`/api/subscription`);
-  if (data) return data as PaymentHistory[];
+  } = await axiosClient.get(`/api/subscription/${companyId}`);
+  if (data) return data as Subscriptions[];
 };

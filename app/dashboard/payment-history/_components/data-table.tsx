@@ -25,6 +25,7 @@ import {
 } from "@/components/ui/table";
 import { CardPos, UserTag } from "iconsax-react";
 import { PuffLoader } from "react-spinners";
+import { useRouter } from "next/navigation";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -46,7 +47,7 @@ export function DataTable<TData, TValue>({
   const [sorting, setSorting] = React.useState<SortingState>([]);
 
   const handleRowClick = (row: any) => {
-    console.log(row);
+    router.push(`/dashboard/payment-history/${row.id}`);
   };
 
   const table = useReactTable({
@@ -70,6 +71,8 @@ export function DataTable<TData, TValue>({
     getFacetedRowModel: getFacetedRowModel(),
     getFacetedUniqueValues: getFacetedUniqueValues(),
   });
+
+  const router = useRouter();
 
   if (data === undefined)
     return (
@@ -109,7 +112,12 @@ export function DataTable<TData, TValue>({
                 onClick={() => handleRowClick(row.original)}
               >
                 {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id}>
+                  <TableCell
+                    key={cell.id}
+                    onClick={() =>
+                      router.push(`/dashboard/api-keys/${cell.getValue()}`)
+                    }
+                  >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>
                 ))}

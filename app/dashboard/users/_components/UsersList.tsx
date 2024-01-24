@@ -12,6 +12,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Edit2, Trash } from "iconsax-react";
 import AddUserModal from "./add-user-modal";
 import { PuffLoader } from "react-spinners";
+import { Button } from "@/components/ui/button";
 
 interface UsersListProps {}
 
@@ -63,19 +64,29 @@ const UsersList: FC<UsersListProps> = ({}) => {
     {
       header: "Access",
       cell: (info) =>
-        info.row.original.roles.includes("ClientAdmins") ? "Full" : "Custom",
+        info.row.original.emailConfirmed ? (
+          info.row.original.roles.includes("ClientAdmins") ? (
+            "Full"
+          ) : (
+            "Custom"
+          )
+        ) : (
+          <Button className=" uppercase">Resend verification</Button>
+        ),
     },
+
     {
       header: "Actions",
-      cell: (info) => (
-        <div className="flex items-center gap-2">
-          {/* <Edit2 variant="Bulk" onClick={() => editUser(info.row.original)} /> */}
-          <Trash
-            variant="Bulk"
-            onClick={() => handleDeleteUser(info.row.original)}
-          />
-        </div>
-      ),
+      cell: (info) =>
+        info.row.original.emailConfirmed && (
+          <div className="flex items-center gap-2">
+            {/* <Edit2 variant="Bulk" onClick={() => editUser(info.row.original)} /> */}
+            <Trash
+              variant="Bulk"
+              onClick={() => handleDeleteUser(info.row.original)}
+            />
+          </div>
+        ),
     },
   ];
 
