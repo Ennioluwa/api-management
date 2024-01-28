@@ -32,7 +32,7 @@ import { ShieldSecurity } from "iconsax-react";
 import { useToast } from "@/components/ui/use-toast";
 import { useBusinessInformation } from "@/lib/hooks/useBusinessInformation";
 import { BusinessInformationSchema } from "@/schemas";
-import { setSetupStatus } from "@/redux/features/userSlice";
+import { setCompanyId, setSetupStatus } from "@/redux/features/userSlice";
 import { useAppDispatch } from "@/lib/hooks";
 
 const BusinessInformationForm = () => {
@@ -63,6 +63,7 @@ const BusinessInformationForm = () => {
     if (isSuccess) {
       console.log(isSuccess, data, "success state");
       dispatch(setSetupStatus("CompanyCreated"));
+      dispatch(setCompanyId(data.data.id));
       setOpen(true);
     } else if (isError) {
       console.log(isError, data, "error state");
@@ -222,8 +223,6 @@ const BusinessInformationForm = () => {
               <hr />
             </>
           </div>
-
-          {/* TODO: add disabled state when all the fields have not been added */}
           <Button
             disabled={
               isPending ||

@@ -20,11 +20,12 @@ import {
 import { Button } from "@/components/ui/button";
 import { useUserLogin } from "@/lib/hooks/useUserLogin";
 import Modal from "@/components/Modal";
-import { ShieldSecurity } from "iconsax-react";
+import { Direct, Lock, ShieldSecurity } from "iconsax-react";
 import { useToast } from "@/components/ui/use-toast";
 import { useOtpUserLogin } from "@/lib/hooks/useOtpUserLogin";
 import { useAppDispatch } from "@/lib/hooks";
 import { loginUser, logoutUser } from "@/redux/features/userSlice";
+import { PasswordInput } from "@/components/password-input";
 
 export const LoginForm = () => {
   const searchParams = useSearchParams();
@@ -119,19 +120,29 @@ export const LoginForm = () => {
     <>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          <div className="space-y-4">
+          <div className="flex flex-col gap-4">
             <>
               <FormField
                 control={form.control}
                 name="email"
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem className="relative w-full">
+                    {field.value && (
+                      <FormLabel className=" absolute left-5 top-[0px] text-bgPrimary z-20 bg-white px-2.5 py-0 text-xs">
+                        Email
+                      </FormLabel>
+                    )}
                     <FormControl>
                       <Input
                         {...field}
                         disabled={isPending}
                         placeholder="Enter Email Address"
                         type="email"
+                        PrefixIcon={Direct}
+                        variant="Bulk"
+                        className={`${
+                          field.value && "border-bgPrimary bg-white "
+                        }`}
                       />
                     </FormControl>
                     <FormMessage />
@@ -142,13 +153,22 @@ export const LoginForm = () => {
                 control={form.control}
                 name="password"
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem className="relative w-full">
+                    {field.value && (
+                      <FormLabel className=" absolute left-5 top-[0px] text-bgPrimary z-20 bg-white px-2.5 py-0 text-xs">
+                        Password
+                      </FormLabel>
+                    )}
                     <FormControl>
-                      <Input
+                      <PasswordInput
                         {...field}
                         disabled={isPending}
-                        placeholder="Enter Password"
-                        type="text"
+                        PrefixIcon={Lock}
+                        variant="TwoTone"
+                        placeholder="Create a Password"
+                        className={`${
+                          field.value && "border-bgPrimary bg-white "
+                        } select-none`}
                       />
                     </FormControl>
                     <FormMessage />
@@ -157,8 +177,6 @@ export const LoginForm = () => {
               />
             </>
           </div>
-          {/* <FormError message={error || urlError} />
-          <FormSuccess message={success} /> */}
           <p className=" text-xs text-black text-center ">
             Forgot your password?{" "}
             <Link className="text-bgPrimary font-bold" href="/forgot-password">

@@ -14,3 +14,14 @@ export const deleteUser = async (user: UserManagementData) => {
   } = await axiosClient.delete(`/api/usermanagement`, { data: user });
   return data;
 };
+
+export const resendVerification = async ({ email }: { email: string }) => {
+  if (!email) return;
+
+  const {
+    data: { data },
+  } = await axiosClient.get(`api/UserManagement/${email}`);
+  console.log(data);
+
+  if (data) return data;
+};

@@ -4,7 +4,7 @@ import { FC, useEffect, useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { DataTable } from "./data-table";
 import { useQuery } from "@tanstack/react-query";
-import { fetchUsers } from "@/lib/hooks/api/users.api";
+import { fetchUsers, resendVerification } from "@/lib/hooks/api/users.api";
 import { deleteUser } from "@/lib/hooks/api/users.api";
 import { UserManagementData } from "@/lib/hooks/useUserManagement";
 import { useQueryClient } from "@tanstack/react-query";
@@ -13,10 +13,12 @@ import { Edit2, Trash } from "iconsax-react";
 import AddUserModal from "./add-user-modal";
 import { PuffLoader } from "react-spinners";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/use-toast";
 
 interface UsersListProps {}
 
 const UsersList: FC<UsersListProps> = ({}) => {
+  const { toast } = useToast();
   const {
     isPending,
     isError,
@@ -45,6 +47,22 @@ const UsersList: FC<UsersListProps> = ({}) => {
     }
   }, [users]);
 
+  const handleResendVerification = async (email: string) => {
+    try {
+      const data = await resendVerification({ email });
+      if (data) {
+        toast({
+          description: "Email successfully sent",
+        });
+      }
+    } catch (error) {
+      toast({
+        description: "An error has occured here",
+      });
+    }
+    console.log(error);
+  };
+
   const queryClient = useQueryClient();
   const columns: ColumnDef<UserManagementData>[] = [
     {
@@ -62,30 +80,20 @@ const UsersList: FC<UsersListProps> = ({}) => {
       cell: (info) => info.row.original.roles[0] || "",
     },
     {
-      header: "Access",
-      cell: (info) =>
-        info.row.original.emailConfirmed ? (
-          info.row.original.roles.includes("ClientAdmins") ? (
-            "Full"
-          ) : (
-            "Custom"
-          )
-        ) : (
-          <Button className=" uppercase">Resend verification</Button>
-        ),
-    },
-
-    {
       header: "Actions",
       cell: (info) =>
-        info.row.original.emailConfirmed && (
-          <div className="flex items-center gap-2">
-            {/* <Edit2 variant="Bulk" onClick={() => editUser(info.row.original)} /> */}
-            <Trash
-              variant="Bulk"
-              onClick={() => handleDeleteUser(info.row.original)}
-            />
-          </div>
+        info.row.original.emailConfirmed ? (
+          <Trash
+            variant="Bulk"
+            onClick={() => handleDeleteUser(info.row.original)}
+          />
+        ) : (
+          <Button
+            className=" uppercase"
+            onClick={() => handleResendVerification(info.row.original.email)}
+          >
+            Resend verification
+          </Button>
         ),
     },
   ];

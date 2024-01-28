@@ -18,6 +18,16 @@ export const ContactSchema = z.object({
   }),
 });
 
+const strongPassword = z
+  .string()
+  .regex(
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+    {
+      message:
+        "Password must be minimum 8 characters including at least one upper case, one lower case, one number and one special character",
+    }
+  );
+
 export const SignupSchema = z.object({
   email: z.string().email({
     message: "Email is required",
@@ -28,9 +38,7 @@ export const SignupSchema = z.object({
   lastName: z.string().min(1, {
     message: "Last name is required",
   }),
-  password: z.string().min(6, {
-    message: "Minimum 6 characters required",
-  }),
+  password: strongPassword,
   phone: z.string().min(1, {
     message: "Phone number is required",
   }),

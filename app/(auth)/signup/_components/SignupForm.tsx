@@ -19,21 +19,21 @@ import {
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { useUserRegister } from "@/lib/hooks/useUserRegister";
-import { ShieldSecurity } from "iconsax-react";
+import { Direct, Information, Lock, ShieldSecurity } from "iconsax-react";
 import Modal from "@/components/Modal";
 import { useOtpUserLogin } from "@/lib/hooks/useOtpUserLogin";
 import { useToast } from "@/components/ui/use-toast";
+import { PasswordInput } from "@/components/password-input";
+import { loginUser } from "@/redux/features/userSlice";
+import { useAppDispatch } from "@/lib/hooks";
 
 export const SignupForm = () => {
-  const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl");
-
-  const [error, setError] = useState<string | undefined>("");
-  const [success, setSuccess] = useState<string | undefined>("");
   const [open, setOpen] = useState(false);
   const [otp, setOtp] = useState("");
+  const [hidden, setHidden] = useState(true);
   const { toast } = useToast();
   const router = useRouter();
+  const dispatch = useAppDispatch();
 
   const form = useForm<z.infer<typeof SignupSchema>>({
     resolver: zodResolver(SignupSchema),
@@ -69,7 +69,15 @@ export const SignupForm = () => {
         toast({
           title: "OTP verified successfully",
         });
-        router.push("/login");
+        console.log(otpData, "otp", otpData.data.tokenSet);
+
+        dispatch(loginUser(otpData.data));
+
+        if (otpData.data.setupStatus === "Completed") {
+          router.push("/dashboard/home");
+        } else {
+          router.push("/kyc");
+        }
       } else if (isOtpError) {
         console.log(isOtpError, otpData, "error state");
         toast({
@@ -98,9 +106,6 @@ export const SignupForm = () => {
   }, [isSuccess, isError]);
 
   const onSubmit = (values: z.infer<typeof SignupSchema>) => {
-    setError("");
-    setSuccess("");
-    console.log(values);
     const { firstName, lastName, email, password, phone } = values;
     register({ email, password, firstName, lastName, phone });
   };
@@ -116,20 +121,28 @@ export const SignupForm = () => {
           onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-6 lg:max-w-xl mx-auto"
         >
-          <div className="space-y-4">
+          <div className=" flex flex-col gap-4">
             <>
               <div className="flex flex-col md:flex-row items-center justify-between gap-5 text-left">
                 <FormField
                   control={form.control}
                   name="firstName"
                   render={({ field }) => (
-                    <FormItem className=" w-full">
+                    <FormItem className="relative w-full">
+                      {field.value && (
+                        <FormLabel className=" absolute left-5 top-[0px] text-bgPrimary z-20 bg-white px-2.5 py-0 text-xs">
+                          First Name
+                        </FormLabel>
+                      )}
                       <FormControl>
                         <Input
                           {...field}
                           disabled={isPending}
                           placeholder="First Name"
                           type="text"
+                          className={`${
+                            field.value && "border-bgPrimary bg-white"
+                          }`}
                         />
                       </FormControl>
                       <FormMessage />
@@ -140,14 +153,21 @@ export const SignupForm = () => {
                   control={form.control}
                   name="lastName"
                   render={({ field }) => (
-                    <FormItem className=" w-full">
+                    <FormItem className="relative w-full">
+                      {field.value && (
+                        <FormLabel className=" absolute left-5 top-[0px] text-bgPrimary z-20 bg-white px-2.5 py-0 text-xs">
+                          Last Name
+                        </FormLabel>
+                      )}
                       <FormControl>
                         <Input
                           {...field}
                           disabled={isPending}
                           placeholder="Last Name"
                           type="text"
-                          className=" lg:w-60"
+                          className={`${
+                            field.value && "border-bgPrimary bg-white "
+                          }`}
                         />
                       </FormControl>
                       <FormMessage />
@@ -159,13 +179,23 @@ export const SignupForm = () => {
                 control={form.control}
                 name="email"
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem className="relative w-full">
+                    {field.value && (
+                      <FormLabel className=" absolute left-5 top-[0px] text-bgPrimary z-20 bg-white px-2.5 py-0 text-xs">
+                        Email
+                      </FormLabel>
+                    )}
                     <FormControl>
                       <Input
                         {...field}
                         disabled={isPending}
                         placeholder="Enter Email Address"
                         type="email"
+                        PrefixIcon={Direct}
+                        variant="Bulk"
+                        className={`${
+                          field.value && "border-bgPrimary bg-white "
+                        }`}
                       />
                     </FormControl>
                     <FormMessage />
@@ -176,13 +206,22 @@ export const SignupForm = () => {
                 control={form.control}
                 name="phone"
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem className="relative w-full">
+                    {field.value && (
+                      <FormLabel className=" absolute left-5 top-[0px] text-bgPrimary z-20 bg-white px-2.5 py-0 text-xs">
+                        Phone
+                      </FormLabel>
+                    )}
                     <FormControl>
                       <Input
                         {...field}
                         disabled={isPending}
                         placeholder="Enter Phone Number"
+                        PrefixSvg={"/svgs/nigeria.svg"}
                         type="text"
+                        className={`${
+                          field.value && "border-bgPrimary bg-white "
+                        }`}
                       />
                     </FormControl>
                     <FormMessage />
@@ -193,13 +232,22 @@ export const SignupForm = () => {
                 control={form.control}
                 name="password"
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem className="relative w-full">
+                    {field.value && (
+                      <FormLabel className=" absolute left-5 top-[0px] text-bgPrimary z-20 bg-white px-2.5 py-0 text-xs">
+                        Password
+                      </FormLabel>
+                    )}
                     <FormControl>
-                      <Input
+                      <PasswordInput
                         {...field}
                         disabled={isPending}
+                        PrefixIcon={Lock}
+                        variant="TwoTone"
                         placeholder="Create a Password"
-                        type="text"
+                        className={`${
+                          field.value && "border-bgPrimary bg-white "
+                        } select-none`}
                       />
                     </FormControl>
                     <FormMessage />
@@ -208,12 +256,13 @@ export const SignupForm = () => {
               />
             </>
           </div>
-          {/* <FormError message={error || urlError} />
-          <FormSuccess message={success} /> */}
-          <p className=" text-left">
-            Have an Existing Account? <Link href="/login">Sign in Here</Link>
+          <p className=" text-left flex items-center gap-2 text-xs">
+            <Information variant="Bulk" size={18} />
+            Have an Existing Account?{" "}
+            <Link className=" text-bgPrimary font-bold underline" href="/login">
+              Sign in Here
+            </Link>
           </p>
-          {/* TODO: add disabled state when all the fields have not been added */}
           <Button
             disabled={
               isPending ||
@@ -230,6 +279,9 @@ export const SignupForm = () => {
           </Button>
         </form>
       </Form>
+      <p className=" text-center mt-10 text-xs">
+        (C) 2023. All Rights Reserved.
+      </p>
       <Modal
         title="ENTER OTP"
         content={

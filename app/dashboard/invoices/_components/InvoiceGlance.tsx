@@ -10,9 +10,9 @@ const UserRoles: FC<UserRolesProps> = ({}) => {
       <p className=" w-full md:w-2/3 lg:w-1/2 text-xs pb-6">
         An intuitive way to see all your general invoices for a quick access
       </p>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className=" p-5 border border-dashed border-[#9A9AAF] rounded-lg col-span-1 md:col-span-2 flex flex-col md:flex-row gap-4 justify-between items-start md:items-center">
-          <div>
+      <div className="flex flex-col md:flex-row flex-wrap md:items-stretch gap-4">
+        <div className=" p-5  border border-dashed border-[#9A9AAF] rounded-lg md:flex-[2] flex flex-col sm:flex-row gap-4 justify-between items-start sm:items-center">
+          <div className="space-y-1.5">
             <h6 className=" text-xs font-bold">TOTAL INCOME</h6>
             <h4 className=" text-3xl font-bold">₦8,332,134.99</h4>
             <p className=" text-xs font-bold uppercase text-[#1CA78B] px-2.5 py-1 rounded-r-full rounded-l-full bg-[#1CA78B]/10">
@@ -64,23 +64,25 @@ const UserRoles: FC<UserRolesProps> = ({}) => {
             </div>
           </div>
         </div>
-        <div className="p-5 border border-dashed border-[#9A9AAF] rounded-lg col-span-1 space-y-1.5">
-          <h6>PENDING</h6>
-          <h4 className=" text-3xl font-bold flex gap-2.5 items-baseline">
-            ₦32,134 <span className=" text-[#FFCF5C] text-base ">↑0.7%</span>
-          </h4>
-          <p className=" text-xs font-bold uppercase text-[#FFCF5C] px-2.5 py-1 rounded-r-full rounded-l-full bg-[#FFCF5C]/10">
-            + 4% compared to last week
-          </p>
-        </div>
-        <div className="p-5 border border-dashed border-[#9A9AAF] rounded-lg col-span-1 space-y-1.5">
-          <h6>PENDING</h6>
-          <h4 className=" text-3xl font-bold flex gap-2.5 items-baseline">
-            ₦32,134 <span className=" text-[#A71C1C] text-base ">↑0.7%</span>
-          </h4>
-          <p className=" text-xs font-bold uppercase text-[#A71C1C] px-2.5 py-1 rounded-r-full rounded-l-full bg-[#A71C1C]/10">
-            + 16% compared to last week
-          </p>
+        <div className="flex-1 flex flex-col md:flex-row  md:items-stretch gap-4">
+          <div className="p-5 border border-dashed border-[#9A9AAF] rounded-lg flex-1 space-y-1.5">
+            <h6 className=" text-xs font-bold">PENDING</h6>
+            <h4 className=" text-3xl font-bold flex gap-2.5 items-baseline">
+              ₦32,134 <span className=" text-[#FFCF5C] text-base ">↑0.7%</span>
+            </h4>
+            <p className=" text-xs font-bold uppercase text-[#FFCF5C] px-2.5 py-1 rounded-r-full rounded-l-full bg-[#FFCF5C]/10">
+              + 4% compared to last week
+            </p>
+          </div>
+          <div className="p-5 border border-dashed border-[#9A9AAF] rounded-lg flex-1 space-y-1.5">
+            <h6 className=" text-xs font-bold">FAILED</h6>
+            <h4 className=" text-3xl font-bold flex gap-2.5 items-baseline">
+              ₦32,134 <span className=" text-[#A71C1C] text-base ">↑0.7%</span>
+            </h4>
+            <p className=" w-fit text-xs font-bold uppercase text-[#A71C1C] px-2.5 py-1 rounded-r-full rounded-l-full bg-[#A71C1C]/10">
+              + 16% compared to last week
+            </p>
+          </div>
         </div>
       </div>
     </div>

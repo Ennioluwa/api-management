@@ -8,7 +8,8 @@ export interface UserData {
   require2FA: boolean;
   companyId: number;
   roles: any[];
-  setupStatus: string;
+  setupStatus: "Completed" | "CompanyCreated" | "AccountCreated";
+  companyStatus: "Pending" | "Completed";
   tokenSet: {
     jwtToken: string;
     refreshToken: string;
@@ -57,6 +58,15 @@ export const userSlice = createSlice({
       state.userData.setupStatus = action.payload;
       localStorage.setItem("userData", JSON.stringify(newData));
     },
+    setCompanyId: (state, action: PayloadAction<number>) => {
+      if (!state.userData) {
+        return;
+      }
+      let newData = state.userData;
+      newData.companyId = action.payload;
+      state.userData.companyId = action.payload;
+      localStorage.setItem("userData", JSON.stringify(newData));
+    },
     logoutUser: (state) => {
       state.userData = null;
       localStorage.removeItem("userData");
@@ -67,6 +77,7 @@ export const userSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { loginUser, logoutUser, setSetupStatus } = userSlice.actions;
+export const { loginUser, logoutUser, setSetupStatus, setCompanyId } =
+  userSlice.actions;
 
 export default userSlice.reducer;

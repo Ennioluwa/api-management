@@ -83,9 +83,10 @@ const InvoiceList: FC<InvoiceListProps> = ({}) => {
   return (
     <div className=" bg-white rounded-lg mt-5">
       <div className=" p-5">
-        <h3 className=" font-bold pb-2.5 ">Users List</h3>
+        <h3 className=" font-bold pb-2.5 ">Invoices and Receipt</h3>
         <p className=" w-full md:w-2/3 lg:w-1/2 text-xs">
-          View all your users and their verification status below in each tabs
+          View all your invoices and receipts to keep track of your expenses and
+          incomes in an intuitive interface
         </p>
       </div>
       <Tabs defaultValue="all" className="">

@@ -95,3 +95,8 @@ html,
 .inputStyle :focus {
   background: #031f42;
 }
+
+input:-webkit-autofill {
+  background-color: transparent !important;
+  -webkit-box-shadow: 0 0 0 50px white inset;
+}

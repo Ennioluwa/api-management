@@ -12,11 +12,13 @@ interface AuthenticatedProps {
 const Authenticated: FC<AuthenticatedProps> = ({ children }) => {
   const { userData } = useAppSelector((state) => state.user);
   useLayoutEffect(() => {
-    // add this to protect the route || userData.setupStatus !== "Completed"
     if (!userData) {
       console.log("no user");
-
       return redirect("/login");
+    } else if (userData.setupStatus === "AccountCreated") {
+      return redirect("/kyc/business-information");
+    } else if (userData.setupStatus === "CompanyCreated") {
+      return redirect("/kyc/business-identity");
     } else return;
   }, []);
   return <>{children}</>;

@@ -8,6 +8,7 @@ import { redirect, usePathname, useRouter } from "next/navigation";
 import { LogoutCurve } from "iconsax-react";
 import { useAppDispatch } from "@/lib/hooks";
 import { logoutUser } from "@/redux/features/userSlice";
+import axiosClient from "@/lib/axiosInstance";
 
 interface SidebarProps {}
 
@@ -26,8 +27,9 @@ const Sidebar: FC<SidebarProps> = ({}) => {
     (data: SidebarData) => data.group === "Administration"
   );
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     dispatch(logoutUser());
+    const logout = await axiosClient.get(`/api/user/logout`);
     router.push("/login");
   };
 
