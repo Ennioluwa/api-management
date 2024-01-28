@@ -33,9 +33,32 @@ export type Invoice = {
   ];
 };
 
+export type Transaction = {
+  id: number;
+  totalItems: number;
+  invoiceType: string;
+  totalAmount: number;
+  invoiceNumber: string;
+  uploadStatus: string;
+  createDate: Date;
+};
+
 export const fetchInvoices = async () => {
   const {
     data: { data },
-  } = await axiosClient.get(`/api/subscription`);
-  if (data) return data as Invoice[];
+  } = await axiosClient.get(`/api/transaction`);
+  if (data) return data as Transaction[];
+};
+
+export const fetchInvoice = async ({
+  invoiceNumber,
+}: {
+  invoiceNumber: string;
+}) => {
+  if (!invoiceNumber) return;
+
+  const {
+    data: { data },
+  } = await axiosClient.get(`/api/transaction/${invoiceNumber}`);
+  if (data) return data as Invoice;
 };

@@ -15,7 +15,7 @@ import {
 import { PuffLoader } from "react-spinners";
 import ChangePaymentMethod from "./change-payment-option";
 import { useAppSelector } from "@/lib/hooks";
-import { formatter } from "@/lib/utils";
+import { formatter, getCurrencySymbol } from "@/lib/utils";
 
 interface SubscriptionListProps {}
 
@@ -72,7 +72,10 @@ const SubscriptionList: FC<SubscriptionListProps> = ({}) => {
     {
       header: "Amount",
       accessorKey: "price",
-      cell: (info) => `-₦${info.row.original.price}`,
+      cell: (info) =>
+        `${getCurrencySymbol(info.row.original.currency)}${
+          info.row.original.price
+        }`,
     },
     {
       header: "Date",

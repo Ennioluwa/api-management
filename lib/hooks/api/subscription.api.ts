@@ -9,6 +9,7 @@ export type Subscriptions = {
   paymentMethod: string;
   expiryDate: Date;
   createDate: Date;
+  currency: string;
 };
 
 export const fetchSubscriptions = async ({

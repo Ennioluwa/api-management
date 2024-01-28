@@ -8,8 +8,9 @@ import { useQueryClient } from "@tanstack/react-query";
 import { ColumnDef } from "@tanstack/react-table";
 import { DocumentDownload, Edit2, Trash } from "iconsax-react";
 import AddUserModal from "./add-user-modal";
-import { Invoice, fetchInvoices } from "@/lib/hooks/api/invoices.api";
+import { Transaction, fetchInvoices } from "@/lib/hooks/api/invoices.api";
 import { PuffLoader } from "react-spinners";
+import { formatter } from "@/lib/utils";
 
 interface InvoiceListProps {}
 
@@ -26,9 +27,9 @@ const InvoiceList: FC<InvoiceListProps> = ({}) => {
 
     // staleTime: 5000,
   });
-  const [allInvoices, setAllInvoices] = useState<Invoice[]>([]);
-  const [pendingInvoices, setPendingInvoices] = useState<Invoice[]>([]);
-  const [dueInvoices, setDueInvoices] = useState<Invoice[]>([]);
+  const [allInvoices, setAllInvoices] = useState<Transaction[]>([]);
+  const [pendingInvoices, setPendingInvoices] = useState<Transaction[]>([]);
+  const [dueInvoices, setDueInvoices] = useState<Transaction[]>([]);
 
   useEffect(() => {
     if (invoices) {
@@ -41,31 +42,31 @@ const InvoiceList: FC<InvoiceListProps> = ({}) => {
   }, [invoices]);
 
   const queryClient = useQueryClient();
-  const columns: ColumnDef<Invoice>[] = [
+  const columns: ColumnDef<Transaction>[] = [
     {
       header: "INVOICE ID",
-      cell: (info) => ``,
+      accessorKey: "invoiceNumber",
     },
     {
       header: "TOTAL ITEMS",
-      accessorKey: "email",
+      accessorKey: "totalItems",
     },
     {
       header: "AMOUNT",
-      accessorKey: "roles",
-      cell: (info) => "",
+      cell: (info) => `-$${info.row.original.totalAmount}`,
     },
     {
       header: "INVOICE TYPE",
-      cell: (info) => "Custom",
+      accessorKey: "invoiceType",
     },
     {
       header: "STATUS",
-      cell: (info) => "Custom",
+      accessorKey: "uploadStatus",
     },
     {
-      header: "DATE",
-      cell: (info) => "Custom",
+      header: "Date",
+      cell: (info) =>
+        info.row && formatter?.format(new Date(info.row.original.createDate)),
     },
     {
       header: "ACTION",

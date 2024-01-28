@@ -24,6 +24,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { useUserRegister } from "@/lib/hooks/useUserRegister";
 import { Lock, UserCirlceAdd } from "iconsax-react";
 import { Checkbox } from "@/components/ui/checkbox";
+import { useChangePassword } from "@/lib/hooks/UseForgotPassword";
 
 interface ProfilePageProps {
   setHeader: Dispatch<
@@ -69,31 +70,32 @@ const ProfilePage: FC<ProfilePageProps> = ({ setHeader }) => {
 
   const {
     data,
-    mutate: register,
+    mutate: changePassword,
     isSuccess,
     isError,
     isPending,
-  } = useUserRegister();
+  } = useChangePassword();
 
   useEffect(() => {
     if (isSuccess) {
       console.log(isSuccess, data, "success state");
       toast({
-        title: "Sign up successful",
-        description: "Please enter otp sent to the email address",
+        description: "Password successfully changed",
       });
+      form.reset();
     } else if (isError) {
       console.log(isError, data, "error state");
       toast({
-        description: "Sign up failed",
+        description: "An error occured",
       });
     } else return;
   }, [isSuccess, isError]);
 
   const onSubmit = (values: z.infer<typeof FormSchema>) => {
+    if (!userData) return;
     console.log(values);
     const { oldPassword, newPassword } = values;
-    // register({ email, roles, firstName, lastName, phone });
+    changePassword({ email: userData?.email, oldPassword, newPassword });
   };
 
   useEffect(() => {
