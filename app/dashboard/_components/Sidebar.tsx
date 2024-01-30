@@ -6,7 +6,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { redirect, usePathname, useRouter } from "next/navigation";
 import { LogoutCurve } from "iconsax-react";
-import { useAppDispatch } from "@/lib/hooks";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { logoutUser } from "@/redux/features/userSlice";
 import axiosClient from "@/lib/axiosInstance";
 
@@ -27,6 +27,8 @@ const Sidebar: FC<SidebarProps> = ({}) => {
     (data: SidebarData) => data.group === "Administration"
   );
 
+  const { userData } = useAppSelector((state) => state.user);
+
   const handleLogout = async () => {
     dispatch(logoutUser());
     const logout = await axiosClient.get(`/api/user/logout`);
@@ -40,26 +42,28 @@ const Sidebar: FC<SidebarProps> = ({}) => {
           <div className="flex flex-col gap-1">
             <div className=" flex flex-col gap-1">
               {dashboard?.map((item, index) => (
-                <Link key={index} href={item.link}>
-                  <Button
-                    variant="sidebar"
+                <Button
+                  onClick={() => router.push(item.link)}
+                  variant="sidebar"
+                  key={index}
+                  className={`${
+                    pathname.includes(item.link) &&
+                    "border-l-[3px] border-bgPrimary bg-white font-bold text-black"
+                  } h-12`}
+                  disabled={
+                    item.name !== "Dashboard" &&
+                    userData?.companyStatus === "Pending"
+                  }
+                >
+                  <item.icon
+                    variant="Bulk"
+                    color={pathname.includes(item.link) ? "#0062FF" : "#292D32"}
                     className={`${
-                      pathname.includes(item.link) &&
-                      "border-l-[3px] border-bgPrimary bg-white font-bold text-black"
-                    } h-12`}
-                  >
-                    <item.icon
-                      variant="Bulk"
-                      color={
-                        pathname.includes(item.link) ? "#0062FF" : "#292D32"
-                      }
-                      className={`${
-                        pathname.includes(item.link) && " text-bgPrimary"
-                      } w-5 h-5`}
-                    />
-                    {item.name}
-                  </Button>
-                </Link>
+                      pathname.includes(item.link) && " text-bgPrimary"
+                    } w-5 h-5`}
+                  />
+                  {item.name}
+                </Button>
               ))}
             </div>
             <div className=" flex flex-col gap-1">
@@ -67,24 +71,23 @@ const Sidebar: FC<SidebarProps> = ({}) => {
                 Management
               </h4>
               {management?.map((item, index) => (
-                <Link key={index} href={item.link}>
-                  <Button
-                    variant="sidebar"
-                    className={`${
-                      pathname.includes(item.link) &&
-                      "border-l-[3px] border-bgPrimary bg-white font-bold text-black"
-                    }  h-12`}
-                  >
-                    <item.icon
-                      variant="Bulk"
-                      color={
-                        pathname.includes(item.link) ? "#0062FF" : "#292D32"
-                      }
-                      className={` w-5 h-5`}
-                    />
-                    {item.name}
-                  </Button>
-                </Link>
+                <Button
+                  variant="sidebar"
+                  key={index}
+                  onClick={() => router.push(item.link)}
+                  disabled={userData?.companyStatus === "Pending"}
+                  className={`${
+                    pathname.includes(item.link) &&
+                    "border-l-[3px] border-bgPrimary bg-white font-bold text-black"
+                  }  h-12`}
+                >
+                  <item.icon
+                    variant="Bulk"
+                    color={pathname.includes(item.link) ? "#0062FF" : "#292D32"}
+                    className={` w-5 h-5`}
+                  />
+                  {item.name}
+                </Button>
               ))}
             </div>
             <div className=" flex flex-col gap-1">
@@ -92,24 +95,26 @@ const Sidebar: FC<SidebarProps> = ({}) => {
                 Administration
               </h4>
               {administration?.map((item, index) => (
-                <Link key={index} href={item.link}>
-                  <Button
-                    variant="sidebar"
-                    className={`${
-                      pathname.includes(item.link) &&
-                      "border-l-[3px] border-bgPrimary bg-white font-bold text-black"
-                    }  h-12`}
-                  >
-                    <item.icon
-                      variant="Bulk"
-                      color={
-                        pathname.includes(item.link) ? "#0062FF" : "#292D32"
-                      }
-                      className={` w-5 h-5`}
-                    />
-                    {item.name}
-                  </Button>
-                </Link>
+                <Button
+                  key={index}
+                  variant="sidebar"
+                  onClick={() => router.push(item.link)}
+                  disabled={
+                    item.name !== "Subscription" &&
+                    userData?.companyStatus === "Pending"
+                  }
+                  className={`${
+                    pathname.includes(item.link) &&
+                    "border-l-[3px] border-bgPrimary bg-white font-bold text-black"
+                  }  h-12`}
+                >
+                  <item.icon
+                    variant="Bulk"
+                    color={pathname.includes(item.link) ? "#0062FF" : "#292D32"}
+                    className={` w-5 h-5`}
+                  />
+                  {item.name}
+                </Button>
               ))}
             </div>
           </div>

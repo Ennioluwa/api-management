@@ -77,6 +77,18 @@ export const userSlice = createSlice({
       state.userData.changePassword = action.payload;
       localStorage.setItem("userData", JSON.stringify(newData));
     },
+    setCompanyStatus: (
+      state,
+      action: PayloadAction<"Completed" | "Pending">
+    ) => {
+      if (!state.userData) {
+        return;
+      }
+      let newData = state.userData;
+      newData.companyStatus = action.payload;
+      state.userData.companyStatus = action.payload;
+      localStorage.setItem("userData", JSON.stringify(newData));
+    },
     logoutUser: (state) => {
       state.userData = null;
       localStorage.removeItem("userData");
@@ -93,6 +105,7 @@ export const {
   setSetupStatus,
   setCompanyId,
   setChangePassword,
+  setCompanyStatus,
 } = userSlice.actions;
 
 export default userSlice.reducer;
