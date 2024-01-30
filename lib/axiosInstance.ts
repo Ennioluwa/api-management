@@ -1,4 +1,4 @@
-import { useToast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
 import axios, { HeadersDefaults } from "axios";
 
 const axiosClient = axios.create();
@@ -36,52 +36,52 @@ axiosClient.interceptors.response.use(
   },
   async (err) => {
     const originalConfig = err.config;
-    // const { toast } = useToast();
+    //
     console.log(err, "axios error");
 
     if (originalConfig.url !== "/api/user/login" && err.response) {
       console.log(err.response);
 
       // Access Token was expired
-      if (err.response.status === 401) {
-        // originalConfig._retry = true;
+      // if (err.response.status === 401) {
+      //   // originalConfig._retry = true;
 
-        // try {
-        //   const refreshToken = localStorage.getItem("refresh-token");
-        //   const rs = await axios.get(
-        //     `https://vsdc.azurewebsites.net/api/token?${refreshToken}`,
-        //     {
-        //       headers: {
-        //         Authorization: `Bearer ${localStorage.getItem(
-        //           "refresh-token"
-        //         )!}`,
-        //       },
-        //     }
-        //   );
-        //   console.log(rs, "axios interceptor response");
-        //   const data = rs.data;
-        //   console.log(data, "axios interceptor data");
+      //   // try {
+      //   //   const refreshToken = localStorage.getItem("refresh-token");
+      //   //   const rs = await axios.get(
+      //   //     `https://vsdc.azurewebsites.net/api/token?${refreshToken}`,
+      //   //     {
+      //   //       headers: {
+      //   //         Authorization: `Bearer ${localStorage.getItem(
+      //   //           "refresh-token"
+      //   //         )!}`,
+      //   //       },
+      //   //     }
+      //   //   );
+      //   //   console.log(rs, "axios interceptor response");
+      //   //   const data = rs.data;
+      //   //   console.log(data, "axios interceptor data");
 
-        //   const access = rs.data.data.data.tokenSet.jwtToken;
-        //   const refresh = rs.data.data.data.tokenSet.refreshToken;
+      //   //   const access = rs.data.data.data.tokenSet.jwtToken;
+      //   //   const refresh = rs.data.data.data.tokenSet.refreshToken;
 
-        //   localStorage.setItem("access-token", access);
-        //   localStorage.setItem("refresh-token", refresh);
+      //   //   localStorage.setItem("access-token", access);
+      //   //   localStorage.setItem("refresh-token", refresh);
 
-        //   return axiosClient(originalConfig);
-        // } catch (_error) {
-        console.log("please log in");
+      //   //   return axiosClient(originalConfig);
+      //   // } catch (_error) {
+      //   console.log("please log in");
 
-        // toast({ description: "Session time out. Please login again." });
-        // Logging out the user by removing all the tokens from local
-        localStorage.removeItem("access-token");
-        localStorage.removeItem("refresh-token");
+      //   // toast({ description: "Session time out. Please login again." });
+      //   // Logging out the user by removing all the tokens from local
+      //   localStorage.removeItem("access-token");
+      //   localStorage.removeItem("refresh-token");
 
-        // Redirecting the user to the landing page
-        window.location.href = "/login";
-        return Promise.reject("Access token expired");
-        // }
-      }
+      //   // Redirecting the user to the landing page
+      //   window.location.href = "/login";
+      //   return Promise.reject("Access token expired");
+      //   // }
+      // }
     }
 
     return Promise.reject(err);

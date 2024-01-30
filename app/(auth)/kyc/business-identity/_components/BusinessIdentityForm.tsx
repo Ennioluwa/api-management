@@ -20,7 +20,7 @@ import {
 import { Button } from "@/components/ui/button";
 import Modal from "@/components/Modal";
 import { ShieldSecurity } from "iconsax-react";
-import { useToast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
 import { useBusinessIdentity } from "@/lib/hooks/useBusinessIdentity";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import IsAdminAuth from "@/components/isAdminAuth";
@@ -39,7 +39,7 @@ const BusinessIdentityForm = () => {
       businessSerialNumber: "",
     },
   });
-  const { toast } = useToast();
+
   const router = useRouter();
 
   const {
@@ -53,17 +53,12 @@ const BusinessIdentityForm = () => {
   useEffect(() => {
     if (isSuccess) {
       console.log(isSuccess, data, "success state");
-      toast({
-        title: "Successful",
-        description: "Information under review",
-      });
+      toast.success("Information under review");
       dispatch(setSetupStatus("Completed"));
       setOpen(true);
     } else if (isError) {
       console.log(isError, data, "error state");
-      toast({
-        description: "An error has occured",
-      });
+      toast.error("An error has occured");
       setOpen(true);
     } else return;
   }, [isSuccess, isError]);

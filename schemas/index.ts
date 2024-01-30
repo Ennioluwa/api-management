@@ -73,6 +73,17 @@ export const PasswordResetSchema = z
     message: "Passwords does not match",
   });
 
+export const ChangePasswordSchema = z
+  .object({
+    oldPassword: strongPassword,
+    newPassword: strongPassword,
+    confirmPassword: strongPassword,
+  })
+  .refine((data) => data.newPassword === data.confirmPassword, {
+    path: ["confirmPassword"],
+    message: "Passwords does not match",
+  });
+
 export const BusinessInformationSchema = z.object({
   businessName: z.string().min(1, {
     message: "Business name is required",

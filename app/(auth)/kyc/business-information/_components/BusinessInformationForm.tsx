@@ -29,7 +29,7 @@ import {
 import { Button } from "@/components/ui/button";
 import Modal from "@/components/Modal";
 import { ShieldSecurity } from "iconsax-react";
-import { useToast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
 import { useBusinessInformation } from "@/lib/hooks/useBusinessInformation";
 import { BusinessInformationSchema } from "@/schemas";
 import { setCompanyId, setSetupStatus } from "@/redux/features/userSlice";
@@ -47,7 +47,7 @@ const BusinessInformationForm = () => {
       businessLocation: "",
     },
   });
-  const { toast } = useToast();
+
   const router = useRouter();
   const dispatch = useAppDispatch();
 
@@ -64,12 +64,11 @@ const BusinessInformationForm = () => {
       console.log(isSuccess, data, "success state");
       dispatch(setSetupStatus("CompanyCreated"));
       dispatch(setCompanyId(data.data.id));
+      toast.success("Details captured successfully");
       setOpen(true);
     } else if (isError) {
       console.log(isError, data, "error state");
-      toast({
-        description: "An error has occured",
-      });
+      toast.error("An error has occured");
     } else return;
   }, [isSuccess, isError]);
 

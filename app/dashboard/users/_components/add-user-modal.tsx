@@ -24,7 +24,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { useToast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
 import MultipleSelector, { Option } from "@/components/ui/multiple-selector";
 import { useRouter, useSearchParams } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -73,23 +73,10 @@ const AddUserModal: FC<AddUserModalProps> = () => {
     isPending,
   } = useUserManagement();
 
-  const { toast } = useToast();
-
   useEffect(() => {
     if (isSuccess) {
-      console.log(isSuccess, data, "success state");
-      toast({
-        title: "User successfully added",
-        description: "An email has been sent to the user to be added",
-      });
       dispatch(onClose());
-      queryClient.refetchQueries({ queryKey: ["users"] });
-      queryClient.invalidateQueries({ queryKey: ["users"] });
     } else if (isError) {
-      console.log(isError, data, "error state");
-      toast({
-        description: "Add user failed",
-      });
     } else return;
   }, [isSuccess, isError]);
 
@@ -140,7 +127,7 @@ const AddUserModal: FC<AddUserModalProps> = () => {
                           control={form.control}
                           name="firstName"
                           render={({ field }) => (
-                            <FormItem className=" flex-1 relative">
+                            <FormItem className="w-full flex-1 relative">
                               {field.value && (
                                 <FormLabel className=" absolute left-5 top-[0px] text-bgPrimary z-20 bg-white px-2.5 py-0 text-xs">
                                   First Name
@@ -165,7 +152,7 @@ const AddUserModal: FC<AddUserModalProps> = () => {
                           control={form.control}
                           name="lastName"
                           render={({ field }) => (
-                            <FormItem className=" flex-1 relative">
+                            <FormItem className="w-full flex-1 relative">
                               {field.value && (
                                 <FormLabel className=" absolute left-5 top-[0px] text-bgPrimary z-20 bg-white px-2.5 py-0 text-xs">
                                   Last Name

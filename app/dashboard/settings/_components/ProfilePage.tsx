@@ -20,7 +20,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
-import { useToast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
 import { useUserRegister } from "@/lib/hooks/useUserRegister";
 import { UserCirlceAdd } from "iconsax-react";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -35,7 +35,6 @@ interface ProfilePageProps {
 }
 
 const ProfilePage: FC<ProfilePageProps> = ({ setHeader }) => {
-  const { toast } = useToast();
   const { userData } = useAppSelector((state) => state.user);
 
   const roles = [
@@ -90,23 +89,14 @@ const ProfilePage: FC<ProfilePageProps> = ({ setHeader }) => {
   useEffect(() => {
     if (isSuccess) {
       console.log(isSuccess, data, "success state");
-      toast({
-        title: "Sign up successful",
-        description: "Please enter otp sent to the email address",
-      });
+      toast.success("User details saved");
     } else if (isError) {
       console.log(isError, data, "error state");
-      toast({
-        description: "Sign up failed",
-      });
+      toast.error("Error while saving user details");
     } else return;
   }, [isSuccess, isError]);
 
-  const onSubmit = (values: z.infer<typeof FormSchema>) => {
-    console.log(values);
-    const { firstName, lastName, email, roles, phone } = values;
-    // register({ email, roles, firstName, lastName, phone });
-  };
+  const onSubmit = (values: z.infer<typeof FormSchema>) => {};
 
   useEffect(() => {
     setHeader({

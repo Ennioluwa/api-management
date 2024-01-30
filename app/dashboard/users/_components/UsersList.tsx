@@ -13,12 +13,11 @@ import { Edit2, Trash } from "iconsax-react";
 import AddUserModal from "./add-user-modal";
 import { PuffLoader } from "react-spinners";
 import { Button } from "@/components/ui/button";
-import { useToast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
 
 interface UsersListProps {}
 
 const UsersList: FC<UsersListProps> = ({}) => {
-  const { toast } = useToast();
   const {
     isPending,
     isError,
@@ -51,14 +50,10 @@ const UsersList: FC<UsersListProps> = ({}) => {
     try {
       const data = await resendVerification({ email });
       if (data) {
-        toast({
-          description: "Email successfully sent",
-        });
+        toast.success("Email successfully sent");
       }
     } catch (error) {
-      toast({
-        description: "An error has occured here",
-      });
+      toast.error("An error has occured here");
     }
     console.log(error);
   };

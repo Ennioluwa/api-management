@@ -8,6 +8,7 @@ export interface UserData {
   require2FA: boolean;
   companyId: number;
   roles: any[];
+  changePassword: boolean;
   setupStatus: "Completed" | "CompanyCreated" | "AccountCreated";
   companyStatus: "Pending" | "Completed";
   tokenSet: {

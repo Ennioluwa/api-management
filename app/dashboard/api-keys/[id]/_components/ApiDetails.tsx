@@ -4,7 +4,7 @@ import Modal from "@/components/Modal";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { useToast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { ApiKeyData, fetchApiKeys } from "@/lib/hooks/api/apiKey.api";
 import { ModifyApiManagement } from "@/lib/hooks/useAddApi";
@@ -33,7 +33,6 @@ const ApiDetails: FC<ApiDetailsProps> = ({ ApiKeyId }) => {
   const [api, setApi] = useState<ApiKeyData | null>(null);
   const [toggleOff, setToggleOff] = useState(false);
   const [toggleOn, setToggleOn] = useState(false);
-  const { toast } = useToast();
 
   const dispatch = useAppDispatch();
 
@@ -50,10 +49,10 @@ const ApiDetails: FC<ApiDetailsProps> = ({ ApiKeyId }) => {
     navigator.clipboard
       .writeText(text)
       .then(() => {
-        toast({ description: "Text copied to clipboard" });
+        toast.success("Text copied to clipboard");
       })
       .catch((err) => {
-        toast({ description: "Error while copying to clipboard" });
+        toast.error("Error while copying to clipboard");
       });
   };
 
@@ -82,10 +81,7 @@ const ApiDetails: FC<ApiDetailsProps> = ({ ApiKeyId }) => {
   useEffect(() => {
     if (isToggleSuccess) {
       console.log(isToggleSuccess, apiKeys, "success state");
-      toast({
-        title: "Action Successful",
-        description: "Api details successfully modified",
-      });
+      toast.success("Api details successfully modified");
       setToggleOff(false);
       setToggleOn(false);
       setActive(!active);
@@ -93,9 +89,7 @@ const ApiDetails: FC<ApiDetailsProps> = ({ ApiKeyId }) => {
       queryClient.invalidateQueries({ queryKey: ["api"] });
     } else if (isToggleError) {
       console.log(isToggleError, apiKeys, "error state");
-      toast({
-        description: "Api modification failed",
-      });
+      toast.error("Api modification failed");
     } else return;
   }, [isToggleSuccess, isToggleError]);
 

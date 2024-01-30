@@ -5,7 +5,6 @@ import { useForm } from "react-hook-form";
 import { useEffect, useState, useTransition } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Link from "next/link";
 
 import { PasswordResetSchema } from "@/schemas";
 import { Input } from "@/components/ui/input";
@@ -14,17 +13,14 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
-import { useUserLogin } from "@/lib/hooks/useUserLogin";
 import Modal from "@/components/Modal";
 import { LockCircle, ShieldSecurity } from "iconsax-react";
-import { useToast } from "@/components/ui/use-toast";
-import { useOtpUserLogin } from "@/lib/hooks/useOtpUserLogin";
+import { toast } from "sonner";
 import { useAppDispatch } from "@/lib/hooks";
-import { loginUser, logoutUser } from "@/redux/features/userSlice";
+import { logoutUser } from "@/redux/features/userSlice";
 import { useResetPassword } from "@/lib/hooks/useResetPassword";
 
 export const PasswordResetForm = () => {
@@ -36,7 +32,7 @@ export const PasswordResetForm = () => {
       confirmPassword: "",
     },
   });
-  const { toast } = useToast();
+
   const router = useRouter();
   const dispatch = useAppDispatch();
 
@@ -51,17 +47,14 @@ export const PasswordResetForm = () => {
   useEffect(() => {
     if (isSuccess) {
       console.log(isSuccess, data, "success state");
-      toast({
-        title: "Reset password successful",
-        description: "Please proceed to the login page",
-      });
+      toast.success(
+        "Reset password successful. Please proceed to the login page"
+      );
       setOpen(true);
       router.push("/login");
     } else if (isError) {
       console.log(isError, data, "error state");
-      toast({
-        description: "Password reset failed",
-      });
+      toast.error("Password reset failed");
       router.push("/login");
     } else return;
   }, [isSuccess, isError]);
@@ -71,7 +64,6 @@ export const PasswordResetForm = () => {
   }, []);
 
   const onSubmit = (values: z.infer<typeof PasswordResetSchema>) => {
-    console.log(values);
     const { password, confirmPassword } = values;
     passwordReset({ confirmPassword, password });
   };

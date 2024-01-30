@@ -29,7 +29,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { useToast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
 import { useUserRegister } from "@/lib/hooks/useUserRegister";
 import { Lock, UserCirlceAdd } from "iconsax-react";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -44,7 +44,6 @@ interface ProfilePageProps {
 }
 
 const ProfilePage: FC<ProfilePageProps> = ({ setHeader }) => {
-  const { toast } = useToast();
   const { userData } = useAppSelector((state) => state.user);
 
   const roles = [
@@ -108,15 +107,12 @@ const ProfilePage: FC<ProfilePageProps> = ({ setHeader }) => {
   useEffect(() => {
     if (isSuccess) {
       console.log(isSuccess, data, "success state");
-      toast({
-        title: "Sign up successful",
-        description: "Please enter otp sent to the email address",
-      });
+      toast.success(
+        "Sign up successful. Please enter otp sent to the email address"
+      );
     } else if (isError) {
       console.log(isError, data, "error state");
-      toast({
-        description: "Sign up failed",
-      });
+      toast.error("Sign up failed");
     } else return;
   }, [isSuccess, isError]);
 

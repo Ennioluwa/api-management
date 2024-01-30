@@ -1,43 +1,35 @@
 "use client";
 
-import { useAppSelector } from "@/lib/hooks";
-import { Dispatch, FC, SetStateAction, useEffect } from "react";
-
+import { toast } from "sonner";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
+import { useEffect, useState, useTransition } from "react";
+import { redirect, useRouter, useSearchParams } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 
+import { ChangePasswordSchema, LoginSchema } from "@/schemas";
 import { Input } from "@/components/ui/input";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
-import { toast } from "sonner";
-import { useUserRegister } from "@/lib/hooks/useUserRegister";
-import { Lock, UserCirlceAdd } from "iconsax-react";
-import { Checkbox } from "@/components/ui/checkbox";
-import { useChangePassword } from "@/lib/hooks/UseForgotPassword";
-import { ChangePasswordSchema } from "@/schemas";
+import { useUserLogin } from "@/lib/hooks/useUserLogin";
+import Modal from "@/components/Modal";
+import { Direct, Lock, ShieldSecurity } from "iconsax-react";
+import { useOtpUserLogin } from "@/lib/hooks/useOtpUserLogin";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { loginUser, logoutUser } from "@/redux/features/userSlice";
 import { PasswordInput } from "@/components/password-input";
+import { useChangePassword } from "@/lib/hooks/UseForgotPassword";
 
-interface ProfilePageProps {
-  setHeader: Dispatch<
-    SetStateAction<{
-      title: string;
-      subtitle: string;
-    }>
-  >;
-}
-
-const ProfilePage: FC<ProfilePageProps> = ({ setHeader }) => {
+export const ChangePasswordForm = () => {
+  const [open, setOpen] = useState(false);
   const { userData } = useAppSelector((state) => state.user);
 
   const form = useForm<z.infer<typeof ChangePasswordSchema>>({
@@ -48,6 +40,8 @@ const ProfilePage: FC<ProfilePageProps> = ({ setHeader }) => {
       confirmPassword: "",
     },
   });
+  const router = useRouter();
+  const dispatch = useAppDispatch();
 
   const {
     data,
@@ -69,28 +63,18 @@ const ProfilePage: FC<ProfilePageProps> = ({ setHeader }) => {
   }, [isSuccess, isError]);
 
   const onSubmit = (values: z.infer<typeof ChangePasswordSchema>) => {
-    if (!userData) return;
+    // if (!userData) return router.push("/login");
     console.log(values);
     const { oldPassword, newPassword } = values;
-    changePassword({ email: userData?.email, oldPassword, newPassword });
+    changePassword({ email: "userData?.email", oldPassword, newPassword });
   };
 
-  useEffect(() => {
-    setHeader({
-      title: "Modify Password",
-      subtitle: "Easily change your password here",
-    });
-  }, []);
   return (
-    <div className=" py-8">
-      <p className=" flex gap-2 items-center text-black text-xs pb-5">
-        <Lock variant="Bulk" size={18} />
-        Change Security Information
-      </p>
+    <>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-6 lg:max-w-xl mx-auto"
+          className="flex flex-col gap-6"
         >
           <div className="flex flex-col gap-5">
             <>
@@ -186,12 +170,10 @@ const ProfilePage: FC<ProfilePageProps> = ({ setHeader }) => {
             type="submit"
             className="w-full"
           >
-            {isPending ? "SAVING..." : "SAVE"}
+            {isPending ? "PROCEEDING..." : "PROCEED"}
           </Button>
         </form>
       </Form>
-    </div>
+    </>
   );
 };
-
-export default ProfilePage;

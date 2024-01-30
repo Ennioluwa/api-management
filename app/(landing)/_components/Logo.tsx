@@ -4,7 +4,7 @@ import { FC } from "react";
 interface LogoProps {}
 
 const Logo: FC<LogoProps> = ({}) => {
-  return <Image src={"/logo_gray.png"} alt="logo" width={267} height={32} />;
+  return <Image src={"/fiscal.png"} alt="logo" width={110} height={33} />;
 };
 
 export default Logo;

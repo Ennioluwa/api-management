@@ -21,18 +21,13 @@ import { Button } from "@/components/ui/button";
 import { useUserLogin } from "@/lib/hooks/useUserLogin";
 import Modal from "@/components/Modal";
 import { Direct, Lock, ShieldSecurity } from "iconsax-react";
-import { useToast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
 import { useOtpUserLogin } from "@/lib/hooks/useOtpUserLogin";
 import { useAppDispatch } from "@/lib/hooks";
 import { loginUser, logoutUser } from "@/redux/features/userSlice";
 import { PasswordInput } from "@/components/password-input";
 
 export const LoginForm = () => {
-  const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl");
-
-  const [error, setError] = useState<string | undefined>("");
-  const [success, setSuccess] = useState<string | undefined>("");
   const [open, setOpen] = useState(false);
   const [otp, setOtp] = useState("");
   const [email, setEmail] = useState("");
@@ -43,7 +38,7 @@ export const LoginForm = () => {
       password: "",
     },
   });
-  const { toast } = useToast();
+
   const router = useRouter();
   const dispatch = useAppDispatch();
 
@@ -60,23 +55,17 @@ export const LoginForm = () => {
     try {
       if (isOtpSuccess && otpData) {
         console.log(isOtpSuccess, otpData, "otp success state");
-        toast({
-          title: "OTP verified successfully",
-        });
-        console.log(otpData, "otp", otpData.data.tokenSet);
-
+        toast.success("OTP verified successfully");
         dispatch(loginUser(otpData.data));
-
-        if (otpData.data.setupStatus === "Completed") {
+        // TODO
+        if (otpData.data.setupStatus === "Completed" && otpData.data) {
           router.push("/dashboard/home");
         } else {
           router.push("/kyc");
         }
       } else if (isOtpError) {
         console.log(isOtpError, otpData, "error state");
-        toast({
-          description: "Wrong OTP. Please try again",
-        });
+        toast.error("Wrong OTP. Please try again");
       } else return;
     } catch (error) {
       console.log(error);
@@ -86,16 +75,13 @@ export const LoginForm = () => {
   useEffect(() => {
     if (isSuccess) {
       console.log(isSuccess, data, "success state");
-      toast({
-        title: "Log in successful",
-        description: "Please enter otp sent to the email address",
-      });
+      toast.success(
+        "Log in successful. Please enter otp sent to the email address"
+      );
       setOpen(true);
     } else if (isError) {
       console.log(isError, data, "error state");
-      toast({
-        description: "Log in failed",
-      });
+      toast.error("Log in failed. Please try again");
     } else return;
   }, [isSuccess, isError]);
 
@@ -104,9 +90,6 @@ export const LoginForm = () => {
   }, []);
 
   const onSubmit = (values: z.infer<typeof LoginSchema>) => {
-    setError("");
-    setSuccess("");
-    console.log(values);
     const { email, password } = values;
     login({ email, password });
     setEmail(email);
@@ -119,8 +102,11 @@ export const LoginForm = () => {
   return (
     <>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          <div className="flex flex-col gap-4">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className=" flex flex-col gap-6"
+        >
+          <div className="flex flex-col gap-4 w-full">
             <>
               <FormField
                 control={form.control}
@@ -165,7 +151,7 @@ export const LoginForm = () => {
                         disabled={isPending}
                         PrefixIcon={Lock}
                         variant="TwoTone"
-                        placeholder="Create a Password"
+                        placeholder="Enter your Password"
                         className={`${
                           field.value && "border-bgPrimary bg-white "
                         } select-none`}

@@ -20,7 +20,7 @@ import {
 import { Button } from "@/components/ui/button";
 import Modal from "@/components/Modal";
 import { ShieldSecurity } from "iconsax-react";
-import { useToast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
 import { useOtpUserLogin } from "@/lib/hooks/useOtpUserLogin";
 import { useAppDispatch } from "@/lib/hooks";
 import { loginUser, logoutUser } from "@/redux/features/userSlice";
@@ -36,7 +36,7 @@ export const ForgotPasswordForm = () => {
       email: "",
     },
   });
-  const { toast } = useToast();
+
   const router = useRouter();
   const dispatch = useAppDispatch();
 
@@ -59,15 +59,11 @@ export const ForgotPasswordForm = () => {
     try {
       if (isOtpSuccess) {
         console.log(isOtpSuccess, otpData, "otp success state");
-        toast({
-          title: "OTP verified successfully",
-        });
+        toast.success("OTP verified successfully");
         router.push("/password-reset");
       } else if (isOtpError) {
         console.log(isOtpError, otpData, "error state");
-        toast({
-          description: "Wrong OTP. Please try again",
-        });
+        toast.error("Wrong OTP. Please try again");
         router.push("/password-reset");
       } else return;
     } catch (error) {
@@ -78,17 +74,11 @@ export const ForgotPasswordForm = () => {
   useEffect(() => {
     if (isSuccess) {
       console.log(isSuccess, data, "success state");
-      toast({
-        title: "Link sent",
-        description: "Please enter otp sent to the email address",
-      });
+      toast.success("Please enter otp sent to the email address");
       setOpen(true);
     } else if (isError) {
       console.log(isError, data, "error state");
-      toast({
-        title: "Password reset failed",
-        description: "Please check if email address exists",
-      });
+      toast.error("Please check if email address exists");
       setOpen(true);
     } else return;
   }, [isSuccess, isError]);

@@ -29,7 +29,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { useToast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
 import { useUserRegister } from "@/lib/hooks/useUserRegister";
 import { Lock, UserCirlceAdd } from "iconsax-react";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -44,7 +44,6 @@ interface PreferencesPageProps {
 }
 
 const PreferencesPage: FC<PreferencesPageProps> = ({ setHeader }) => {
-  const { toast } = useToast();
   const { userData } = useAppSelector((state) => state.user);
 
   const FormSchema = z.object({
@@ -96,23 +95,14 @@ const PreferencesPage: FC<PreferencesPageProps> = ({ setHeader }) => {
   useEffect(() => {
     if (isSuccess) {
       console.log(isSuccess, data, "success state");
-      toast({
-        title: "Sign up successful",
-        description: "Please enter otp sent to the email address",
-      });
+      toast.success("User details modified successfully");
     } else if (isError) {
       console.log(isError, data, "error state");
-      toast({
-        description: "Sign up failed",
-      });
+      toast.error("User details modification failed");
     } else return;
   }, [isSuccess, isError]);
 
-  const onSubmit = (values: z.infer<typeof FormSchema>) => {
-    console.log(values);
-    // const { oldPassword, newPassword } = values;
-    // register({ email, roles, firstName, lastName, phone });
-  };
+  const onSubmit = (values: z.infer<typeof FormSchema>) => {};
 
   useEffect(() => {
     setHeader({

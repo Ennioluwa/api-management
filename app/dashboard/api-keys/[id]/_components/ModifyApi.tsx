@@ -24,7 +24,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { useToast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
 import MultipleSelector, { Option } from "@/components/ui/multiple-selector";
 import { redirect, useRouter, useSearchParams } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -70,10 +70,10 @@ const ModifyApi: FC<ModifyApiProps> = ({ ApiKeyId }) => {
     navigator.clipboard
       .writeText(text)
       .then(() => {
-        toast({ description: "Text copied to clipboard" });
+        toast.success("Text copied to clipboard");
       })
       .catch((err) => {
-        toast({ description: "Error while copying to clipboard" });
+        toast.error("Error while copying to clipboard");
       });
   };
 
@@ -111,23 +111,14 @@ const ModifyApi: FC<ModifyApiProps> = ({ ApiKeyId }) => {
     }
   }, [apiKeys]);
 
-  const { toast } = useToast();
-
   useEffect(() => {
     if (isSuccess) {
-      console.log(isSuccess, apiKeys, "success state");
-      toast({
-        title: "Action Successful",
-        description: "Api details successfully modified",
-      });
+      toast.success("Api details successfully modified");
       dispatch(modifyApiClose());
       queryClient.refetchQueries({ queryKey: ["api"] });
       queryClient.invalidateQueries({ queryKey: ["api"] });
     } else if (isError) {
-      console.log(isError, apiKeys, "error state");
-      toast({
-        description: "Api modification failed",
-      });
+      toast.error("Api modification failed");
     } else return;
   }, [isSuccess, isError]);
 

@@ -24,7 +24,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { useToast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
 import MultipleSelector, { Option } from "@/components/ui/multiple-selector";
 import { useRouter, useSearchParams } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -73,23 +73,18 @@ const AddUserModal: FC<AddUserModalProps> = () => {
     isPending,
   } = useUserManagement();
 
-  const { toast } = useToast();
-
   useEffect(() => {
     if (isSuccess) {
       console.log(isSuccess, data, "success state");
-      toast({
-        title: "User successfully added",
-        description: "An email has been sent to the user to be added",
-      });
+      toast.success(
+        "User successfully added. An email has been sent to the user to be added"
+      );
       dispatch(onClose());
       queryClient.refetchQueries({ queryKey: ["users"] });
       queryClient.invalidateQueries({ queryKey: ["users"] });
     } else if (isError) {
       console.log(isError, data, "error state");
-      toast({
-        description: "Add user failed",
-      });
+      toast.error("Add user failed");
     } else return;
   }, [isSuccess, isError]);
 

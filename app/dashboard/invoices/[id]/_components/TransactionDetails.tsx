@@ -4,7 +4,7 @@ import Modal from "@/components/Modal";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { useToast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { fetchInvoice } from "@/lib/hooks/api/invoices.api";
 import {
@@ -25,8 +25,6 @@ interface TransactionDetailsProps {
 }
 
 const TransactionDetails: FC<TransactionDetailsProps> = ({ transactionId }) => {
-  const { toast } = useToast();
-
   const { userData } = useAppSelector((state) => state.user);
 
   const {

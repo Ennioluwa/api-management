@@ -24,7 +24,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { useToast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
 import MultipleSelector, { Option } from "@/components/ui/multiple-selector";
 import { useRouter, useSearchParams } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -73,14 +73,10 @@ const AddApiKey = () => {
     isPending,
   } = UseApiManagement();
 
-  const { toast } = useToast();
-
   useEffect(() => {
     if (isSuccess) {
       console.log(isSuccess, data, "success state");
-      toast({
-        title: "Api successfully added",
-      });
+      toast.success("Api successfully added");
       dispatch(onClose());
       setOpen(true);
       console.log(data.data.apiKeyId, "api key data");
@@ -91,9 +87,7 @@ const AddApiKey = () => {
       queryClient.invalidateQueries({ queryKey: ["api"] });
     } else if (isError) {
       console.log(isError, data, "error state");
-      toast({
-        description: "Add user failed",
-      });
+      toast.error("Add user failed");
     } else return;
   }, [isSuccess, isError]);
 

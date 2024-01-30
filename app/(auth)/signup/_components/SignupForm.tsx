@@ -22,7 +22,7 @@ import { useUserRegister } from "@/lib/hooks/useUserRegister";
 import { Direct, Information, Lock, ShieldSecurity } from "iconsax-react";
 import Modal from "@/components/Modal";
 import { useOtpUserLogin } from "@/lib/hooks/useOtpUserLogin";
-import { useToast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
 import { PasswordInput } from "@/components/password-input";
 import { loginUser } from "@/redux/features/userSlice";
 import { useAppDispatch } from "@/lib/hooks";
@@ -31,7 +31,7 @@ export const SignupForm = () => {
   const [open, setOpen] = useState(false);
   const [otp, setOtp] = useState("");
   const [hidden, setHidden] = useState(true);
-  const { toast } = useToast();
+
   const router = useRouter();
   const dispatch = useAppDispatch();
 
@@ -65,12 +65,7 @@ export const SignupForm = () => {
   useEffect(() => {
     try {
       if (isOtpSuccess && otpData) {
-        console.log(isOtpSuccess, otpData, "otp success state");
-        toast({
-          title: "OTP verified successfully",
-        });
-        console.log(otpData, "otp", otpData.data.tokenSet);
-
+        toast.success("OTP verified successfully");
         dispatch(loginUser(otpData.data));
 
         if (otpData.data.setupStatus === "Completed") {
@@ -79,10 +74,7 @@ export const SignupForm = () => {
           router.push("/kyc");
         }
       } else if (isOtpError) {
-        console.log(isOtpError, otpData, "error state");
-        toast({
-          description: "Wrong OTP. Please try again",
-        });
+        toast.error("Wrong OTP. Please try again");
       } else return;
     } catch (error) {
       console.log(error);
@@ -92,16 +84,12 @@ export const SignupForm = () => {
   useEffect(() => {
     if (isSuccess) {
       console.log(isSuccess, data, "success state");
-      toast({
-        title: "Sign up successful",
-        description: "Please enter otp sent to the email address",
-      });
+      toast.success(
+        "Sign up successful. Please enter otp sent to the email address"
+      );
       setOpen(true);
     } else if (isError) {
-      console.log(isError, data, "error state");
-      toast({
-        description: "Sign up failed",
-      });
+      toast.error("Sign up failed");
     } else return;
   }, [isSuccess, isError]);
 

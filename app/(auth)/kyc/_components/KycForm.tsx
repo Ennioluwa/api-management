@@ -31,15 +31,10 @@ import { Button } from "@/components/ui/button";
 import { useUserLogin } from "@/lib/hooks/useUserLogin";
 import Modal from "@/components/Modal";
 import { ShieldSecurity } from "iconsax-react";
-import { useToast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
 import { useOtpUserLogin } from "@/lib/hooks/useOtpUserLogin";
 
 export const KycForm = () => {
-  const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl");
-
-  const [error, setError] = useState<string | undefined>("");
-  const [success, setSuccess] = useState<string | undefined>("");
   const [isPending, startTransition] = useTransition();
   const [open, setOpen] = useState(false);
   const [otp, setOtp] = useState("");
@@ -51,7 +46,7 @@ export const KycForm = () => {
       password: "",
     },
   });
-  const { toast } = useToast();
+
   const router = useRouter();
 
   const { data, mutate: login, isSuccess, isError } = useUserLogin();
@@ -59,23 +54,15 @@ export const KycForm = () => {
   useEffect(() => {
     if (isSuccess) {
       console.log(isSuccess, data, "success state");
-      toast({
-        title: "Log in successful",
-        description: "Please enter otp sent to the email address",
-      });
+      toast.success("Please enter otp sent to the email address");
       setOpen(true);
     } else if (isError) {
       console.log(isError, data, "error state");
-      toast({
-        description: "Log in failed",
-      });
+      toast.error("Log in failed");
     } else return;
   }, [isSuccess, isError]);
 
   const onSubmit = (values: z.infer<typeof LoginSchema>) => {
-    setError("");
-    setSuccess("");
-    console.log(values);
     const { email, password } = values;
     // login({ email, password });
     setEmail(email);
