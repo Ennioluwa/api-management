@@ -24,7 +24,11 @@ import Modal from "@/components/Modal";
 import { Direct, Lock, ShieldSecurity } from "iconsax-react";
 import { useOtpUserLogin } from "@/lib/hooks/useOtpUserLogin";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { loginUser, logoutUser } from "@/redux/features/userSlice";
+import {
+  loginUser,
+  logoutUser,
+  setChangePassword,
+} from "@/redux/features/userSlice";
 import { PasswordInput } from "@/components/password-input";
 import { useChangePassword } from "@/lib/hooks/UseForgotPassword";
 
@@ -56,6 +60,8 @@ export const ChangePasswordForm = () => {
       console.log(isSuccess, data, "success state");
       toast.success("Password successfully changed");
       form.reset();
+      dispatch(setChangePassword(false));
+      router.push("/dashboard/home");
     } else if (isError) {
       console.log(isError, data, "error state");
       toast.error("An error occured");
@@ -63,10 +69,10 @@ export const ChangePasswordForm = () => {
   }, [isSuccess, isError]);
 
   const onSubmit = (values: z.infer<typeof ChangePasswordSchema>) => {
-    // if (!userData) return router.push("/login");
+    if (!userData) return router.push("/login");
     console.log(values);
     const { oldPassword, newPassword } = values;
-    changePassword({ email: "userData?.email", oldPassword, newPassword });
+    changePassword({ email: userData?.email, oldPassword, newPassword });
   };
 
   return (

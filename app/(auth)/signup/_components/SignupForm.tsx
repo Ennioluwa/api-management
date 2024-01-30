@@ -26,6 +26,7 @@ import { toast } from "sonner";
 import { PasswordInput } from "@/components/password-input";
 import { loginUser } from "@/redux/features/userSlice";
 import { useAppDispatch } from "@/lib/hooks";
+import { getOtp } from "@/lib/hooks/api/otp.api";
 
 export const SignupForm = () => {
   const [open, setOpen] = useState(false);
@@ -100,6 +101,17 @@ export const SignupForm = () => {
 
   const handleOtpSubmit = () => {
     otpLogin({ email: form.getValues().email, otp });
+  };
+
+  const handleResendOtp = async (email: string) => {
+    try {
+      const data = await getOtp({ email });
+      console.log(data);
+
+      toast.success("Otp successfully sent");
+    } catch (error) {
+      toast.error("An error has occured here");
+    }
   };
 
   return (
@@ -288,6 +300,7 @@ export const SignupForm = () => {
         isOtp
         otp={otp}
         setOtp={setOtp}
+        resendOtp={() => handleResendOtp(form.getValues().email)}
         open={open}
         setOpen={setOpen}
         cancelButton="Close"

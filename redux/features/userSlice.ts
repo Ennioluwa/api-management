@@ -68,6 +68,15 @@ export const userSlice = createSlice({
       state.userData.companyId = action.payload;
       localStorage.setItem("userData", JSON.stringify(newData));
     },
+    setChangePassword: (state, action: PayloadAction<boolean>) => {
+      if (!state.userData) {
+        return;
+      }
+      let newData = state.userData;
+      newData.changePassword = action.payload;
+      state.userData.changePassword = action.payload;
+      localStorage.setItem("userData", JSON.stringify(newData));
+    },
     logoutUser: (state) => {
       state.userData = null;
       localStorage.removeItem("userData");
@@ -78,7 +87,12 @@ export const userSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { loginUser, logoutUser, setSetupStatus, setCompanyId } =
-  userSlice.actions;
+export const {
+  loginUser,
+  logoutUser,
+  setSetupStatus,
+  setCompanyId,
+  setChangePassword,
+} = userSlice.actions;
 
 export default userSlice.reducer;

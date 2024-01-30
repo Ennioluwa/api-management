@@ -49,9 +49,7 @@ const UsersList: FC<UsersListProps> = ({}) => {
   const handleResendVerification = async (email: string) => {
     try {
       const data = await resendVerification({ email });
-      if (data) {
-        toast.success("Email successfully sent");
-      }
+      toast.success("Email successfully sent");
     } catch (error) {
       toast.error("An error has occured here");
     }
@@ -85,7 +83,11 @@ const UsersList: FC<UsersListProps> = ({}) => {
         ) : (
           <Button
             className=" uppercase"
-            onClick={() => handleResendVerification(info.row.original.email)}
+            onClick={() =>
+              handleResendVerification(
+                encodeURIComponent(info.row.original.email)
+              )
+            }
           >
             Resend verification
           </Button>

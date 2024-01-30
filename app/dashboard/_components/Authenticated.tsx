@@ -19,6 +19,8 @@ const Authenticated: FC<AuthenticatedProps> = ({ children }) => {
       return redirect("/kyc/business-information");
     } else if (userData.setupStatus === "CompanyCreated") {
       return redirect("/kyc/business-identity");
+    } else if (userData.changePassword === true) {
+      return redirect("/change-password");
     } else return;
   }, []);
   return <>{children}</>;

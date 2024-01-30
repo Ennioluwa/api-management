@@ -1,3 +1,5 @@
+"use client";
+
 import { Dispatch, FC, ReactNode, SetStateAction } from "react";
 import { Icon } from "iconsax-react";
 import {
@@ -27,6 +29,7 @@ interface ModalProps {
   cancelButton?: string;
   primaryButton?: string;
   primaryButtonAction?: () => void;
+  resendOtp?: () => void;
   headerTextColor?: string;
 }
 
@@ -45,11 +48,12 @@ const Modal: FC<ModalProps> = ({
   isPendingText,
   isOtp,
   headerTextColor,
+  resendOtp,
 }) => {
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogContent className=" bg-white p-0 overflow-clip border-none">
-        <div className=" p-3 lg:p-8 flex flex-col justify-center items-center">
+        <div className=" p-4 lg:p-8 flex flex-col justify-center items-center">
           {ModalIcon && (
             <ModalIcon
               size="75px"
@@ -68,7 +72,7 @@ const Modal: FC<ModalProps> = ({
             </AlertDialogTitle>
             <div className=" text-black text-base">{content}</div>
           </AlertDialogHeader>
-          {isOtp && setOtp && (
+          {isOtp && setOtp && resendOtp && (
             <>
               <OTPInput
                 value={otp}
@@ -102,6 +106,7 @@ const Modal: FC<ModalProps> = ({
                 <Button
                   variant="ghost"
                   className=" w-full text-bgPrimary hover:bg-transparent"
+                  onClick={resendOtp}
                 >
                   RESEND OTP
                 </Button>
@@ -112,7 +117,7 @@ const Modal: FC<ModalProps> = ({
 
         {(cancelButton || primaryButton) && (
           <AlertDialogFooter>
-            <div className=" w-full flex gap-0 m-0 space-x-0">
+            <div className=" w-full mt-5 flex gap-0 m-0 space-x-0">
               {cancelButton && (
                 <AlertDialogCancel className=" flex-1 w-full h-[56px] border-none rounded-none">
                   {cancelButton}

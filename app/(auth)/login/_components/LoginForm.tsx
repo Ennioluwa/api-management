@@ -26,6 +26,7 @@ import { useOtpUserLogin } from "@/lib/hooks/useOtpUserLogin";
 import { useAppDispatch } from "@/lib/hooks";
 import { loginUser, logoutUser } from "@/redux/features/userSlice";
 import { PasswordInput } from "@/components/password-input";
+import { getOtp } from "@/lib/hooks/api/otp.api";
 
 export const LoginForm = () => {
   const [open, setOpen] = useState(false);
@@ -58,8 +59,16 @@ export const LoginForm = () => {
         toast.success("OTP verified successfully");
         dispatch(loginUser(otpData.data));
         // TODO
-        if (otpData.data.setupStatus === "Completed" && otpData.data) {
+        if (
+          otpData.data.setupStatus === "Completed" &&
+          otpData.data.changePassword === false
+        ) {
           router.push("/dashboard/home");
+        } else if (
+          otpData.data.setupStatus === "Completed" &&
+          otpData.data.changePassword === true
+        ) {
+          router.push("/change-password");
         } else {
           router.push("/kyc");
         }
@@ -97,6 +106,17 @@ export const LoginForm = () => {
 
   const handleOtpSubmit = () => {
     otpLogin({ email, otp });
+  };
+
+  const handleResendOtp = async (email: string) => {
+    try {
+      const data = await getOtp({ email });
+      console.log(data);
+
+      toast.success("Otp successfully sent");
+    } catch (error) {
+      toast.error("An error has occured here");
+    }
   };
 
   return (
@@ -184,14 +204,20 @@ export const LoginForm = () => {
       <Modal
         title="ENTER OTP"
         content={
-          <p>
-            To verify your identity, we’ve sent an OTP to your Email Address{" "}
-          </p>
+          <>
+            <p>
+              To verify your identity, we’ve sent an OTP to your Email Address{" "}
+            </p>
+            <p className=" text-bgPrimary font-bold pt-2">
+              {form.getValues().email}
+            </p>
+          </>
         }
         icon={ShieldSecurity}
         isOtp
         otp={otp}
         setOtp={setOtp}
+        resendOtp={() => handleResendOtp(form.getValues().email)}
         isPending={isOtpPending}
         isPendingText="Confirming"
         open={open}
