@@ -134,11 +134,11 @@ const Modal: FC<ModalProps> = ({
                   {cancelButton}
                 </AlertDialogCancel>
               )}
-              {primaryButton && otp ? (
+              {primaryButton && isOtp ? (
                 <Button
                   className=" flex-1 w-full h-[56px] m-0 p-0 rounded-none z-20 "
                   onClick={primaryButtonAction}
-                  disabled={isPending || otp.length != 6}
+                  disabled={isPending || !otp || otp?.length != 6}
                 >
                   {isPending ? isPendingText : primaryButton}
                 </Button>
