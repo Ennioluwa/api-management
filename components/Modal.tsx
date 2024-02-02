@@ -1,6 +1,6 @@
 "use client";
 
-import { Dispatch, FC, ReactNode, SetStateAction } from "react";
+import { Dispatch, FC, ReactNode, SetStateAction, useEffect } from "react";
 import { Icon } from "iconsax-react";
 import {
   AlertDialog,
@@ -50,6 +50,17 @@ const Modal: FC<ModalProps> = ({
   headerTextColor,
   resendOtp,
 }) => {
+  const handleSubmitOtp = () => {
+    if (!otp) return;
+    if (otp?.length === 6 && !isPending && primaryButtonAction) {
+      console.log("submitting");
+
+      primaryButtonAction();
+    }
+  };
+  useEffect(() => {
+    handleSubmitOtp();
+  }, [otp]);
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogContent className=" bg-white p-0 overflow-clip border-none">
@@ -123,11 +134,19 @@ const Modal: FC<ModalProps> = ({
                   {cancelButton}
                 </AlertDialogCancel>
               )}
-              {primaryButton && (
+              {primaryButton && otp ? (
                 <Button
                   className=" flex-1 w-full h-[56px] m-0 p-0 rounded-none z-20 "
                   onClick={primaryButtonAction}
-                  disabled={isPending || otp?.length !== 6}
+                  disabled={isPending || otp.length != 6}
+                >
+                  {isPending ? isPendingText : primaryButton}
+                </Button>
+              ) : (
+                <Button
+                  className=" flex-1 w-full h-[56px] m-0 p-0 rounded-none z-20 "
+                  onClick={primaryButtonAction}
+                  disabled={isPending}
                 >
                   {isPending ? isPendingText : primaryButton}
                 </Button>
