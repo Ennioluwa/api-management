@@ -1,13 +1,9 @@
-"use client";
-
-import { useAppSelector } from "@/lib/hooks";
 import Navbar from "../_components/Navbar";
 import Authenticated from "./_components/Authenticated";
 import BusinessInformationForm from "./_components/BusinessInformationForm";
 import BusinessInformationHeader from "./_components/BusinessInformationHeader";
 
 const page = ({}) => {
-  const { userData } = useAppSelector((state) => state.user);
   return (
     <Authenticated>
       <div className=" overflow-hidden">
