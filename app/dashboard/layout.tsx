@@ -14,7 +14,7 @@ export default function RootLayout({
         <Navbar />
         <div className="flex mt-20 bg-[#f1f1f1] w-screen h-full overflow-hidden relative">
           <Sidebar />
-          <div className="md:ml-[240px] grow w-full h-full overflow-auto py-6 px-5 lg:px-10">
+          <div className="md:ml-[240px] grow h-[calc(100vh-80px)] overflow-y-auto overflow-x-clip py-6 px-5 lg:px-10">
             {children}
           </div>
         </div>

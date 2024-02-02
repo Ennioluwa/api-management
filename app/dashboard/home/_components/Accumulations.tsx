@@ -26,7 +26,7 @@ const Accumulations: FC<AccumulationsProps> = ({}) => {
           </p>
           <p
             onClick={() => setDate("week")}
-            className={`px-2 py-1 rounded cursor-pointer ${
+            className={`px-2 py-1 rounded cursor-pointer hidden md:block ${
               date === "week"
                 ? " bg-bgPrimary text-white"
                 : "bg-transparent text-black"
@@ -36,7 +36,7 @@ const Accumulations: FC<AccumulationsProps> = ({}) => {
           </p>
           <p
             onClick={() => setDate("month")}
-            className={`px-2 py-1 rounded cursor-pointer ${
+            className={`px-2 py-1 rounded cursor-pointer hidden md:block ${
               date === "month"
                 ? " bg-bgPrimary text-white"
                 : "bg-transparent text-black"
