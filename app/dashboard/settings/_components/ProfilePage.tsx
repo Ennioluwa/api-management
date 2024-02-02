@@ -22,7 +22,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { useUserRegister } from "@/lib/hooks/useUserRegister";
-import { UserCirlceAdd } from "iconsax-react";
+import { Direct, UserCirlceAdd } from "iconsax-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import PhoneInputWithCountrySelect from "react-phone-number-input";
 
@@ -175,7 +175,7 @@ const ProfilePage: FC<ProfilePageProps> = ({ setHeader }) => {
                 control={form.control}
                 name="email"
                 render={({ field }) => (
-                  <FormItem className=" relative">
+                  <FormItem className="relative w-full">
                     {field.value && (
                       <FormLabel className=" absolute left-5 top-[0px] text-bgPrimary z-20 bg-white px-2.5 py-0 text-xs">
                         Email
@@ -183,13 +183,15 @@ const ProfilePage: FC<ProfilePageProps> = ({ setHeader }) => {
                     )}
                     <FormControl>
                       <Input
-                        className={`${
-                          field.value && "border-bgPrimary bg-white "
-                        }`}
                         {...field}
                         disabled={isPending}
                         placeholder="Enter Email Address"
                         type="email"
+                        PrefixIcon={Direct}
+                        variant="Bulk"
+                        className={`${
+                          field.value && "border-bgPrimary bg-white "
+                        }`}
                       />
                     </FormControl>
                     <FormMessage />
