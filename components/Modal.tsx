@@ -127,7 +127,7 @@ const Modal: FC<ModalProps> = ({
                 <Button
                   className=" flex-1 w-full h-[56px] m-0 p-0 rounded-none z-20 "
                   onClick={primaryButtonAction}
-                  disabled={isPending}
+                  disabled={isPending || otp?.length !== 6}
                 >
                   {isPending ? isPendingText : primaryButton}
                 </Button>

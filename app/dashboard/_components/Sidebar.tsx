@@ -10,9 +10,13 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { logoutUser } from "@/redux/features/userSlice";
 import axiosClient from "@/lib/axiosInstance";
 
-interface SidebarProps {}
+interface SidebarProps {
+  mobile?: boolean;
+}
 
-const Sidebar: FC<SidebarProps> = ({}) => {
+const Sidebar: FC<SidebarProps> = ({ mobile }) => {
+  const { isDashboardOpen } = useAppSelector((state) => state.navigation);
+
   const dispatch = useAppDispatch();
   const router = useRouter();
   const pathname = usePathname();
@@ -36,9 +40,17 @@ const Sidebar: FC<SidebarProps> = ({}) => {
   };
 
   return (
-    <aside className="fixed hidden md:flex h-full">
-      <div className="  overflow-y-auto h-[calc(100vh-80px)] w-[240px] z-50 ">
-        <div className=" flex flex-col justify-between gap-20 h-full px-3 py-8">
+    <aside
+      className={`absolute left-0 top-0 h-full w-[240px] md:flex ${
+        mobile ? "flex mt-auto" : "hidden"
+      } `}
+    >
+      <div
+        className={`"  overflow-y-auto h-[calc(100vh-80px)] w-[240px] ${
+          mobile && "h-full pt-5"
+        } `}
+      >
+        <div className=" flex flex-col justify-between gap-20 h-full pl-3 py-8">
           <div className="flex flex-col gap-1">
             <div className=" flex flex-col gap-1">
               {dashboard?.map((item, index) => (
@@ -49,7 +61,7 @@ const Sidebar: FC<SidebarProps> = ({}) => {
                   className={`${
                     pathname.includes(item.link) &&
                     "border-l-[3px] border-bgPrimary bg-white font-bold text-black"
-                  } h-12`}
+                  } h-12 hover:border-l-[3px] hover:border-bgPrimary hover:bg-white hover:font-bold hover:text-black`}
                   disabled={
                     item.name !== "Dashboard" &&
                     userData?.companyStatus === "Pending"
@@ -79,7 +91,7 @@ const Sidebar: FC<SidebarProps> = ({}) => {
                   className={`${
                     pathname.includes(item.link) &&
                     "border-l-[3px] border-bgPrimary bg-white font-bold text-black"
-                  }  h-12`}
+                  }  h-12 hover:border-l-[3px] hover:border-bgPrimary hover:bg-white hover:font-bold hover:text-black`}
                 >
                   <item.icon
                     variant="Bulk"
@@ -106,7 +118,7 @@ const Sidebar: FC<SidebarProps> = ({}) => {
                   className={`${
                     pathname.includes(item.link) &&
                     "border-l-[3px] border-bgPrimary bg-white font-bold text-black"
-                  }  h-12`}
+                  }  h-12 hover:border-l-[3px] hover:border-bgPrimary hover:bg-white hover:font-bold hover:text-black`}
                 >
                   <item.icon
                     variant="Bulk"

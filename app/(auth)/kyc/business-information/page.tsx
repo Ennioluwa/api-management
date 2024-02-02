@@ -8,7 +8,7 @@ const page = ({}) => {
       <div className=" overflow-hidden">
         <Navbar />
         <div className=" py-40">
-          <div className="container max-w-xl p-8 border rounded-lg space-y-8 overflow-auto ">
+          <div className="container max-w-[440px] p-8 border rounded-lg space-y-8 overflow-auto ">
             <div>
               <h3 className=" text-xl font-bold mb-2.5">
                 Welcome Nusaiba, Tell us about your company

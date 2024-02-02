@@ -75,8 +75,16 @@ const AddUserModal: FC<AddUserModalProps> = () => {
 
   useEffect(() => {
     if (isSuccess) {
+      console.log(isSuccess, data, "success state");
+      toast.success(
+        "User successfully added. An email has been sent to the user to be added"
+      );
       dispatch(onClose());
+      queryClient.refetchQueries({ queryKey: ["users"] });
+      queryClient.invalidateQueries({ queryKey: ["users"] });
     } else if (isError) {
+      console.log(isError, data, "error state");
+      toast.error("Add user failed");
     } else return;
   }, [isSuccess, isError]);
 
@@ -113,7 +121,7 @@ const AddUserModal: FC<AddUserModalProps> = () => {
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
-                className="space-y-6 lg:max-w-xl mx-auto"
+                className="space-y-6 lg:max-w-[440px] mx-auto"
               >
                 <div className="">
                   <div className=" p-5 bg-white rounded-lg mt-5 flex flex-col gap-5">

@@ -135,7 +135,7 @@ const ChangePaymentMethod: FC<ChangePaymentMethodProps> = () => {
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
-                className="space-y-6 lg:max-w-xl mx-auto bg-white p-5 rounded-lg mt-5"
+                className="space-y-6 lg:max-w-[440px] mx-auto bg-white p-5 rounded-lg mt-5"
               >
                 <AtmCard />
                 <hr className=" border-dashed border-[#9A9AAF)]" />

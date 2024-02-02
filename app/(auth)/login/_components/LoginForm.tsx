@@ -43,7 +43,14 @@ export const LoginForm = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
 
-  const { data, mutate: login, isSuccess, isError, isPending } = useUserLogin();
+  const {
+    data,
+    mutate: login,
+    isSuccess,
+    isError,
+    isPending,
+    error,
+  } = useUserLogin();
   const {
     data: otpData,
     mutate: otpLogin,
@@ -89,8 +96,10 @@ export const LoginForm = () => {
       );
       setOpen(true);
     } else if (isError) {
-      console.log(isError, data, "error state");
-      toast.error("Log in failed. Please try again");
+      console.log(isError, error.message, "error state");
+      toast.error(
+        "Authentication failed. Please check your username and password"
+      );
     } else return;
   }, [isSuccess, isError]);
 

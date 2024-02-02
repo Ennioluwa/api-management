@@ -64,7 +64,7 @@ const InvoiceList: FC<InvoiceListProps> = ({}) => {
       accessorKey: "uploadStatus",
     },
     {
-      header: "Date",
+      header: "DATE",
       cell: (info) =>
         info.row && formatter?.format(new Date(info.row.original.createDate)),
     },

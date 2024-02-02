@@ -76,7 +76,7 @@ export const ContactForm = () => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-6 lg:max-w-xl mx-auto"
+        className="space-y-6 lg:max-w-[440px] mx-auto"
       >
         <div className="space-y-4">
           <>

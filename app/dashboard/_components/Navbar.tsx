@@ -3,10 +3,11 @@
 import Logo from "@/app/(landing)/_components/Logo";
 import { Input } from "@/components/ui/input";
 import { useAppSelector } from "@/lib/hooks";
-import { Message, Notification } from "iconsax-react";
+import { HambergerMenu, Message, Notification } from "iconsax-react";
 import { FC } from "react";
 import { Search } from "./SearchInput";
 import IsAdminAuth from "@/components/isAdminAuth";
+import { MobileSidebar } from "./MobileSidebar";
 
 interface NavbarProps {}
 
@@ -15,12 +16,17 @@ const Navbar: FC<NavbarProps> = ({}) => {
   return (
     <nav className="fixed top-0 left-0 right-0 w-full h-20  px-3 py-3 bg-white border-b z-40 shadow grid place-items-center">
       <div className="flex items-center justify-between w-full gap-5">
-        <Logo />
-        <div className=" grow">
-          <Search className=" max-w-80 " />
+        <div className=" flex items-center gap-3">
+          <MobileSidebar />
+          {/* <HambergerMenu size={30} className=" cursor-pointer" /> */}
+          <Logo />
         </div>
+
+        {/* <div className=" grow">
+          <Search className=" max-w-80 " />
+        </div> */}
         <div className=" flex items-center gap-5">
-          <Message />
+          {/* <Message /> */}
           <Notification />
           <div className=" flex flex-col">
             <p>{userData?.firstName}</p>

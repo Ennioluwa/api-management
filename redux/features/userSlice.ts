@@ -5,6 +5,7 @@ export interface UserData {
   email: string;
   firstName: string;
   lastName: string;
+  phone: string;
   require2FA: boolean;
   companyId: number;
   roles: any[];

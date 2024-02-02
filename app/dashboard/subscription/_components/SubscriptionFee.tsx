@@ -115,15 +115,15 @@ const SubscriptionFee = () => {
             </div>
             <div className="justify-between flex items-center text-xs font-normal">
               <p className=" uppercase">Wire Transfer</p>
-              <p className=" font-bold">Heliosphere Shopping Mall</p>
+              <p className=" font-bold text-right">Heliosphere Shopping Mall</p>
             </div>
             <div className="justify-between flex items-center text-xs font-normal">
               <p className=" uppercase">ACCOUNT NUMBER</p>
-              <p className=" font-bold">0234 9485 0493</p>
+              <p className=" font-bold text-right">0234 9485 0493</p>
             </div>
             <div className="justify-between flex items-center text-xs font-normal">
               <p className=" uppercase">ROUTING NUMBER</p>
-              <p className=" font-bold">02948</p>
+              <p className=" font-bold text-right">02948</p>
             </div>
           </div>
         </div>
@@ -131,7 +131,6 @@ const SubscriptionFee = () => {
           CHANGE PAYMENT OPTION
         </Button>
       </div>
-      )
       <Modals />
     </>
   );

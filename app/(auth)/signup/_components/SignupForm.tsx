@@ -27,11 +27,13 @@ import { PasswordInput } from "@/components/password-input";
 import { loginUser } from "@/redux/features/userSlice";
 import { useAppDispatch } from "@/lib/hooks";
 import { getOtp } from "@/lib/hooks/api/otp.api";
+import PhoneInput from "react-phone-number-input";
 
 export const SignupForm = () => {
   const [open, setOpen] = useState(false);
   const [otp, setOtp] = useState("");
   const [hidden, setHidden] = useState(true);
+  const [focused, setFocused] = useState(false);
 
   const router = useRouter();
   const dispatch = useAppDispatch();
@@ -119,7 +121,7 @@ export const SignupForm = () => {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-6 lg:max-w-xl mx-auto"
+          className="space-y-6 lg:max-w-[440px] mx-auto"
         >
           <div className=" flex flex-col gap-4">
             <>
@@ -213,15 +215,19 @@ export const SignupForm = () => {
                       </FormLabel>
                     )}
                     <FormControl>
-                      <Input
+                      <PhoneInput
                         {...field}
-                        disabled={isPending}
-                        placeholder="Enter Phone Number"
-                        PrefixSvg={"/svgs/nigeria.svg"}
-                        type="text"
-                        className={`${
-                          field.value && "border-bgPrimary bg-white "
-                        }`}
+                        defaultCountry="NG"
+                        value={field.value}
+                        onChange={(value) => {
+                          field.onChange(value);
+                        }}
+                        placeholder="Enter phone number"
+                        className={` flex h-[50px] w-full rounded-md border border-bgPrimary bg-background py-2 px-3 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:border focus-visible:border-bgPrimary  focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 focus-within:border-bgPrimary ${
+                          field.value
+                            ? "border-bgPrimary bg-white "
+                            : "border-border"
+                        } `}
                       />
                     </FormControl>
                     <FormMessage />

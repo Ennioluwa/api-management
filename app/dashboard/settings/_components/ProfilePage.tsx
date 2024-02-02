@@ -24,6 +24,7 @@ import { toast } from "sonner";
 import { useUserRegister } from "@/lib/hooks/useUserRegister";
 import { UserCirlceAdd } from "iconsax-react";
 import { Checkbox } from "@/components/ui/checkbox";
+import PhoneInputWithCountrySelect from "react-phone-number-input";
 
 interface ProfilePageProps {
   setHeader: Dispatch<
@@ -44,7 +45,7 @@ const ProfilePage: FC<ProfilePageProps> = ({ setHeader }) => {
       id: "ClientSalesReps",
     },
     {
-      label: "Finanace Officers",
+      label: "Finance Officers",
       id: "ClientFinanceOfficers",
     },
   ];
@@ -73,7 +74,7 @@ const ProfilePage: FC<ProfilePageProps> = ({ setHeader }) => {
       firstName: userData?.firstName || "",
       lastName: userData?.lastName || "",
       email: userData?.email || "",
-      phone: userData?.lastName || "",
+      phone: userData?.phone || "",
       roles: userData?.roles || [],
     },
   });
@@ -114,7 +115,7 @@ const ProfilePage: FC<ProfilePageProps> = ({ setHeader }) => {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-6 lg:max-w-xl mx-auto"
+          className="space-y-6 lg:max-w-[440px] mx-auto"
         >
           <div className="flex flex-col gap-5">
             <>
@@ -199,21 +200,26 @@ const ProfilePage: FC<ProfilePageProps> = ({ setHeader }) => {
                 control={form.control}
                 name="phone"
                 render={({ field }) => (
-                  <FormItem className="relative pb-8">
+                  <FormItem className="relative w-full">
                     {field.value && (
                       <FormLabel className=" absolute left-5 top-[0px] text-bgPrimary z-20 bg-white px-2.5 py-0 text-xs">
-                        Phone Number
+                        Phone
                       </FormLabel>
                     )}
                     <FormControl>
-                      <Input
-                        className={`${
-                          field.value && "border-bgPrimary bg-white "
-                        }`}
+                      <PhoneInputWithCountrySelect
                         {...field}
-                        disabled={isPending}
-                        placeholder="Enter Phone Number"
-                        type="text"
+                        defaultCountry="NG"
+                        value={field.value}
+                        onChange={(value) => {
+                          field.onChange(value);
+                        }}
+                        placeholder="Enter phone number"
+                        className={` flex h-[50px] w-full rounded-md border border-bgPrimary bg-background py-2 px-3 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:border focus-visible:border-bgPrimary  focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 focus-within:border-bgPrimary ${
+                          field.value
+                            ? "border-bgPrimary bg-white "
+                            : "border-border"
+                        } `}
                       />
                     </FormControl>
                     <FormMessage />

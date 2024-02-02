@@ -15,7 +15,6 @@ import { useAppDispatch, useAppSelector, useAppStore } from "@/lib/hooks";
 export const MobileSidebar = () => {
   const pathname = usePathname();
   const [isMounted, setIsMounted] = useState(false);
-  const store = useAppStore();
   const initialized = useRef(false);
   if (!initialized.current) {
     initialized.current = true;

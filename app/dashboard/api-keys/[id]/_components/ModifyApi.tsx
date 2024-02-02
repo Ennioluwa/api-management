@@ -154,7 +154,7 @@ const ModifyApi: FC<ModifyApiProps> = ({ ApiKeyId }) => {
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
-                className="space-y-6 lg:max-w-xl mx-auto"
+                className="space-y-6 lg:max-w-[440px] mx-auto"
               >
                 <div className="">
                   <div className=" p-5 bg-white rounded-lg mt-5 flex flex-col gap-5">

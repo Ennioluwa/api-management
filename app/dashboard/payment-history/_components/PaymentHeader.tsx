@@ -14,10 +14,7 @@ const PaymentHeader: FC<PaymentHeaderProps> = ({}) => {
   return (
     <div className=" flex gap-4 justify-between items-center">
       <h1 className=" text-4xl font-bold">Payment History</h1>
-      <button
-        className=" bg-white rounded-lg p-2"
-        onClick={() => dispatch(onOpen())}
-      >
+      <button className=" bg-white rounded-lg p-2">
         <Calendar variant="Linear" size={18} />
       </button>
     </div>
