@@ -1,10 +1,31 @@
+import { fetchInvoiceStats } from "@/lib/hooks/api/invoices.api";
+import { useQuery } from "@tanstack/react-query";
 import { FC } from "react";
+import { PuffLoader } from "react-spinners";
 
 interface ProcessedInvoicesProps {
   empty?: boolean;
 }
 
 const ProcessedInvoices: FC<ProcessedInvoicesProps> = ({ empty }) => {
+  const {
+    isPending,
+    isError,
+    data: invoiceStats,
+    error,
+    refetch,
+  } = useQuery({
+    queryKey: ["invoice stats"],
+    queryFn: fetchInvoiceStats,
+  });
+
+  if ((isPending && !empty) || (!invoiceStats && !empty))
+    return (
+      <div className=" grid place-items-center w-full bg-white rounded-lg py-6">
+        <PuffLoader color="#0062FF" />
+      </div>
+    );
+
   return (
     <div
       className={`${
@@ -15,9 +36,11 @@ const ProcessedInvoices: FC<ProcessedInvoicesProps> = ({ empty }) => {
     >
       <div className=" space-y-1">
         <p className=" text-xs font-bold">INVOICES PROCESSED</p>
-        <p className=" text-3xl font-bold">{!empty ? 129324 : 0}</p>
+        <p className=" text-3xl font-bold">
+          {!empty ? invoiceStats?.currentMonthProcessed : 0}
+        </p>
         <p className=" font-bold text-xs">
-          Compared to {!empty ? 399201 : 0} last month
+          Compared to {!empty ? invoiceStats?.lastMonthProcessed : 0} last month
         </p>
       </div>
       {empty ? (

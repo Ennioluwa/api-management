@@ -5,7 +5,7 @@ interface ActivitiesProps {}
 
 const Activities: FC<ActivitiesProps> = ({}) => {
   return (
-    <div className=" p-5 bg-white rounded-lg flex flex-col gap-5">
+    <div className=" p-5 bg-white rounded-lg flex flex-col gap-5 h-full">
       <AccountUsers />
     </div>
   );

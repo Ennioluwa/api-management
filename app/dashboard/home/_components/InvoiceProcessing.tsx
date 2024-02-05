@@ -1,46 +1,78 @@
 import { FC } from "react";
 import { Payment, columns } from "./columns";
 import { DataTable } from "./data-table";
+import { useQuery } from "@tanstack/react-query";
+import { Transaction, fetchInvoices } from "@/lib/hooks/api/invoices.api";
+import { PuffLoader } from "react-spinners";
+import { ColumnDef } from "@tanstack/react-table";
+import { formatter } from "@/lib/utils";
+import { DocumentDownload } from "iconsax-react";
 
 const InvoiceProcessing = ({}) => {
-  const data: Payment[] = [
+  const {
+    isPending,
+    isError,
+    data: invoices,
+    error,
+    refetch,
+  } = useQuery({
+    queryKey: ["invoices"],
+    queryFn: fetchInvoices,
+  });
+
+  const columns: ColumnDef<Transaction>[] = [
     {
-      id: "923481029831",
-      items: 43,
-      amount: 100,
-      date: "22/2/2022  3:45:01 PM",
+      header: "INVOICE ID",
+      accessorKey: "invoiceNumber",
     },
     {
-      id: "923481029831",
-      items: 43,
-      amount: 100,
-      date: "22/2/2022  3:45:01 PM",
+      header: "TOTAL ITEMS",
+      accessorKey: "totalItems",
     },
     {
-      id: "923481029831",
-      items: 43,
-      amount: 100,
-      date: "22/2/2022  3:45:01 PM",
+      header: "AMOUNT",
+      cell: (info) => `-$${info.row.original.totalAmount}`,
     },
     {
-      id: "923481029831",
-      items: 43,
-      amount: 100,
-      date: "22/2/2022  3:45:01 PM",
+      header: "INVOICE TYPE",
+      accessorKey: "invoiceType",
     },
     {
-      id: "923481029831",
-      items: 43,
-      amount: 100,
-      date: "22/2/2022  3:45:01 PM",
+      header: "STATUS",
+      accessorKey: "uploadStatus",
+    },
+    {
+      header: "DATE",
+      cell: (info) =>
+        info.row && formatter?.format(new Date(info.row.original.createDate)),
+    },
+    {
+      header: "ACTION",
+      cell: (info) => (
+        <div className="flex items-center gap-2">
+          <DocumentDownload
+            variant="Bulk"
+            // onClick={() => handleDeleteUser(info.row.original)}
+          />
+        </div>
+      ),
     },
   ];
+
   return (
-    <div className=" p-5 rounded-lg bg-white">
+    <div className=" p-5 rounded-lg bg-white h-full">
       <h2 className=" text-3xl font-bold pb-4">Invoice Processing</h2>
-      <div className="">
-        <DataTable columns={columns} data={data} />
-      </div>
+      {isPending ||
+        (invoices === undefined && (
+          <div className=" w-full h-full grid place-items-center py-20">
+            <PuffLoader color="#0062FF" />
+          </div>
+        ))}
+      {invoices && (
+        <div className="">
+          <DataTable columns={columns} data={invoices} />
+        </div>
+      )}
     </div>
   );
 };

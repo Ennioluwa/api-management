@@ -107,12 +107,12 @@ const Home = () => {
       </div>
 
       <AppUsage />
-      <div className=" grid grid-cols-1 xl:grid-cols-3 gap-5">
+      <div className=" grid grid-cols-1 xl:grid-cols-3 gap-5 items-stretch">
         <div className=" col-span-1 xl:col-span-2 flex flex-col gap-5 h-full">
           <EarningReport />
           <InvoiceProcessing />
         </div>
-        <div className=" col-span-1">
+        <div className=" col-span-1 h-full">
           <Activities />
         </div>
       </div>
