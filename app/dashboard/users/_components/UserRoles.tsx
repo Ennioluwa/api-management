@@ -23,7 +23,7 @@ const UserRoles: FC<UserRolesProps> = ({}) => {
       value: "ClientSalesReps",
     },
     {
-      label: "Finanace Officers",
+      label: "Finance Officers",
       value: "ClientFinanceOfficers",
     },
   ];

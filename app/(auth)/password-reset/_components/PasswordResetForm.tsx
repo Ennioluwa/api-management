@@ -85,6 +85,7 @@ export const PasswordResetForm = () => {
                   <FormItem>
                     <FormControl>
                       <Input
+                        label="Password"
                         {...field}
                         disabled={isPending}
                         placeholder="Enter Password"
@@ -102,6 +103,7 @@ export const PasswordResetForm = () => {
                   <FormItem>
                     <FormControl>
                       <Input
+                        label="Confirm Password"
                         {...field}
                         disabled={isPending}
                         placeholder="Confirm your Password"

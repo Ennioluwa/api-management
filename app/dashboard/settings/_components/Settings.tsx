@@ -16,11 +16,11 @@ const Settings = () => {
     <div className=" py-5 rounded-lg bg-white h-full ">
       <div className=" px-5 max-w-[440px]">
         <h3 className=" font-bold pb-2.5 ">{header.title}</h3>
-        <p className=" w-full text-xs pb-6">{header.subtitle}</p>
+        <p className=" w-full text-xs pb-3">{header.subtitle}</p>
       </div>
       <div className=" max-w-[440px] w-full h-full">
         <Tabs defaultValue="profile" className=" w-full">
-          <TabsList className=" my-2 p-0 w-full overflow-x-auto overflow-y-clip h-20 justify-start">
+          <TabsList className=" my-2 p-0 h-14 w-full overflow-x-auto overflow-y-clip  justify-start">
             <TabsTrigger value="profile">Profile Settings</TabsTrigger>
             <TabsTrigger value="password">Password</TabsTrigger>
             <TabsTrigger value="business-info">Business Info</TabsTrigger>

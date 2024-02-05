@@ -7,9 +7,9 @@ interface pageProps {}
 
 const page: FC<pageProps> = ({}) => {
   return (
-    <div>
+    <>
       <Navbar text="Login to your Account" link="/login" />
-      <div className=" flex flex-col gap-8 mt-32 container max-w-[440px] mx-auto p-8 border border-dashed border-[#2488FF0D]/10 rounded-lg ">
+      <div className=" flex flex-col gap-8 container max-w-[440px] mx-auto p-8 border border-dashed border-[#2488FF0D]/10 rounded-lg ">
         <div>
           <h3 className=" text-xl font-bold mb-2.5">Change your Password</h3>
           <h4 className=" text-xs mb-2.5">
@@ -28,7 +28,7 @@ const page: FC<pageProps> = ({}) => {
           (C) 2023. All Rights Reserved.
         </p>
       </div>
-    </div>
+    </>
   );
 };
 

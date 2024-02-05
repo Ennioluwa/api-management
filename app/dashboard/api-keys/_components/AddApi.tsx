@@ -140,20 +140,13 @@ const AddApiKey = () => {
                         name="ApiKeyName"
                         render={({ field }) => (
                           <FormItem className=" flex-1 relative">
-                            {field.value && (
-                              <FormLabel className=" absolute left-5 top-[0px] text-bgPrimary z-20 bg-white px-2.5 py-0 text-xs">
-                                App Name
-                              </FormLabel>
-                            )}
                             <FormControl>
                               <Input
                                 {...field}
                                 disabled={isPending}
-                                placeholder="App Name"
+                                placeholder="API Name"
+                                label="API Name"
                                 type="text"
-                                className={`${
-                                  field.value && "border-bgPrimary bg-white "
-                                }`}
                               />
                             </FormControl>
                             <FormMessage />

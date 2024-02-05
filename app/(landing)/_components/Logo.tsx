@@ -5,12 +5,12 @@ interface LogoProps {}
 
 const Logo: FC<LogoProps> = ({}) => {
   return (
-    <Image
-      src={"/FiscalLogo.png"}
+    <img
+      src={"/FiscalLogoNew.png"}
       alt="logo"
-      width={110}
+      width={150}
       height={33}
-      quality={100}
+      // quality={100}
     />
   );
 };

@@ -9,12 +9,9 @@ const page = ({}) => {
     <Authenticated>
       <div>
         <Navbar />
-        <div className=" py-40">
-          <div className="container max-w-[440px] p-8 border rounded-lg space-y-8 ">
-            <BusinessIdentityHeader />
-
-            <BusinessIdentityForm />
-          </div>
+        <div className="container max-w-[440px] p-8 border rounded-lg space-y-8 ">
+          <BusinessIdentityHeader />
+          <BusinessIdentityForm />
         </div>
       </div>
     </Authenticated>

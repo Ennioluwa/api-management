@@ -168,20 +168,13 @@ const ModifyApi: FC<ModifyApiProps> = ({ ApiKeyId }) => {
                         name="apiKeyName"
                         render={({ field }) => (
                           <FormItem className=" flex-1 relative">
-                            {field.value && (
-                              <FormLabel className=" absolute left-5 top-[0px] text-bgPrimary z-20 bg-white px-2.5 py-0 text-xs">
-                                App Name
-                              </FormLabel>
-                            )}
                             <FormControl>
                               <Input
                                 {...field}
                                 disabled={isPending}
-                                placeholder="App Name"
+                                placeholder="API Name"
                                 type="text"
-                                className={`${
-                                  field.value && "border-bgPrimary bg-white "
-                                }`}
+                                label="API Name"
                               />
                             </FormControl>
                             <FormMessage />
@@ -198,11 +191,6 @@ const ModifyApi: FC<ModifyApiProps> = ({ ApiKeyId }) => {
                         name="apiKeyName"
                         render={({ field }) => (
                           <FormItem className=" flex-1 relative">
-                            {field.value && (
-                              <FormLabel className=" absolute left-5 top-[0px] text-bgPrimary z-20 bg-white px-2.5 py-0 text-xs">
-                                API ID
-                              </FormLabel>
-                            )}
                             <FormControl>
                               <Input
                                 {...field}
@@ -210,9 +198,7 @@ const ModifyApi: FC<ModifyApiProps> = ({ ApiKeyId }) => {
                                 placeholder="App Name"
                                 type="text"
                                 value={api?.apiKeyId}
-                                className={`${
-                                  field.value && "border-bgPrimary bg-white "
-                                }`}
+                                label="API ID"
                               />
                             </FormControl>
                             <FormMessage />
@@ -224,11 +210,6 @@ const ModifyApi: FC<ModifyApiProps> = ({ ApiKeyId }) => {
                         name="apiKeyName"
                         render={({ field }) => (
                           <FormItem className=" flex-1 relative">
-                            {field.value && (
-                              <FormLabel className=" absolute left-5 top-[0px] text-bgPrimary z-20 bg-white px-2.5 py-0 text-xs">
-                                API Key
-                              </FormLabel>
-                            )}
                             <FormControl>
                               <Input
                                 {...field}
@@ -236,9 +217,7 @@ const ModifyApi: FC<ModifyApiProps> = ({ ApiKeyId }) => {
                                 placeholder="App Name"
                                 type="text"
                                 value={api?.apiKeyValue}
-                                className={`${
-                                  field.value && "border-bgPrimary bg-white "
-                                }`}
+                                label="API Key"
                               />
                             </FormControl>
                             <FormMessage />

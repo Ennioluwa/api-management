@@ -66,7 +66,7 @@ const ChangePaymentMethod: FC<ChangePaymentMethodProps> = () => {
       value: "ClientSalesReps",
     },
     {
-      label: "Finanace Officers",
+      label: "Finance Officers",
       value: "ClientFinanceOfficers",
     },
   ];

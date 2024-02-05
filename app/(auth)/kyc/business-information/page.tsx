@@ -5,18 +5,15 @@ import BusinessInformationHeader from "./_components/BusinessInformationHeader";
 
 const page = ({}) => {
   return (
-    <Authenticated>
+    <>
       <div className=" overflow-hidden">
         <Navbar />
-        <div className=" py-40">
-          <div className="container max-w-[440px] p-8 border rounded-lg space-y-8 overflow-auto ">
-            <BusinessInformationHeader />
-
-            <BusinessInformationForm />
-          </div>
+        <div className="container max-w-[440px] p-8 border rounded-lg space-y-8 overflow-auto ">
+          <BusinessInformationHeader />
+          <BusinessInformationForm />
         </div>
       </div>
-    </Authenticated>
+    </>
   );
 };
 

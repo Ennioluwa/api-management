@@ -50,8 +50,8 @@ const Sidebar: FC<SidebarProps> = ({ mobile }) => {
           mobile && "h-full pt-5"
         } `}
       >
-        <div className=" flex flex-col justify-between gap-20 h-full pl-3 py-8">
-          <div className="flex flex-col gap-1">
+        <div className=" flex flex-col justify-between gap-10 h-full pl-3 pt-8 shrink-0">
+          <div className="flex flex-col gap-1 ">
             <div className=" flex flex-col gap-1">
               {dashboard?.map((item, index) => (
                 <Button
@@ -130,18 +130,20 @@ const Sidebar: FC<SidebarProps> = ({ mobile }) => {
               ))}
             </div>
           </div>
-          <Button
-            variant="sidebar"
-            className="hover:border-l-[3px] hover:border-bgPrimary hover:bg-white hover:font-bold hover:text-black h-12"
-            onClick={handleLogout}
-          >
-            <LogoutCurve
-              variant="Bulk"
-              color={"#292D32"}
-              className={` w-5 h-5`}
-            />
-            Logout
-          </Button>
+          <div className=" pb-8">
+            <Button
+              variant="sidebar"
+              className="hover:border-l-[3px] shrink-0 hover:border-bgPrimary hover:bg-white hover:font-bold hover:text-black h-12"
+              onClick={handleLogout}
+            >
+              <LogoutCurve
+                variant="Bulk"
+                color={"#292D32"}
+                className={`w-5 h-5`}
+              />
+              Logout
+            </Button>
+          </div>
         </div>
       </div>
     </aside>

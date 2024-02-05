@@ -57,7 +57,7 @@ export const MobileSidebar = () => {
       >
         <SheetContent
           side="left"
-          className="p-2 bg-bgPrimary border-bgPrimary text-white h-full"
+          className="p-2 bg-bgPrimary border-bgPrimary text-white h-full overflow-auto"
         >
           <div className="  py-3 pl-1.5 rounded  flex flex-col items-start gap-5">
             {/* <div className=" mt-6 bg-white p-2 rounded w-full">

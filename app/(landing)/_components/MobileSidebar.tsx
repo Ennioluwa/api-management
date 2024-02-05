@@ -39,7 +39,7 @@ export const MobileSidebar = () => {
     <>
       <Button
         onClick={() => dispatch(onOpen())}
-        className="block lg:hidden px-0"
+        className="block md:hidden px-0"
         variant="ghost"
         size="sm"
       >

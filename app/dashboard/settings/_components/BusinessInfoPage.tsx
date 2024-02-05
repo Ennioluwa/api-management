@@ -53,7 +53,7 @@ const ProfilePage: FC<ProfilePageProps> = ({ setHeader }) => {
       id: "ClientSalesReps",
     },
     {
-      label: "Finanace Officers",
+      label: "Finance Officers",
       id: "ClientFinanceOfficers",
     },
   ];
@@ -130,7 +130,7 @@ const ProfilePage: FC<ProfilePageProps> = ({ setHeader }) => {
   }, []);
 
   return (
-    <div className=" py-8">
+    <div className=" py-4">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -151,20 +151,13 @@ const ProfilePage: FC<ProfilePageProps> = ({ setHeader }) => {
                     name="businessName"
                     render={({ field }) => (
                       <FormItem className=" relative">
-                        {field.value && (
-                          <FormLabel className=" absolute left-5 top-[0px] text-bgPrimary z-20 bg-white px-2.5 py-0 text-xs">
-                            Business Name
-                          </FormLabel>
-                        )}
                         <FormControl>
                           <Input
-                            className={`${
-                              field.value && "border-bgPrimary bg-white "
-                            }`}
                             {...field}
                             disabled={isPending}
                             placeholder="Enter Business Name"
                             type="text"
+                            label="Business Name"
                           />
                         </FormControl>
                         <FormMessage />
@@ -188,11 +181,6 @@ const ProfilePage: FC<ProfilePageProps> = ({ setHeader }) => {
                     name="businessIndustry"
                     render={({ field }) => (
                       <FormItem className=" relative">
-                        {field.value && (
-                          <FormLabel className=" absolute left-5 top-[0px] text-bgPrimary z-20 bg-white px-2.5 py-0 text-xs">
-                            Business Industry
-                          </FormLabel>
-                        )}
                         <FormControl>
                           <Select
                             value={field.value}
@@ -200,10 +188,8 @@ const ProfilePage: FC<ProfilePageProps> = ({ setHeader }) => {
                             disabled={isPending}
                           >
                             <SelectTrigger
-                              className={`${
-                                field.value &&
-                                "border-bgPrimary bg-white w-full"
-                              }`}
+                              label="Business Industry"
+                              value={field.value}
                             >
                               <SelectValue placeholder="Select Business Industry" />
                             </SelectTrigger>
@@ -249,19 +235,12 @@ const ProfilePage: FC<ProfilePageProps> = ({ setHeader }) => {
                     name="businessAddress"
                     render={({ field }) => (
                       <FormItem className=" relative">
-                        {field.value && (
-                          <FormLabel className=" absolute left-5 top-[0px] text-bgPrimary z-20 bg-white px-2.5 py-0 text-xs">
-                            Business Address
-                          </FormLabel>
-                        )}
                         <FormControl>
                           <Input
-                            className={`${
-                              field.value && "border-bgPrimary bg-white "
-                            }`}
                             {...field}
                             disabled={isPending}
                             placeholder="Enter Business Address"
+                            label="Business Address"
                             type="text"
                           />
                         </FormControl>
@@ -274,22 +253,13 @@ const ProfilePage: FC<ProfilePageProps> = ({ setHeader }) => {
                     name="businessCountry"
                     render={({ field }) => (
                       <FormItem className=" relative">
-                        {field.value && (
-                          <FormLabel className=" absolute left-5 top-[0px] text-bgPrimary z-20 bg-white px-2.5 py-0 text-xs">
-                            Country
-                          </FormLabel>
-                        )}
                         <FormControl>
                           <Select
                             value={field.value}
                             onValueChange={field.onChange}
                             disabled={isPending}
                           >
-                            <SelectTrigger
-                              className={`${
-                                field.value && "border-bgPrimary bg-white "
-                              }w-full`}
-                            >
+                            <SelectTrigger label="Country" value={field.value}>
                               <SelectValue placeholder="Country" />
                             </SelectTrigger>
                             <SelectContent>
@@ -327,20 +297,13 @@ const ProfilePage: FC<ProfilePageProps> = ({ setHeader }) => {
                     name="disputeEmail"
                     render={({ field }) => (
                       <FormItem className=" relative">
-                        {field.value && (
-                          <FormLabel className=" absolute left-5 top-[0px] text-bgPrimary z-20 bg-white px-2.5 py-0 text-xs">
-                            Dispute Email
-                          </FormLabel>
-                        )}
                         <FormControl>
                           <Input
-                            className={`${
-                              field.value && "border-bgPrimary bg-white "
-                            }`}
                             {...field}
                             disabled={isPending}
                             placeholder="Enter Dispute Email"
                             type="email"
+                            label="Dispute Email"
                           />
                         </FormControl>
                         <FormMessage />
@@ -364,20 +327,13 @@ const ProfilePage: FC<ProfilePageProps> = ({ setHeader }) => {
                     name="supportEmail"
                     render={({ field }) => (
                       <FormItem className=" relative">
-                        {field.value && (
-                          <FormLabel className=" absolute left-5 top-[0px] text-bgPrimary z-20 bg-white px-2.5 py-0 text-xs">
-                            Support Email
-                          </FormLabel>
-                        )}
                         <FormControl>
                           <Input
-                            className={`${
-                              field.value && "border-bgPrimary bg-white "
-                            }`}
                             {...field}
                             disabled={isPending}
                             placeholder="Enter Support Email"
                             type="email"
+                            label="Support Email"
                           />
                         </FormControl>
                         <FormMessage />
@@ -401,20 +357,13 @@ const ProfilePage: FC<ProfilePageProps> = ({ setHeader }) => {
                     name="defaultEmail"
                     render={({ field }) => (
                       <FormItem className=" relative">
-                        {field.value && (
-                          <FormLabel className=" absolute left-5 top-[0px] text-bgPrimary z-20 bg-white px-2.5 py-0 text-xs">
-                            Default Email
-                          </FormLabel>
-                        )}
                         <FormControl>
                           <Input
-                            className={`${
-                              field.value && "border-bgPrimary bg-white "
-                            }`}
                             {...field}
                             disabled={isPending}
                             placeholder="Enter Default Email"
                             type="email"
+                            label="Default Email"
                           />
                         </FormControl>
                         <FormMessage />

@@ -74,9 +74,7 @@ export const LoginSchema = z.object({
   email: z.string().email({
     message: "Email is required",
   }),
-  password: z.string().min(6, {
-    message: "Minimum 6 characters required",
-  }),
+  password: strongPassword,
 });
 
 export const ForgotPasswordSchema = z.object({
@@ -87,12 +85,8 @@ export const ForgotPasswordSchema = z.object({
 
 export const PasswordResetSchema = z
   .object({
-    password: z
-      .string()
-      .min(6, { message: "Password must be at least 6 characters" }),
-    confirmPassword: z
-      .string()
-      .min(6, { message: "Password must be at least 6 characters" }),
+    password: strongPassword,
+    confirmPassword: strongPassword,
   })
   .refine((data) => data.password === data.confirmPassword, {
     path: ["confirmPassword"],

@@ -59,13 +59,13 @@ const HeroPage: FC<HeroPageProps> = ({}) => {
   );
 
   return (
-    <section className="w-full h-full px-5 lg:px-10 py-10 lg:py-20 lg:pt-0 ">
+    <section className="w-full h-full px-5 md:px-10 py-10 lg:py-20 lg:pt-0 ">
       <div className="lg:container">
         <Carousel className="w-full " setApi={setApi}>
           <CarouselContent>
             {heroProps.map((item, index) => (
               <CarouselItem key={index}>
-                <div className="flex flex-col lg:flex-row items-center gap-5 justify-between w-full lg:min-h-[calc(100vh_-_180px)] max-h-[800px] ">
+                <div className="flex flex-col lg:flex-row items-center gap-5 justify-between w-full lg:min-h-[calc(100vh_-_240px)] max-h-[800px] ">
                   <div className="flex items-center h-full w-full lg:w-1/2 ">
                     <div>
                       <h1 className="font-extrabold text-5xl lg:text-7xl text-gray-800">

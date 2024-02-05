@@ -20,11 +20,11 @@ const Navbar = () => {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed top-0 left-0 right-0 w-full h-[80px]  p-5 lg:px-10  bg-white border-b z-40 shadow">
-      <div className="md:container flex items-center justify-between w-full">
+    <nav className="fixed top-0 left-0 right-0 w-full h-[80px] px-5 lg:px-10 grid place-items-center  bg-white border-b z-40 shadow">
+      <div className=" flex items-center justify-between w-full lg:container">
         <div className=" flex items-center relative gap-5">
           <Logo />
-          <div className=" w-full shrink- hidden lg:block">
+          <div className=" w-full shrink- hidden md:block">
             {navItems.map((item, index) => {
               const active = pathname === item.link;
               return (
@@ -41,7 +41,7 @@ const Navbar = () => {
             })}
           </div>
         </div>
-        <div className=" items-center gap-3 hidden xl:flex">
+        <div className=" items-center gap-3 hidden lg:flex">
           <Button variant={"outline"}>
             <Code variant="Bold" size="18px" />
             REQUEST A DEMO

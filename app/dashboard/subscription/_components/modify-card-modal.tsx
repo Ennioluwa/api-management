@@ -55,7 +55,7 @@ const ModifyCardModal: FC<ModifyCardModalProps> = () => {
       value: "ClientSalesReps",
     },
     {
-      label: "Finanace Officers",
+      label: "Finance Officers",
       value: "ClientFinanceOfficers",
     },
   ];
@@ -127,20 +127,13 @@ const ModifyCardModal: FC<ModifyCardModalProps> = () => {
                         name="email"
                         render={({ field }) => (
                           <FormItem className=" relative">
-                            {field.value && (
-                              <FormLabel className=" absolute left-5 top-[0px] text-bgPrimary z-20 bg-white px-2.5 py-0 text-xs">
-                                Card Name
-                              </FormLabel>
-                            )}
                             <FormControl>
                               <Input
                                 {...field}
                                 disabled={isPending}
                                 placeholder="Enter Card Name"
                                 type="text"
-                                className={`${
-                                  field.value && "border-bgPrimary bg-white"
-                                }`}
+                                label="Card Name"
                               />
                             </FormControl>
                             <FormMessage />
@@ -152,20 +145,13 @@ const ModifyCardModal: FC<ModifyCardModalProps> = () => {
                         name="email"
                         render={({ field }) => (
                           <FormItem className=" relative">
-                            {field.value && (
-                              <FormLabel className=" absolute left-5 top-[0px] text-bgPrimary z-20 bg-white px-2.5 py-0 text-xs">
-                                Card Number
-                              </FormLabel>
-                            )}
                             <FormControl>
                               <Input
                                 {...field}
                                 disabled={isPending}
                                 placeholder="Enter Card Number"
                                 type="number"
-                                className={`${
-                                  field.value && "border-bgPrimary bg-white"
-                                }`}
+                                label="Card Number"
                               />
                             </FormControl>
                             <FormMessage />
@@ -178,20 +164,13 @@ const ModifyCardModal: FC<ModifyCardModalProps> = () => {
                           name="firstName"
                           render={({ field }) => (
                             <FormItem className=" flex-1 relative">
-                              {field.value && (
-                                <FormLabel className=" absolute left-5 top-[0px] text-bgPrimary z-20 bg-white px-2.5 py-0 text-xs">
-                                  CCV
-                                </FormLabel>
-                              )}
                               <FormControl>
                                 <Input
                                   {...field}
                                   disabled={isPending}
                                   placeholder="CCV"
                                   type="number"
-                                  className={`${
-                                    field.value && "border-bgPrimary bg-white "
-                                  }`}
+                                  label="CCV"
                                 />
                               </FormControl>
                               <FormMessage />
@@ -203,20 +182,13 @@ const ModifyCardModal: FC<ModifyCardModalProps> = () => {
                           name="lastName"
                           render={({ field }) => (
                             <FormItem className=" flex-1 relative">
-                              {field.value && (
-                                <FormLabel className=" absolute left-5 top-[0px] text-bgPrimary z-20 bg-white px-2.5 py-0 text-xs">
-                                  Expiry Date
-                                </FormLabel>
-                              )}
                               <FormControl>
                                 <Input
                                   {...field}
                                   disabled={isPending}
                                   placeholder="Expiry Date"
                                   type="date"
-                                  className={`${
-                                    field.value && "border-bgPrimary bg-white "
-                                  }`}
+                                  label="Expiry Date"
                                 />
                               </FormControl>
                               <FormMessage />
@@ -229,11 +201,6 @@ const ModifyCardModal: FC<ModifyCardModalProps> = () => {
                         name="lastName"
                         render={({ field }) => (
                           <FormItem className=" flex-1 relative">
-                            {field.value && (
-                              <FormLabel className=" absolute left-5 top-[0px] text-bgPrimary z-20 bg-white px-2.5 py-0 text-xs">
-                                Expiry Date
-                              </FormLabel>
-                            )}
                             <FormControl>
                               <div className="flex items-center space-x-2">
                                 <Switch

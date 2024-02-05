@@ -11,7 +11,7 @@ interface NavbarProps {
 const Navbar: FC<NavbarProps> = ({ text, link }) => {
   return (
     <div className=" fixed top-0 left-0 right-0 h-[80px] w-full bg-white z-50 shadow ">
-      <div className="container flex justify-between items-center p-5">
+      <div className="container flex justify-between items-center px-5 h-full">
         <Logo />
         <Link href={link}>
           <Button className=" font-bold text-dark" variant="ghost">

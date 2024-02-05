@@ -107,7 +107,7 @@ const ProfilePage: FC<ProfilePageProps> = ({ setHeader }) => {
     });
   }, []);
   return (
-    <div className=" py-8">
+    <div className=" py-4">
       <p className=" flex gap-2 items-center text-black text-xs pb-5">
         <UserCirlceAdd variant="Bulk" size={18} />
         Profile Settings
@@ -125,20 +125,13 @@ const ProfilePage: FC<ProfilePageProps> = ({ setHeader }) => {
                   name="firstName"
                   render={({ field }) => (
                     <FormItem className=" w-full relative">
-                      {field.value && (
-                        <FormLabel className=" absolute left-5 top-[0px] text-bgPrimary z-20 bg-white px-2.5 py-0 text-xs">
-                          First Name
-                        </FormLabel>
-                      )}
                       <FormControl>
                         <Input
-                          className={`${
-                            field.value && "border-bgPrimary bg-white "
-                          }`}
                           {...field}
                           disabled={isPending}
                           placeholder="First Name"
                           type="text"
+                          label="First Name"
                         />
                       </FormControl>
                       <FormMessage />
@@ -150,20 +143,13 @@ const ProfilePage: FC<ProfilePageProps> = ({ setHeader }) => {
                   name="lastName"
                   render={({ field }) => (
                     <FormItem className=" w-full relative">
-                      {field.value && (
-                        <FormLabel className=" absolute left-5 top-[0px] text-bgPrimary z-20 bg-white px-2.5 py-0 text-xs">
-                          Last Name
-                        </FormLabel>
-                      )}
                       <FormControl>
                         <Input
-                          className={`${
-                            field.value && "border-bgPrimary bg-white "
-                          }`}
                           {...field}
                           disabled={isPending}
                           placeholder="Last Name"
                           type="text"
+                          label="Last Name"
                         />
                       </FormControl>
                       <FormMessage />
@@ -176,11 +162,6 @@ const ProfilePage: FC<ProfilePageProps> = ({ setHeader }) => {
                 name="email"
                 render={({ field }) => (
                   <FormItem className="relative w-full">
-                    {field.value && (
-                      <FormLabel className=" absolute left-5 top-[0px] text-bgPrimary z-20 bg-white px-2.5 py-0 text-xs">
-                        Email
-                      </FormLabel>
-                    )}
                     <FormControl>
                       <Input
                         {...field}
@@ -189,9 +170,7 @@ const ProfilePage: FC<ProfilePageProps> = ({ setHeader }) => {
                         type="email"
                         PrefixIcon={Direct}
                         variant="Bulk"
-                        className={`${
-                          field.value && "border-bgPrimary bg-white "
-                        }`}
+                        label="Email Address"
                       />
                     </FormControl>
                     <FormMessage />
@@ -204,7 +183,7 @@ const ProfilePage: FC<ProfilePageProps> = ({ setHeader }) => {
                 render={({ field }) => (
                   <FormItem className="relative w-full">
                     {field.value && (
-                      <FormLabel className=" absolute left-5 top-[0px] text-bgPrimary z-20 bg-white px-2.5 py-0 text-xs">
+                      <FormLabel className="font-normal absolute left-5 top-[0px] text-bgPrimary z-20 bg-white px-2.5 py-0 text-xs">
                         Phone
                       </FormLabel>
                     )}

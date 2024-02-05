@@ -113,7 +113,7 @@ const PreferencesPage: FC<PreferencesPageProps> = ({ setHeader }) => {
   }, []);
 
   return (
-    <div className=" py-8">
+    <div className=" py-4">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -135,23 +135,13 @@ const PreferencesPage: FC<PreferencesPageProps> = ({ setHeader }) => {
                     name="businessIndustry"
                     render={({ field }) => (
                       <FormItem className=" relative">
-                        {field.value && (
-                          <FormLabel className=" absolute left-5 top-[0px] text-bgPrimary z-20 bg-white px-2.5 py-0 text-xs">
-                            Select Currency
-                          </FormLabel>
-                        )}
                         <FormControl>
                           <Select
                             value={field.value}
                             onValueChange={field.onChange}
                             disabled={isPending}
                           >
-                            <SelectTrigger
-                              className={`${
-                                field.value &&
-                                "border-bgPrimary bg-white w-full"
-                              }`}
-                            >
+                            <SelectTrigger value={field.value} label="Currency">
                               <SelectValue placeholder="Select Default Currency" />
                             </SelectTrigger>
                             <SelectContent>

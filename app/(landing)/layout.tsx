@@ -1,5 +1,6 @@
 import Navbar from "./_components/Navbar";
 import "../globals.css";
+import Container from "../(auth)/_components/Container";
 
 export default function RootLayout({
   children,
@@ -7,9 +8,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div>
-      <Navbar />
-      <div className=" pt-20 ">{children}</div>
+    <div className="h-[calc(100vh-80px)] mt-20">
+      <div className=" h-full overflow-auto">
+        <Navbar />
+        <div className="">{children}</div>
+      </div>
     </div>
   );
 }

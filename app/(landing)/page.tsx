@@ -12,7 +12,7 @@ interface pageProps {}
 
 const page: FC<pageProps> = ({}) => {
   return (
-    <div className=" relative">
+    <div className=" h-full w-full">
       <HeroPage />
       <OpenAccount />
       <Services />

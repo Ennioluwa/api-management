@@ -14,7 +14,7 @@ interface NavbarProps {}
 const Navbar: FC<NavbarProps> = ({}) => {
   const { userData } = useAppSelector((state) => state.user);
   return (
-    <nav className="fixed top-0 left-0 right-0 w-full h-20  px-3 py-3 bg-white border-b z-40 shadow grid place-items-center">
+    <nav className="fixed top-0 left-0 right-0 w-full h-20  px-3 bg-white border-b z-40 shadow grid place-items-center">
       <div className="flex items-center justify-between w-full gap-5">
         <div className=" flex items-center gap-3">
           <MobileSidebar />

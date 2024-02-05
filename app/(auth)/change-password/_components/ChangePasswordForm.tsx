@@ -89,20 +89,13 @@ export const ChangePasswordForm = () => {
                 name="oldPassword"
                 render={({ field }) => (
                   <FormItem className=" relative">
-                    {field.value && (
-                      <FormLabel className=" absolute left-5 top-[0px] text-bgPrimary z-20 bg-white px-2.5 py-0 text-xs">
-                        Old Password
-                      </FormLabel>
-                    )}
                     <FormControl>
                       <PasswordInput
                         {...field}
                         disabled={isPending}
                         PrefixIcon={Lock}
                         variant="TwoTone"
-                        className={`${
-                          field.value && "border-bgPrimary bg-white "
-                        }`}
+                        label="Old Password"
                         placeholder="Enter Old Password"
                       />
                     </FormControl>
@@ -115,20 +108,13 @@ export const ChangePasswordForm = () => {
                 name="newPassword"
                 render={({ field }) => (
                   <FormItem className=" relative">
-                    {field.value && (
-                      <FormLabel className=" absolute left-5 top-[0px] text-bgPrimary z-20 bg-white px-2.5 py-0 text-xs">
-                        New Password
-                      </FormLabel>
-                    )}
                     <FormControl>
                       <PasswordInput
                         {...field}
                         disabled={isPending}
                         PrefixIcon={Lock}
                         variant="TwoTone"
-                        className={`${
-                          field.value && "border-bgPrimary bg-white "
-                        }`}
+                        label="New Password"
                         placeholder="Enter New Password"
                       />
                     </FormControl>
@@ -141,20 +127,13 @@ export const ChangePasswordForm = () => {
                 name="confirmPassword"
                 render={({ field }) => (
                   <FormItem className=" relative">
-                    {field.value && (
-                      <FormLabel className=" absolute left-5 top-[0px] text-bgPrimary z-20 bg-white px-2.5 py-0 text-xs">
-                        Confirm Password
-                      </FormLabel>
-                    )}
                     <FormControl>
                       <PasswordInput
                         {...field}
                         disabled={isPending}
                         PrefixIcon={Lock}
                         variant="TwoTone"
-                        className={`${
-                          field.value && "border-bgPrimary bg-white "
-                        }`}
+                        label="Confirm Password"
                         placeholder="Confirm New Password"
                       />
                     </FormControl>
@@ -170,8 +149,7 @@ export const ChangePasswordForm = () => {
               isPending ||
               !form.getValues().oldPassword ||
               !form.getValues().newPassword ||
-              !form.getValues().confirmPassword ||
-              form.getValues().newPassword != form.getValues().confirmPassword
+              !form.getValues().confirmPassword
             }
             type="submit"
             className="w-full"

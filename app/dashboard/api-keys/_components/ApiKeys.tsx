@@ -46,7 +46,7 @@ const ApiKeys = () => {
           <PuffLoader color="#0062FF" />
         </div>
       )}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
         {apiKeys !== (null || undefined) &&
           apiKeys.map((api, i) => (
             <div
@@ -60,7 +60,7 @@ const ApiKeys = () => {
                 </h6>
                 {/* <input type="checkbox" name="active" id="api" /> */}
               </div>
-              <p>
+              <p className=" truncate">
                 API ID: <span className=" font-bold">{api.apiKeyId}</span>
               </p>
               <p className=" text-xs">

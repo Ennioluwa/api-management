@@ -25,7 +25,7 @@ const Home = () => {
 
   if (userData?.companyStatus === "Pending") {
     return (
-      <div className="lg:container flex flex-col gap-5">
+      <div className="lg:container lg:ml-0 flex flex-col justify-start gap-5">
         <div className="flex flex-col gap-5">
           <h1 className=" font-bold text-4xl text-dark">Overview</h1>
           <div className=" font-bold p-3 flex items-center gap-5 justify-between bg-[#A71C1C] text-white rounded-lg text-xs">
@@ -69,7 +69,7 @@ const Home = () => {
   }
 
   return (
-    <div className="lg:container flex flex-col gap-5">
+    <div className="lg:container lg:ml-0 flex flex-col gap-5">
       <div className="flex flex-col md:flex-row gap-4 md:items-center justify-between">
         <h1 className=" font-bold text-4xl text-dark">Dashboard</h1>
         <div className=" rounded bg-white flex gap-1 items-center w-fit">

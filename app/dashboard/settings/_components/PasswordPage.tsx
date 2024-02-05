@@ -82,7 +82,7 @@ const ProfilePage: FC<ProfilePageProps> = ({ setHeader }) => {
     });
   }, []);
   return (
-    <div className=" py-8">
+    <div className=" py-4">
       <p className=" flex gap-2 items-center text-black text-xs pb-5">
         <Lock variant="Bulk" size={18} />
         Change Security Information
@@ -99,21 +99,14 @@ const ProfilePage: FC<ProfilePageProps> = ({ setHeader }) => {
                 name="oldPassword"
                 render={({ field }) => (
                   <FormItem className=" relative">
-                    {field.value && (
-                      <FormLabel className=" absolute left-5 top-[0px] text-bgPrimary z-20 bg-white px-2.5 py-0 text-xs">
-                        Old Password
-                      </FormLabel>
-                    )}
                     <FormControl>
                       <PasswordInput
                         {...field}
                         disabled={isPending}
                         PrefixIcon={Lock}
                         variant="TwoTone"
-                        className={`${
-                          field.value && "border-bgPrimary bg-white "
-                        }`}
                         placeholder="Enter Old Password"
+                        label="Old Password"
                       />
                     </FormControl>
                     <FormMessage />
@@ -125,21 +118,14 @@ const ProfilePage: FC<ProfilePageProps> = ({ setHeader }) => {
                 name="newPassword"
                 render={({ field }) => (
                   <FormItem className=" relative">
-                    {field.value && (
-                      <FormLabel className=" absolute left-5 top-[0px] text-bgPrimary z-20 bg-white px-2.5 py-0 text-xs">
-                        New Password
-                      </FormLabel>
-                    )}
                     <FormControl>
                       <PasswordInput
                         {...field}
                         disabled={isPending}
                         PrefixIcon={Lock}
                         variant="TwoTone"
-                        className={`${
-                          field.value && "border-bgPrimary bg-white "
-                        }`}
                         placeholder="Enter New Password"
+                        label="New Password"
                       />
                     </FormControl>
                     <FormMessage />
@@ -151,21 +137,14 @@ const ProfilePage: FC<ProfilePageProps> = ({ setHeader }) => {
                 name="confirmPassword"
                 render={({ field }) => (
                   <FormItem className=" relative">
-                    {field.value && (
-                      <FormLabel className=" absolute left-5 top-[0px] text-bgPrimary z-20 bg-white px-2.5 py-0 text-xs">
-                        Confirm Password
-                      </FormLabel>
-                    )}
                     <FormControl>
                       <PasswordInput
                         {...field}
                         disabled={isPending}
                         PrefixIcon={Lock}
                         variant="TwoTone"
-                        className={`${
-                          field.value && "border-bgPrimary bg-white "
-                        }`}
                         placeholder="Confirm New Password"
+                        label="Confirm Password"
                       />
                     </FormControl>
                     <FormMessage />

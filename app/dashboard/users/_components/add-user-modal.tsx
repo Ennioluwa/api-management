@@ -50,7 +50,7 @@ const AddUserModal: FC<AddUserModalProps> = () => {
       value: "ClientSalesReps",
     },
     {
-      label: "Finanace Officers",
+      label: "Finance Officers",
       value: "ClientFinanceOfficers",
     },
   ];
@@ -136,20 +136,13 @@ const AddUserModal: FC<AddUserModalProps> = () => {
                           name="firstName"
                           render={({ field }) => (
                             <FormItem className="w-full flex-1 relative">
-                              {field.value && (
-                                <FormLabel className=" absolute left-5 top-[0px] text-bgPrimary z-20 bg-white px-2.5 py-0 text-xs">
-                                  First Name
-                                </FormLabel>
-                              )}
                               <FormControl>
                                 <Input
                                   {...field}
                                   disabled={isPending}
                                   placeholder="First Name"
                                   type="text"
-                                  className={`${
-                                    field.value && "border-bgPrimary bg-white "
-                                  }`}
+                                  label="First Name"
                                 />
                               </FormControl>
                               <FormMessage />
@@ -161,20 +154,13 @@ const AddUserModal: FC<AddUserModalProps> = () => {
                           name="lastName"
                           render={({ field }) => (
                             <FormItem className="w-full flex-1 relative">
-                              {field.value && (
-                                <FormLabel className=" absolute left-5 top-[0px] text-bgPrimary z-20 bg-white px-2.5 py-0 text-xs">
-                                  Last Name
-                                </FormLabel>
-                              )}
                               <FormControl>
                                 <Input
                                   {...field}
                                   disabled={isPending}
                                   placeholder="Last Name"
                                   type="text"
-                                  className={`${
-                                    field.value && "border-bgPrimary bg-white "
-                                  }`}
+                                  label="Last Name"
                                 />
                               </FormControl>
                               <FormMessage />
@@ -187,20 +173,13 @@ const AddUserModal: FC<AddUserModalProps> = () => {
                         name="email"
                         render={({ field }) => (
                           <FormItem className=" relative">
-                            {field.value && (
-                              <FormLabel className=" absolute left-5 top-[0px] text-bgPrimary z-20 bg-white px-2.5 py-0 text-xs">
-                                Email
-                              </FormLabel>
-                            )}
                             <FormControl>
                               <Input
                                 {...field}
                                 disabled={isPending}
                                 placeholder="Enter Email Address"
                                 type="email"
-                                className={`${
-                                  field.value && "border-bgPrimary bg-white"
-                                }`}
+                                label="Email Address"
                               />
                             </FormControl>
                             <FormMessage />

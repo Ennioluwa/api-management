@@ -141,23 +141,16 @@ export const LoginForm = () => {
                 control={form.control}
                 name="email"
                 render={({ field }) => (
-                  <FormItem className="relative w-full">
-                    {field.value && (
-                      <FormLabel className=" absolute left-5 top-[0px] text-bgPrimary z-20 bg-white px-2.5 py-0 text-xs">
-                        Email
-                      </FormLabel>
-                    )}
+                  <FormItem className=" w-full">
                     <FormControl>
                       <Input
+                        label="Email Address"
                         {...field}
                         disabled={isPending}
                         placeholder="Enter Email Address"
                         type="email"
                         PrefixIcon={Direct}
                         variant="Bulk"
-                        className={`${
-                          field.value && "border-bgPrimary bg-white "
-                        }`}
                       />
                     </FormControl>
                     <FormMessage />
@@ -168,12 +161,7 @@ export const LoginForm = () => {
                 control={form.control}
                 name="password"
                 render={({ field }) => (
-                  <FormItem className="relative w-full">
-                    {field.value && (
-                      <FormLabel className=" absolute left-5 top-[0px] text-bgPrimary z-20 bg-white px-2.5 py-0 text-xs">
-                        Password
-                      </FormLabel>
-                    )}
+                  <FormItem className=" w-full">
                     <FormControl>
                       <PasswordInput
                         {...field}
@@ -181,9 +169,7 @@ export const LoginForm = () => {
                         PrefixIcon={Lock}
                         variant="TwoTone"
                         placeholder="Enter your Password"
-                        className={`${
-                          field.value && "border-bgPrimary bg-white "
-                        } select-none`}
+                        label="Password"
                       />
                     </FormControl>
                     <FormMessage />

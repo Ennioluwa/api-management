@@ -131,20 +131,13 @@ export const SignupForm = () => {
                   name="firstName"
                   render={({ field }) => (
                     <FormItem className="relative w-full">
-                      {field.value && (
-                        <FormLabel className=" absolute left-5 top-[0px] text-bgPrimary z-20 bg-white px-2.5 py-0 text-xs">
-                          First Name
-                        </FormLabel>
-                      )}
                       <FormControl>
                         <Input
                           {...field}
                           disabled={isPending}
                           placeholder="First Name"
                           type="text"
-                          className={`${
-                            field.value && "border-bgPrimary bg-white"
-                          }`}
+                          label="First Name"
                         />
                       </FormControl>
                       <FormMessage />
@@ -156,20 +149,13 @@ export const SignupForm = () => {
                   name="lastName"
                   render={({ field }) => (
                     <FormItem className="relative w-full">
-                      {field.value && (
-                        <FormLabel className=" absolute left-5 top-[0px] text-bgPrimary z-20 bg-white px-2.5 py-0 text-xs">
-                          Last Name
-                        </FormLabel>
-                      )}
                       <FormControl>
                         <Input
                           {...field}
                           disabled={isPending}
                           placeholder="Last Name"
                           type="text"
-                          className={`${
-                            field.value && "border-bgPrimary bg-white "
-                          }`}
+                          label="Last Name"
                         />
                       </FormControl>
                       <FormMessage />
@@ -182,11 +168,6 @@ export const SignupForm = () => {
                 name="email"
                 render={({ field }) => (
                   <FormItem className="relative w-full">
-                    {field.value && (
-                      <FormLabel className=" absolute left-5 top-[0px] text-bgPrimary z-20 bg-white px-2.5 py-0 text-xs">
-                        Email
-                      </FormLabel>
-                    )}
                     <FormControl>
                       <Input
                         {...field}
@@ -195,9 +176,7 @@ export const SignupForm = () => {
                         type="email"
                         PrefixIcon={Direct}
                         variant="Bulk"
-                        className={`${
-                          field.value && "border-bgPrimary bg-white "
-                        }`}
+                        label="Email Address"
                       />
                     </FormControl>
                     <FormMessage />
@@ -210,7 +189,7 @@ export const SignupForm = () => {
                 render={({ field }) => (
                   <FormItem className="relative w-full">
                     {field.value && (
-                      <FormLabel className=" absolute left-5 top-[0px] text-bgPrimary z-20 bg-white px-2.5 py-0 text-xs">
+                      <FormLabel className=" font-normal absolute left-5 top-[0px] text-bgPrimary z-20 bg-white px-2.5 py-0 text-xs">
                         Phone
                       </FormLabel>
                     )}
@@ -240,11 +219,6 @@ export const SignupForm = () => {
                 name="password"
                 render={({ field }) => (
                   <FormItem className="relative w-full">
-                    {field.value && (
-                      <FormLabel className=" absolute left-5 top-[0px] text-bgPrimary z-20 bg-white px-2.5 py-0 text-xs">
-                        Password
-                      </FormLabel>
-                    )}
                     <FormControl>
                       <PasswordInput
                         {...field}
@@ -252,9 +226,7 @@ export const SignupForm = () => {
                         PrefixIcon={Lock}
                         variant="TwoTone"
                         placeholder="Create a Password"
-                        className={`${
-                          field.value && "border-bgPrimary bg-white "
-                        } select-none`}
+                        label="Password"
                       />
                     </FormControl>
                     <FormMessage />

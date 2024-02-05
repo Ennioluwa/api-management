@@ -28,7 +28,7 @@ interface ApiDetailsProps {
 }
 
 const ApiDetails: FC<ApiDetailsProps> = ({ ApiKeyId }) => {
-  const [hidden, setHidden] = useState(false);
+  const [hidden, setHidden] = useState(true);
   const [active, setActive] = useState(false);
   const [api, setApi] = useState<ApiKeyData | null>(null);
   const [toggleOff, setToggleOff] = useState(false);
@@ -156,6 +156,7 @@ const ApiDetails: FC<ApiDetailsProps> = ({ ApiKeyId }) => {
                       ))
                     : api.apiKeyValue}
                 </p>
+
                 {hidden ? (
                   <Eye
                     variant="Bulk"
@@ -171,6 +172,12 @@ const ApiDetails: FC<ApiDetailsProps> = ({ ApiKeyId }) => {
                     className=" shrink-0 cursor-pointer"
                   />
                 )}
+                <Copy
+                  onClick={() => copyToClipboard(api.apiKeyValue)}
+                  size={24}
+                  color="#595959"
+                  className=" shrink-0 cursor-pointer ml-3"
+                />
               </div>
             </div>
           </div>

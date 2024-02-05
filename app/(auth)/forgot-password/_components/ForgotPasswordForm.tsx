@@ -111,6 +111,7 @@ export const ForgotPasswordForm = () => {
                   <FormItem>
                     <FormControl>
                       <Input
+                        label="Email Address"
                         {...field}
                         disabled={isPending}
                         placeholder="Enter Email Address"

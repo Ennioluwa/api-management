@@ -80,27 +80,31 @@ const BusinessIdentityForm = () => {
   return (
     <>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-14">
           <div className="space-y-6">
             <>
               <FormField
                 control={form.control}
                 name="businessTpid"
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem className=" space-y-4">
                     <FormLabel>Your Business TPID</FormLabel>
                     <FormDescription>
                       Enter your business TPID which can be found on your
                       business registration form
                     </FormDescription>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        disabled={isPending}
-                        placeholder="Enter TPID"
-                        type="text"
-                      />
-                    </FormControl>
+                    <div className="relative w-full h-full">
+                      <FormControl>
+                        <Input
+                          {...field}
+                          disabled={isPending}
+                          placeholder="Enter TPID"
+                          label="Business TPID"
+                          type="text"
+                        />
+                      </FormControl>
+                    </div>
+
                     <FormMessage />
                   </FormItem>
                 )}
@@ -110,7 +114,7 @@ const BusinessIdentityForm = () => {
                 control={form.control}
                 name="branchId"
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem className=" space-y-4">
                     <FormLabel>Branch ID</FormLabel>
                     <FormDescription>
                       Your branch ID is located in the certificate offered by
@@ -122,6 +126,7 @@ const BusinessIdentityForm = () => {
                         disabled={isPending}
                         placeholder="Enter Branch ID"
                         type="text"
+                        label="Branch Id"
                       />
                     </FormControl>
                     <FormMessage />
@@ -133,7 +138,7 @@ const BusinessIdentityForm = () => {
                 control={form.control}
                 name="businessSerialNumber"
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem className=" space-y-4">
                     <FormLabel>Business Serial Number</FormLabel>
                     <FormDescription>
                       Your CAC Serial Number is important for verifying the
@@ -143,6 +148,7 @@ const BusinessIdentityForm = () => {
                     <FormControl>
                       <Input
                         {...field}
+                        label="Serial Number"
                         disabled={isPending}
                         placeholder="Enter Business Serial Number"
                         type="text"
@@ -152,12 +158,20 @@ const BusinessIdentityForm = () => {
                   </FormItem>
                 )}
               />
-              <hr />
             </>
           </div>
 
           {/* TODO: add disabled state when all the fields have not been added */}
-          <Button disabled={isPending} type="submit" className="w-full">
+          <Button
+            disabled={
+              isPending ||
+              !form.getValues().businessTpid ||
+              !form.getValues().businessSerialNumber ||
+              !form.getValues().branchId
+            }
+            type="submit"
+            className="w-full"
+          >
             CONTINUE
           </Button>
         </form>

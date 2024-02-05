@@ -96,14 +96,14 @@ const BusinessInformationForm = () => {
   return (
     <>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-14">
           <div className="space-y-6">
             <>
               <FormField
                 control={form.control}
                 name="businessName"
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem className="relative w-full">
                     <FormLabel>What is your official business name?</FormLabel>
                     <FormDescription>
                       This must be the actual name on your official document.
@@ -113,6 +113,7 @@ const BusinessInformationForm = () => {
                       <Input
                         {...field}
                         disabled={isPending}
+                        label="Business Name"
                         placeholder="Your Business Name"
                         type="text"
                       />
@@ -126,7 +127,7 @@ const BusinessInformationForm = () => {
                 control={form.control}
                 name="businessIndustry"
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem className="relative w-full">
                     <FormLabel>Business Industry</FormLabel>
                     <FormDescription>
                       Choose the industry closest to the one in which your
@@ -138,7 +139,11 @@ const BusinessInformationForm = () => {
                         onValueChange={field.onChange}
                         disabled={isPending}
                       >
-                        <SelectTrigger className="w-full">
+                        <SelectTrigger
+                          label="Business Industry"
+                          selectValue={field.value}
+                          className="w-full"
+                        >
                           <SelectValue placeholder="Select Business Industry" />
                         </SelectTrigger>
                         <SelectContent>
@@ -168,7 +173,7 @@ const BusinessInformationForm = () => {
                 control={form.control}
                 name="businessAddress"
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem className="relative w-full">
                     <FormLabel>Verify your business address</FormLabel>
                     <FormDescription>
                       You will need to upload a copy of you utility bill
@@ -178,6 +183,7 @@ const BusinessInformationForm = () => {
                     <FormControl>
                       <Input
                         {...field}
+                        label="Business Address"
                         disabled={isPending}
                         placeholder="Your Business Address"
                         type="text"
@@ -192,7 +198,7 @@ const BusinessInformationForm = () => {
                 control={form.control}
                 name="businessLocation"
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem className="relative w-full">
                     <FormLabel>Verify your business country</FormLabel>
                     <FormControl>
                       <Select
@@ -200,7 +206,10 @@ const BusinessInformationForm = () => {
                         onValueChange={field.onChange}
                         disabled={isPending}
                       >
-                        <SelectTrigger className="w-full">
+                        <SelectTrigger
+                          label="Country"
+                          selectValue={field.value}
+                        >
                           <SelectValue placeholder="Country" />
                         </SelectTrigger>
                         <SelectContent>
@@ -219,7 +228,6 @@ const BusinessInformationForm = () => {
                   </FormItem>
                 )}
               />
-              <hr />
             </>
           </div>
           <Button
