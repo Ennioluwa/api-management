@@ -12,12 +12,6 @@ export type RegisterData = {
 const postUserData = async (data: RegisterData) => {
   const res = await axiosClient.post("api/user/register", data).then((res) => {
     console.log(res);
-
-    return {
-      // Change the path of reading the values from response as per your backend reponse
-      // auth_token: res.data.data["X-Auth-Token"],
-      // refresh_token: res.data.data["X-Refresh-Token"],
-    };
   });
 
   return res;

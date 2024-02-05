@@ -16,7 +16,4 @@ const postUserData = async (data: LoginData) => {
 
 export const useUserLogin = () => {
   return useMutation({ mutationFn: (data: LoginData) => postUserData(data) });
-  //   return useMutation({
-  //     mutationFn: (data: LoginData) => postUserData(data),
-  //   });
 };
