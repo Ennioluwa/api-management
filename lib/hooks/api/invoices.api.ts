@@ -43,11 +43,25 @@ export type Transaction = {
   createDate: Date;
 };
 
+export type InvoiceStats = {
+  currentMonthProcessed: number;
+  failedInvoice: number;
+  lastMonthProcessed: number;
+  pendingInvoice: number;
+  totalInvoice: number;
+};
+
 export const fetchInvoices = async () => {
   const {
     data: { data },
   } = await axiosClient.get(`/api/transaction`);
   if (data) return data as Transaction[];
+};
+export const fetchInvoiceStats = async () => {
+  const {
+    data: { data },
+  } = await axiosClient.get(`/api/transaction/stat`);
+  if (data) return data as InvoiceStats;
 };
 
 export const fetchInvoice = async ({

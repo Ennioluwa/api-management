@@ -24,9 +24,8 @@ const InvoiceList: FC<InvoiceListProps> = ({}) => {
   } = useQuery({
     queryKey: ["invoices"],
     queryFn: fetchInvoices,
-
-    // staleTime: 5000,
   });
+
   const [allInvoices, setAllInvoices] = useState<Transaction[]>([]);
   const [pendingInvoices, setPendingInvoices] = useState<Transaction[]>([]);
   const [dueInvoices, setDueInvoices] = useState<Transaction[]>([]);

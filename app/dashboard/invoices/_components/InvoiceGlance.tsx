@@ -1,9 +1,34 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
+import { fetchInvoiceStats } from "@/lib/hooks/api/invoices.api";
+import { useQuery } from "@tanstack/react-query";
 import { FC } from "react";
+import { PuffLoader } from "react-spinners";
 
 interface UserRolesProps {}
 
 const UserRoles: FC<UserRolesProps> = ({}) => {
+  const {
+    isPending,
+    isError,
+    data: invoiceStats,
+    error,
+    refetch,
+  } = useQuery({
+    queryKey: ["invoice stats"],
+    queryFn: fetchInvoiceStats,
+
+    // staleTime: 5000,
+  });
+
+  if (isPending || !invoiceStats)
+    return (
+      <div className=" w-full h-full grid place-items-center py-20 bg-white rounded-lg mt-5">
+        <PuffLoader color="#0062FF" />
+      </div>
+    );
+
   return (
     <div className=" rounded-lg bg-white p-5 mt-5">
       <h3 className=" font-bold pb-2.5 ">AT A GLANCE</h3>
@@ -13,11 +38,13 @@ const UserRoles: FC<UserRolesProps> = ({}) => {
       <div className="flex flex-col md:flex-row flex-wrap md:items-stretch gap-4">
         <div className=" p-5  border border-dashed border-[#9A9AAF] rounded-lg md:flex-[2] flex flex-col sm:flex-row gap-4 justify-between items-start sm:items-center">
           <div className="space-y-1.5">
-            <h6 className=" text-xs font-bold">TOTAL INCOME</h6>
-            <h4 className=" text-3xl font-bold">₦8,332,134.99</h4>
-            <p className=" text-xs font-bold uppercase text-[#1CA78B] px-2.5 py-1 rounded-r-full rounded-l-full bg-[#1CA78B]/10">
-              + 4% compared to last week
-            </p>
+            <h6 className=" text-xs font-bold">TOTAL INVOICES</h6>
+            <h4 className=" text-3xl font-bold">
+              {invoiceStats?.totalInvoice}
+            </h4>
+            {/* <p className=" text-xs font-bold uppercase text-[#1CA78B] px-2.5 py-1 rounded-r-full rounded-l-full bg-[#1CA78B]/10">
+              + {4}% compared to last month
+            </p> */}
           </div>
           <div className=" space-y-3">
             <div className=" px-3 py-1.5 rounded-lg space-y-1 bg-[#9A9AAF]/20">
@@ -37,9 +64,11 @@ const UserRoles: FC<UserRolesProps> = ({}) => {
                     fill="#9A9AAF"
                   />
                 </svg>
-                <span>LAST WEEK</span>
+                <span>THIS MONTH</span>
               </p>
-              <p className=" text-xs font-bold">₦1,771,020.00</p>
+              <p className=" text-xs font-bold">
+                {invoiceStats?.currentMonthProcessed}
+              </p>
             </div>
             <div className=" px-3 py-1.5 rounded-lg space-y-1 bg-[#9A9AAF]/20">
               <p className=" flex items-center gap-1 text-xs font-bold text-[#0062FF] uppercase">
@@ -58,9 +87,11 @@ const UserRoles: FC<UserRolesProps> = ({}) => {
                     fill="#0062FF"
                   />
                 </svg>
-                <span>2 Months ago</span>
+                <span>LAST MONTH</span>
               </p>
-              <p className=" text-xs font-bold">₦2,023,999.43</p>
+              <p className=" text-xs font-bold">
+                {invoiceStats?.lastMonthProcessed}
+              </p>
             </div>
           </div>
         </div>
@@ -68,20 +99,22 @@ const UserRoles: FC<UserRolesProps> = ({}) => {
           <div className="p-5 border border-dashed border-[#9A9AAF] rounded-lg flex-1 space-y-1.5">
             <h6 className=" text-xs font-bold">PENDING</h6>
             <h4 className=" text-3xl font-bold flex gap-2.5 items-baseline">
-              ₦32,134 <span className=" text-[#FFCF5C] text-base ">↑0.7%</span>
+              {invoiceStats?.pendingInvoice}{" "}
+              <span className=" text-[#FFCF5C] text-base ">↑0.7%</span>
             </h4>
-            <p className=" text-xs font-bold uppercase text-[#FFCF5C] px-2.5 py-1 rounded-r-full rounded-l-full bg-[#FFCF5C]/10">
-              + 4% compared to last week
-            </p>
+            {/* <p className=" text-xs font-bold uppercase text-[#FFCF5C] px-2.5 py-1 rounded-r-full rounded-l-full bg-[#FFCF5C]/10">
+              + {4}% compared to last month
+            </p> */}
           </div>
           <div className="p-5 border border-dashed border-[#9A9AAF] rounded-lg flex-1 space-y-1.5">
             <h6 className=" text-xs font-bold">FAILED</h6>
             <h4 className=" text-3xl font-bold flex gap-2.5 items-baseline">
-              ₦32,134 <span className=" text-[#A71C1C] text-base ">↑0.7%</span>
+              {invoiceStats?.failedInvoice}{" "}
+              <span className=" text-[#A71C1C] text-base ">↑0.7%</span>
             </h4>
-            <p className=" w-fit text-xs font-bold uppercase text-[#A71C1C] px-2.5 py-1 rounded-r-full rounded-l-full bg-[#A71C1C]/10">
+            {/* <p className=" w-fit text-xs font-bold uppercase text-[#A71C1C] px-2.5 py-1 rounded-r-full rounded-l-full bg-[#A71C1C]/10">
               + 16% compared to last week
-            </p>
+            </p> */}
           </div>
         </div>
       </div>
