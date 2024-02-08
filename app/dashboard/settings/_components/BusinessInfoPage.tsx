@@ -130,7 +130,7 @@ const ProfilePage: FC<ProfilePageProps> = ({ setHeader }) => {
   }, []);
 
   return (
-    <div className=" py-4">
+    <div className=" py-3 px-5 bg-white lg:max-w-[784px]">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}

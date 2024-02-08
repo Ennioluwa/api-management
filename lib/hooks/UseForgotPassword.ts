@@ -7,6 +7,7 @@ type ForgotPasswordData = {
 type ChangePasswordData = {
   email: string;
   newPassword: string;
+  oldPassword?: string;
 };
 
 const PostForgotPasswordData = async (data: ForgotPasswordData) => {

@@ -82,7 +82,7 @@ const ProfilePage: FC<ProfilePageProps> = ({ setHeader }) => {
     });
   }, []);
   return (
-    <div className=" py-4">
+    <div className="py-3 px-5 bg-white lg:max-w-[468px]">
       <p className=" flex gap-2 items-center text-black text-xs pb-5">
         <Lock variant="Bulk" size={18} />
         Change Security Information
@@ -90,7 +90,7 @@ const ProfilePage: FC<ProfilePageProps> = ({ setHeader }) => {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-6 lg:max-w-[440px] mx-auto"
+          className="space-y-6  mx-auto"
         >
           <div className="flex flex-col gap-5">
             <>

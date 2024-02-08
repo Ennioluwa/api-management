@@ -94,6 +94,7 @@ export const PasswordResetSchema = z
 
 export const ChangePasswordSchema = z
   .object({
+    oldPassword: strongPassword || undefined,
     newPassword: strongPassword,
     confirmPassword: strongPassword,
   })
