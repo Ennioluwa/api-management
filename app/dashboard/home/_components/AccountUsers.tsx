@@ -2,6 +2,7 @@ import { fetchUsers } from "@/lib/hooks/api/users.api";
 import { DeleteUserManagement } from "@/lib/hooks/useUserManagement";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Trash } from "iconsax-react";
+import { useRouter } from "next/navigation";
 import { FC, useEffect } from "react";
 import { PuffLoader } from "react-spinners";
 
@@ -9,6 +10,8 @@ interface AccountUsersProps {}
 
 const AccountUsers: FC<AccountUsersProps> = ({}) => {
   const queryClient = useQueryClient();
+
+  const router = useRouter();
 
   const {
     isPending,
@@ -31,9 +34,9 @@ const AccountUsers: FC<AccountUsersProps> = ({}) => {
     mutate: deleteUser,
   } = DeleteUserManagement();
 
-  const handleDelete = (user: any) => {
-    console.log(user);
-    // deleteUser({ email });
+  const handleDelete = (email: string) => {
+    console.log(email);
+    router.push(`/dashboard/users/${email}`);
   };
 
   useEffect(() => {
@@ -66,7 +69,7 @@ const AccountUsers: FC<AccountUsersProps> = ({}) => {
                     <p className=" text-xs">{user.email}</p>
                   </div>
                 </div>
-                <div onClick={() => handleDelete(user)}>
+                <div onClick={() => handleDelete(user.email)}>
                   <Trash
                     variant="Bulk"
                     color="#292D32"

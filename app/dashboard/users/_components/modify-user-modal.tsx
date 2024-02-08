@@ -31,18 +31,35 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { Category2, Information, UserTag } from "iconsax-react";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { handleOpenChange, onClose } from "@/redux/features/addUserSlice";
+import {
+  handleModifyUserOpenChange,
+  onModifyUserClose,
+  onModifyUserOpen,
+} from "@/redux/features/addUserSlice";
 import { AddUserModalSchema } from "@/schemas";
-import { useUserManagement } from "@/lib/hooks/useUserManagement";
+import {
+  modifyUserManagement,
+  useUserManagement,
+} from "@/lib/hooks/useUserManagement";
 import { useQueryClient } from "@tanstack/react-query";
 import Loader from "@/components/Loader";
 
-type AddUserModalProps = {};
+type ModifyUserModalProps = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  roles: Option[];
+};
 
-const AddUserModal: FC<AddUserModalProps> = () => {
+const ModifyUserModal: FC<ModifyUserModalProps> = ({
+  firstName,
+  lastName,
+  email,
+  roles,
+}) => {
   const dispatch = useAppDispatch();
   const queryClient = useQueryClient();
-  const { isOpen } = useAppSelector((state) => state.userManagement);
+  const { isModifyOpen } = useAppSelector((state) => state.userManagement);
 
   const OPTIONS: Option[] = [
     { label: "Super Admin", value: "ClientAdmins" },
@@ -59,20 +76,20 @@ const AddUserModal: FC<AddUserModalProps> = () => {
   const form = useForm<z.infer<typeof AddUserModalSchema>>({
     resolver: zodResolver(AddUserModalSchema),
     defaultValues: {
-      email: "",
-      firstName: "",
-      lastName: "",
-      roles: [],
+      email,
+      firstName,
+      lastName,
+      roles,
     },
   });
 
   const {
     data,
-    mutate: addUser,
+    mutate: modifyUser,
     isSuccess,
     isError,
     isPending,
-  } = useUserManagement();
+  } = modifyUserManagement();
 
   useEffect(() => {
     if (isSuccess) {
@@ -80,7 +97,7 @@ const AddUserModal: FC<AddUserModalProps> = () => {
       toast.success(
         "User successfully added. An email has been sent to the user to be added"
       );
-      dispatch(onClose());
+      dispatch(onModifyUserClose());
       queryClient.refetchQueries({ queryKey: ["users"] });
       queryClient.invalidateQueries({ queryKey: ["users"] });
     } else if (isError) {
@@ -95,14 +112,14 @@ const AddUserModal: FC<AddUserModalProps> = () => {
     console.log(roles, "user role");
     const userRoles = roles.map((role) => role.value);
 
-    addUser({ email, firstName, lastName, roles: userRoles });
+    // modifyUser({ firstName, lastName, roles: userRoles });
   };
 
   return (
     <div>
       <AlertDialog
-        open={isOpen}
-        onOpenChange={() => dispatch(handleOpenChange())}
+        open={isModifyOpen}
+        onOpenChange={() => dispatch(handleModifyUserOpenChange())}
       >
         <AlertDialogContent className="p-0 bg-transparent ">
           <div className=" bg-[rgba(255,255,255,0.8)] p-5 rounded-lg">
@@ -112,10 +129,10 @@ const AddUserModal: FC<AddUserModalProps> = () => {
               </div>
               <AlertDialogHeader className="text-left space-y-0">
                 <AlertDialogTitle className=" font-bold">
-                  Create a New User
+                  Modify user
                 </AlertDialogTitle>
                 <AlertDialogDescription className="text-xs">
-                  Create a new user and assign them to roles
+                  Change information to this user such as name and roles
                 </AlertDialogDescription>
               </AlertDialogHeader>
             </div>
@@ -177,7 +194,7 @@ const AddUserModal: FC<AddUserModalProps> = () => {
                             <FormControl>
                               <Input
                                 {...field}
-                                disabled={isPending}
+                                disabled={true}
                                 placeholder="Enter Email Address"
                                 type="email"
                                 label="Email Address"
@@ -224,7 +241,7 @@ const AddUserModal: FC<AddUserModalProps> = () => {
                     variant="ghost"
                     className="flex-1 bg-white font-bold text-bgPrimary"
                     type="button"
-                    onClick={() => dispatch(onClose())}
+                    onClick={() => dispatch(onModifyUserClose())}
                   >
                     CANCEL
                   </Button>
@@ -239,17 +256,17 @@ const AddUserModal: FC<AddUserModalProps> = () => {
                     type="submit"
                     className="flex-1"
                   >
-                    {isPending ? "CREATING USER..." : "CREATE USER"}
+                    {isPending ? "SAVING USER..." : "SAVE USER"}
                   </Button>
                 </div>
               </form>
             </Form>
+            {isPending && <Loader />}
           </div>
-          {isPending && <Loader />}
         </AlertDialogContent>
       </AlertDialog>
     </div>
   );
 };
 
-export default AddUserModal;
+export default ModifyUserModal;

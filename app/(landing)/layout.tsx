@@ -8,7 +8,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="h-[calc(100vh-80px)] mt-20">
+    <div className="h-[calc(100vh-4rem)] mt-20">
       <div className=" h-full overflow-auto">
         <Navbar />
         <div className="">{children}</div>
