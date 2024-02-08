@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import OTPInput from "react-otp-input";
 import { Button } from "./ui/button";
+import OtpTimer from "./OtpTimer";
 
 interface ModalProps {
   title: string;
@@ -31,6 +32,7 @@ interface ModalProps {
   primaryButtonAction?: () => void;
   resendOtp?: () => void;
   headerTextColor?: string;
+  email?: string;
 }
 
 const Modal: FC<ModalProps> = ({
@@ -41,6 +43,7 @@ const Modal: FC<ModalProps> = ({
   setOtp,
   open,
   setOpen,
+  email,
   cancelButton,
   primaryButton,
   primaryButtonAction,
@@ -83,7 +86,7 @@ const Modal: FC<ModalProps> = ({
             </AlertDialogTitle>
             <div className=" text-black text-base">{content}</div>
           </AlertDialogHeader>
-          {isOtp && setOtp && resendOtp && (
+          {isOtp && setOtp && resendOtp && email && (
             <>
               <OTPInput
                 value={otp}
@@ -113,15 +116,7 @@ const Modal: FC<ModalProps> = ({
                 shouldAutoFocus
                 inputType="text"
               />
-              <div className=" p-2 px-5 rounded-lg shadow mt-5 w-full">
-                <Button
-                  variant="ghost"
-                  className=" w-full text-bgPrimary hover:bg-transparent"
-                  onClick={resendOtp}
-                >
-                  RESEND OTP
-                </Button>
-              </div>
+              <OtpTimer email={email} />
             </>
           )}
         </div>
