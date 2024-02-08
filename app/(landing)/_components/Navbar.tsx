@@ -20,7 +20,7 @@ const Navbar = () => {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed top-0 left-0 right-0 w-full h-[80px] px-5 lg:px-10 grid place-items-center  bg-white border-b z-40 shadow">
+    <nav className="fixed top-0 left-0 right-0 w-full h-16 px-5 lg:px-10 grid place-items-center  bg-white border-b z-40 shadow">
       <div className=" flex items-center justify-between w-full lg:container">
         <div className=" flex items-center relative gap-5">
           <Logo />

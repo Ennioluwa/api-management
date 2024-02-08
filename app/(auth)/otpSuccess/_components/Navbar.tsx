@@ -4,7 +4,7 @@ interface NavbarProps {}
 
 const Navbar: FC<NavbarProps> = ({}) => {
   return (
-    <div className=" fixed top-0 left-0 right-0 h-[80px] w-full bg-white z-50 shadow ">
+    <div className=" fixed top-0 left-0 right-0 h-16 w-full bg-white z-50 shadow ">
       <nav className=" p-5 lg:container flex items-center justify-between gap-5 text-dark">
         <div>
           <h5 className=" font-bold mb-2.5">

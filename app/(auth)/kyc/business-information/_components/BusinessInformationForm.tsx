@@ -242,30 +242,35 @@ const BusinessInformationForm = () => {
                 control={form.control}
                 name="phone"
                 render={({ field }) => (
-                  <FormItem className="relative w-full">
-                    {field.value && (
-                      <FormLabel className=" font-normal absolute left-5 top-[0px] text-bgPrimary z-20 bg-white px-2.5 py-0 text-xs">
-                        Phone
-                      </FormLabel>
-                    )}
-                    <FormLabel>Verify your phone number</FormLabel>
-                    <FormControl>
-                      <PhoneInputWithCountrySelect
-                        {...field}
-                        defaultCountry="NG"
-                        value={field.value}
-                        onChange={(value) => {
-                          field.onChange(value);
-                        }}
-                        disabled={isPending}
-                        placeholder="Enter phone number"
-                        className={` flex h-[50px] w-full rounded-md border-[2px] border-bgPrimary bg-background py-2 px-3 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:border focus-visible:border-bgPrimary  focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 focus-within:border-bgPrimary ${
-                          field.value
-                            ? "border-bgPrimary bg-white "
-                            : "border-border"
-                        } `}
-                      />
-                    </FormControl>
+                  <FormItem className=" w-full">
+                    <FormLabel className=" mb-2">
+                      Verify your phone number
+                    </FormLabel>
+                    <div className="relative">
+                      {field.value && (
+                        <FormLabel className=" font-normal absolute left-5 -top-[8px] text-bgPrimary z-20 bg-white px-2.5 py-0 text-xs">
+                          Phone
+                        </FormLabel>
+                      )}
+                      <FormControl>
+                        <PhoneInputWithCountrySelect
+                          {...field}
+                          defaultCountry="NG"
+                          value={field.value}
+                          onChange={(value) => {
+                            field.onChange(value);
+                          }}
+                          disabled={isPending}
+                          placeholder="Enter phone number"
+                          className={` flex h-[50px] mt-2 w-full rounded-md border-[2px] border-bgPrimary bg-background py-2 px-3 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:border focus-visible:border-bgPrimary  focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 focus-within:border-bgPrimary ${
+                            field.value
+                              ? "border-bgPrimary bg-white "
+                              : "border-border"
+                          } `}
+                        />
+                      </FormControl>
+                    </div>
+
                     <FormMessage />
                   </FormItem>
                 )}
@@ -288,7 +293,7 @@ const BusinessInformationForm = () => {
           </Button>
         </form>
       </Form>
-      {!isPending && <Loader />}
+      {isPending && <Loader />}
 
       <Modal
         title="INFO ADDED"

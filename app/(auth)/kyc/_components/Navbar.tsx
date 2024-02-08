@@ -9,7 +9,7 @@ interface NavbarProps {}
 const Navbar: FC<NavbarProps> = ({}) => {
   const { userData } = useAppSelector((state) => state.user);
   return (
-    <nav className="fixed top-0 left-0 w-full px-5 h-20 grid place-items-center  text-dark bg-white shadow-sm z-50">
+    <nav className="fixed top-0 left-0 w-full px-5 h-16 grid place-items-center  text-dark bg-white shadow-sm z-50">
       <div className="lg:container flex items-center justify-between gap-5 w-full">
         <div>
           <h5 className=" font-bold mb-1">Setup your account</h5>

@@ -1,7 +1,6 @@
 import Navbar from "../_components/Navbar";
 import BusinessIdentityForm from "./_components/BusinessIdentityForm";
 import Authenticated from "./_components/Authenticated";
-import { useAppSelector } from "@/lib/hooks";
 import BusinessIdentityHeader from "./_components/BusinessIdentityHeader";
 
 const page = ({}) => {

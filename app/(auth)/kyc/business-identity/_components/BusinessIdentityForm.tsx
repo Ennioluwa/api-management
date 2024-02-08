@@ -60,7 +60,6 @@ const BusinessIdentityForm = () => {
     } else if (isError) {
       console.log(isError, data, "error state");
       toast.error("An error has occured");
-      setOpen(true);
     } else return;
   }, [isSuccess, isError]);
 

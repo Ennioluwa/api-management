@@ -46,7 +46,7 @@ const Sidebar: FC<SidebarProps> = ({ mobile }) => {
       } `}
     >
       <div
-        className={`"  overflow-y-auto h-[calc(100vh-80px)] w-[240px] ${
+        className={`"  overflow-y-auto h-[calc(100vh-4rem)] w-[240px] ${
           mobile && "h-full pt-5"
         } `}
       >
