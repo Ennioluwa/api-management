@@ -275,8 +275,8 @@ const Accumulations: FC<AccumulationsProps> = ({}) => {
               y2="192"
               gradientUnits="userSpaceOnUse"
             >
-              <stop stop-color="#0062FF" />
-              <stop offset="1" stop-color="#0062FF" stop-opacity="0.05" />
+              <stop stopColor="#0062FF" />
+              <stop offset="1" stopColor="#0062FF" stop-opacity="0.05" />
             </linearGradient>
           </defs>
         </svg>

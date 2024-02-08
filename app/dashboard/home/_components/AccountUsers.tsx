@@ -31,9 +31,9 @@ const AccountUsers: FC<AccountUsersProps> = ({}) => {
     mutate: deleteUser,
   } = DeleteUserManagement();
 
-  const handleDelete = (email: string) => {
-    console.log(email);
-    deleteUser({ email });
+  const handleDelete = (user: any) => {
+    console.log(user);
+    // deleteUser({ email });
   };
 
   useEffect(() => {
@@ -66,7 +66,7 @@ const AccountUsers: FC<AccountUsersProps> = ({}) => {
                     <p className=" text-xs">{user.email}</p>
                   </div>
                 </div>
-                <div onClick={() => handleDelete(user.email)}>
+                <div onClick={() => handleDelete(user)}>
                   <Trash
                     variant="Bulk"
                     color="#292D32"

@@ -17,7 +17,7 @@ const AppUsage: FC<AppUsageProps> = ({}) => {
         using the service.
       </p>
 
-      <div className=" pt-6 flex flex-wrap flex-col lg:flex-row gap-6 items-stretch justify-between w-full">
+      <div className=" pt-6 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 items-stretch justify-between w-full">
         <ProcessedInvoices />
         <TotalExpenses />
         <ApiRequests />

@@ -11,11 +11,11 @@ const ApiRequests: FC<ApiRequestsProps> = ({ empty }) => {
         empty
           ? " bg-white text-black"
           : " bg-transparent border border-dashed border-white text-white"
-      } flex  justify-between items-center gap-5 rounded-lg w-full flex-1 p-5`}
+      } flex  justify-between items-center gap-5 rounded-lg w-full flex-1 p-5 overflow-clip`}
     >
       <div className=" space-y-1">
         <p className=" text-xs font-bold">API REQUESTS</p>
-        <p className=" text-3xl font-bold">{empty ? 0 : 137001321}</p>
+        <p className=" text-3xl font-bold">{empty ? 0 : 13701}</p>
         <p className=" font-bold text-xs">from last 10 days</p>
       </div>
       {empty ? (
@@ -40,6 +40,7 @@ const ApiRequests: FC<ApiRequestsProps> = ({ empty }) => {
         </svg>
       ) : (
         <svg
+          className=" shrink-0"
           width="114"
           height="74"
           viewBox="0 0 114 74"

@@ -7,8 +7,8 @@
     <rect x="9" y="7.23242" width="2" height="18" fill="white" />
     <rect x="14" y="7.23242" width="2" height="18" fill="white" />
     <rect x="19" y="7.23242" width="2" height="18" fill="white" />
-    <path d="M5 27.2324C7.83333 29.4963 16 32.6657 26 27.2324" stroke="white" stroke-width="2"
-        stroke-linecap="round" />
+    <path d="M5 27.2324C7.83333 29.4963 16 32.6657 26 27.2324" stroke="white" strokeWidth="2"
+        strokeLinecap="round" />
     <rect x="24" y="10.2324" width="2" height="12" fill="white" />
 </svg>
     

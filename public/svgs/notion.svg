@@ -5,9 +5,9 @@
     <path
         d="M28.3878 14.687V29.2324H26.044L19.1903 19.3248H19.0696V29.2324H16.4347V14.687H18.7926L25.6392 24.6017H25.767V14.687H28.3878Z"
         fill="#A6A6A6" />
-    <rect x="9" y="9.23242" width="28" height="26" stroke="#A6A6A6" stroke-width="2" />
+    <rect x="9" y="9.23242" width="28" height="26" stroke="#A6A6A6" strokeWidth="2" />
     <path d="M2.66145 2.23242L8.37574 7.23242H35.3386L29.6243 2.23242H2.66145Z" stroke="#A6A6A6"
-        stroke-width="2" />
+        strokeWidth="2" />
     <path d="M8 8.23242L0 1.23242V29.2324L8 36.2324V8.23242Z" fill="#A6A6A6" />
 </svg>
     

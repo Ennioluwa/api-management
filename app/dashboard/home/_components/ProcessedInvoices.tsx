@@ -21,7 +21,7 @@ const ProcessedInvoices: FC<ProcessedInvoicesProps> = ({ empty }) => {
 
   if ((isPending && !empty) || (!invoiceStats && !empty))
     return (
-      <div className=" grid place-items-center w-full bg-white rounded-lg py-6">
+      <div className=" grid place-items-center w-full bg-white rounded-lg py-6 flex-1">
         <PuffLoader color="#0062FF" />
       </div>
     );
@@ -58,8 +58,8 @@ const ProcessedInvoices: FC<ProcessedInvoicesProps> = ({ empty }) => {
             width="81"
             height="1"
             stroke="url(#paint0_linear_878_42037)"
-            stroke-width="4"
-            stroke-linecap="round"
+            strokeWidth="4"
+            strokeLinecap="round"
           />
           <defs>
             <linearGradient
@@ -70,8 +70,8 @@ const ProcessedInvoices: FC<ProcessedInvoicesProps> = ({ empty }) => {
               y2="58.1807"
               gradientUnits="userSpaceOnUse"
             >
-              <stop stop-color="#0062FF" />
-              <stop offset="1" stop-color="#4D91A5" />
+              <stop stopColor="#0062FF" />
+              <stop offset="1" stopColor="#4D91A5" />
             </linearGradient>
           </defs>
         </svg>
@@ -92,9 +92,9 @@ const ProcessedInvoices: FC<ProcessedInvoicesProps> = ({ empty }) => {
           <path
             d="M2.125 29.4447C3.12842 29.3048 5.48926 27.3387 6.90531 20.5938C8.67536 12.1626 13.1616 12.9038 14.657 23.8366C16.1524 34.7693 18.1056 43.7564 21.3406 33.5649C24.5756 23.3733 24.8704 24.6694 27.658 22.0762C30.4725 19.4579 30.5371 10.6495 32.5402 4.56841C33.6999 1.04768 36.4778 -0.345271 39.2856 10.4022C42.0933 21.1497 44.7789 17.5363 47.373 9.56835C49.9671 1.6004 53.5988 8.08594 54.8196 10.8655C56.0403 13.645 57.5 14.5077 59.7636 13.4597C62.5838 12.154 63.7615 15.7759 64.8297 21.5203C65.8978 27.2646 68.1562 26.2455 69.5906 25.7822C71.025 25.319 73.3444 26.2455 74.6567 29.2103C75.969 32.1751 79.2345 41.9961 81.4013 26.5234C83.1348 14.1453 85.9786 8.57544 87.1838 7.33778"
             stroke="#F0F4F9"
-            stroke-width="3"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="3"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
           <line
             x1="61.125"
@@ -102,8 +102,8 @@ const ProcessedInvoices: FC<ProcessedInvoicesProps> = ({ empty }) => {
             x2="61.125"
             y2="71.0002"
             stroke="#F0F4F9"
-            stroke-width="2"
-            stroke-linecap="round"
+            strokeWidth="2"
+            strokeLinecap="round"
           />
           <g filter="url(#filter0_d_2735_35982)">
             <ellipse
@@ -116,7 +116,7 @@ const ProcessedInvoices: FC<ProcessedInvoicesProps> = ({ empty }) => {
             <path
               d="M61.4594 12.9087C61.4594 14.0322 61.213 14.9996 60.8641 15.6502C60.4928 16.3424 60.1485 16.4542 60.0213 16.4542C59.8942 16.4542 59.5499 16.3424 59.1786 15.6502C58.8296 14.9996 58.5833 14.0322 58.5833 12.9087C58.5833 11.7853 58.8296 10.8178 59.1786 10.1673C59.5499 9.47511 59.8942 9.36328 60.0213 9.36328C60.1485 9.36328 60.4928 9.47511 60.8641 10.1673C61.213 10.8178 61.4594 11.7853 61.4594 12.9087Z"
               stroke="white"
-              stroke-width="2"
+              strokeWidth="2"
             />
           </g>
           <defs>
@@ -127,9 +127,9 @@ const ProcessedInvoices: FC<ProcessedInvoicesProps> = ({ empty }) => {
               width="10.8762"
               height="15.0908"
               filterUnits="userSpaceOnUse"
-              color-interpolation-filters="sRGB"
+              colorInterpolationFilters="sRGB"
             >
-              <feFlood flood-opacity="0" result="BackgroundImageFix" />
+              <feFlood floodOpacity="0" result="BackgroundImageFix" />
               <feColorMatrix
                 in="SourceAlpha"
                 type="matrix"
@@ -168,9 +168,9 @@ const ProcessedInvoices: FC<ProcessedInvoicesProps> = ({ empty }) => {
               y2="74.1328"
               gradientUnits="userSpaceOnUse"
             >
-              <stop stop-color="white" />
-              <stop offset="0.46679" stop-color="#D9D9D9" />
-              <stop offset="1" stop-color="white" />
+              <stop stopColor="white" />
+              <stop offset="0.46679" stopColor="#D9D9D9" />
+              <stop offset="1" stopColor="white" />
             </linearGradient>
           </defs>
         </svg>

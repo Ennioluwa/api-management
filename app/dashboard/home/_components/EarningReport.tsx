@@ -49,7 +49,7 @@ const EarningReport: FC<EarningReportProps> = ({}) => {
               height="130"
               transform="translate(34)"
               fill="#0062FF"
-              fill-opacity="0.1"
+              fillOpacity="0.1"
             />
             <rect x="34" y="77" width="20" height="53" fill="#0062FF" />
             <path
@@ -61,7 +61,7 @@ const EarningReport: FC<EarningReportProps> = ({}) => {
               height="130"
               transform="translate(69)"
               fill="#0062FF"
-              fill-opacity="0.1"
+              fillOpacity="0.1"
             />
             <rect x="69" y="53" width="20" height="77" fill="#0062FF" />
             <path
@@ -73,7 +73,7 @@ const EarningReport: FC<EarningReportProps> = ({}) => {
               height="130"
               transform="translate(105)"
               fill="#0062FF"
-              fill-opacity="0.1"
+              fillOpacity="0.1"
             />
             <rect x="105" y="101" width="20" height="29" fill="#0062FF" />
             <path
@@ -85,7 +85,7 @@ const EarningReport: FC<EarningReportProps> = ({}) => {
               height="130"
               transform="translate(141)"
               fill="#0062FF"
-              fill-opacity="0.1"
+              fillOpacity="0.1"
             />
             <rect x="141" y="69" width="20" height="61" fill="#0062FF" />
             <path
@@ -97,7 +97,7 @@ const EarningReport: FC<EarningReportProps> = ({}) => {
               height="130"
               transform="translate(177)"
               fill="#0062FF"
-              fill-opacity="0.1"
+              fillOpacity="0.1"
             />
             <rect x="177" y="17" width="20" height="113" fill="#0062FF" />
             <path
@@ -109,7 +109,7 @@ const EarningReport: FC<EarningReportProps> = ({}) => {
               height="130"
               transform="translate(213)"
               fill="#0062FF"
-              fill-opacity="0.1"
+              fillOpacity="0.1"
             />
             <rect x="213" y="53" width="20" height="77" fill="#0062FF" />
             <path
@@ -121,7 +121,7 @@ const EarningReport: FC<EarningReportProps> = ({}) => {
               height="130"
               transform="translate(248.5)"
               fill="#0062FF"
-              fill-opacity="0.1"
+              fillOpacity="0.1"
             />
             <rect x="248.5" y="32" width="20" height="98" fill="#0062FF" />
             <path
@@ -133,7 +133,7 @@ const EarningReport: FC<EarningReportProps> = ({}) => {
               height="130"
               transform="translate(284)"
               fill="#0062FF"
-              fill-opacity="0.1"
+              fillOpacity="0.1"
             />
             <rect x="284" y="74" width="20" height="56" fill="#0062FF" />
             <path
@@ -145,7 +145,7 @@ const EarningReport: FC<EarningReportProps> = ({}) => {
               height="130"
               transform="translate(320)"
               fill="#0062FF"
-              fill-opacity="0.1"
+              fillOpacity="0.1"
             />
             <rect x="320" y="21" width="20" height="109" fill="#0062FF" />
             <path
@@ -157,7 +157,7 @@ const EarningReport: FC<EarningReportProps> = ({}) => {
               height="130"
               transform="translate(358.5)"
               fill="#0062FF"
-              fill-opacity="0.1"
+              fillOpacity="0.1"
             />
             <rect x="358.5" y="54" width="20" height="76" fill="#0062FF" />
             <path
