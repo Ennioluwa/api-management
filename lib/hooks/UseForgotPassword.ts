@@ -6,7 +6,6 @@ type ForgotPasswordData = {
 };
 type ChangePasswordData = {
   email: string;
-  oldPassword: string;
   newPassword: string;
 };
 

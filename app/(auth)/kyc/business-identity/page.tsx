@@ -9,7 +9,7 @@ const page = ({}) => {
     <Authenticated>
       <div>
         <Navbar />
-        <div className="container max-w-[440px] p-8 border rounded-lg space-y-8 ">
+        <div className="container max-w-[440px] p-8 border rounded-lg flex flex-col gap-8">
           <BusinessIdentityHeader />
           <BusinessIdentityForm />
         </div>

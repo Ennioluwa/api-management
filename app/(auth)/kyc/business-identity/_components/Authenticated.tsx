@@ -11,6 +11,7 @@ interface AuthenticatedProps {
 
 const Authenticated: FC<AuthenticatedProps> = ({ children }) => {
   const { userData } = useAppSelector((state) => state.user);
+
   useLayoutEffect(() => {
     if (userData?.setupStatus === "Completed") {
       return redirect("/dashboard/home");

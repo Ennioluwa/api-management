@@ -31,6 +31,7 @@ import {
 } from "@/redux/features/userSlice";
 import { PasswordInput } from "@/components/password-input";
 import { useChangePassword } from "@/lib/hooks/UseForgotPassword";
+import Loader from "@/components/Loader";
 
 export const ChangePasswordForm = () => {
   const [open, setOpen] = useState(false);
@@ -39,7 +40,6 @@ export const ChangePasswordForm = () => {
   const form = useForm<z.infer<typeof ChangePasswordSchema>>({
     resolver: zodResolver(ChangePasswordSchema),
     defaultValues: {
-      oldPassword: "",
       newPassword: "",
       confirmPassword: "",
     },
@@ -71,8 +71,8 @@ export const ChangePasswordForm = () => {
   const onSubmit = (values: z.infer<typeof ChangePasswordSchema>) => {
     if (!userData) return router.push("/login");
     console.log(values);
-    const { oldPassword, newPassword } = values;
-    changePassword({ email: userData?.email, oldPassword, newPassword });
+    const { newPassword } = values;
+    changePassword({ email: userData?.email, newPassword });
   };
 
   return (
@@ -84,25 +84,6 @@ export const ChangePasswordForm = () => {
         >
           <div className="flex flex-col gap-5">
             <>
-              <FormField
-                control={form.control}
-                name="oldPassword"
-                render={({ field }) => (
-                  <FormItem className=" relative">
-                    <FormControl>
-                      <PasswordInput
-                        {...field}
-                        disabled={isPending}
-                        PrefixIcon={Lock}
-                        variant="TwoTone"
-                        label="Old Password"
-                        placeholder="Enter Old Password"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
               <FormField
                 control={form.control}
                 name="newPassword"
@@ -147,7 +128,6 @@ export const ChangePasswordForm = () => {
           <Button
             disabled={
               isPending ||
-              !form.getValues().oldPassword ||
               !form.getValues().newPassword ||
               !form.getValues().confirmPassword
             }
@@ -158,6 +138,7 @@ export const ChangePasswordForm = () => {
           </Button>
         </form>
       </Form>
+      {isPending && <Loader />}
     </>
   );
 };

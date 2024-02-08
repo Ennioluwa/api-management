@@ -34,6 +34,9 @@ import { useBusinessInformation } from "@/lib/hooks/useBusinessInformation";
 import { BusinessInformationSchema } from "@/schemas";
 import { setCompanyId, setSetupStatus } from "@/redux/features/userSlice";
 import { useAppDispatch } from "@/lib/hooks";
+import PhoneInputWithCountrySelect from "react-phone-number-input";
+import Loader from "@/components/Loader";
+import { optionsCategory } from "@/data/data";
 
 const BusinessInformationForm = () => {
   const [open, setOpen] = useState(false);
@@ -45,6 +48,7 @@ const BusinessInformationForm = () => {
       businessName: "",
       businessIndustry: "",
       businessLocation: "",
+      phone: "",
     },
   });
 
@@ -79,12 +83,14 @@ const BusinessInformationForm = () => {
       businessName,
       businessIndustry,
       businessLocation,
+      phone,
     } = values;
     informationKyc({
       name: businessName,
       email: businessIndustry,
       address: businessAddress,
       country: businessLocation,
+      phone: phone,
     });
   };
 
@@ -97,7 +103,7 @@ const BusinessInformationForm = () => {
     <>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-14">
-          <div className="space-y-6">
+          <div className=" gap-6 flex flex-col">
             <>
               <FormField
                 control={form.control}
@@ -149,9 +155,12 @@ const BusinessInformationForm = () => {
                         <SelectContent>
                           <SelectGroup>
                             <SelectLabel>Select Industry</SelectLabel>
-                            <SelectItem value="technology2">
-                              Technology
-                            </SelectItem>
+                            {optionsCategory.map((category, index) => (
+                              <SelectItem key={index} value={category.value}>
+                                {category.label}
+                              </SelectItem>
+                            ))}
+
                             <SelectItem value="agriculture2">
                               Agriculture
                             </SelectItem>
@@ -228,6 +237,39 @@ const BusinessInformationForm = () => {
                   </FormItem>
                 )}
               />
+              <hr />
+              <FormField
+                control={form.control}
+                name="phone"
+                render={({ field }) => (
+                  <FormItem className="relative w-full">
+                    {field.value && (
+                      <FormLabel className=" font-normal absolute left-5 top-[0px] text-bgPrimary z-20 bg-white px-2.5 py-0 text-xs">
+                        Phone
+                      </FormLabel>
+                    )}
+                    <FormLabel>Verify your phone number</FormLabel>
+                    <FormControl>
+                      <PhoneInputWithCountrySelect
+                        {...field}
+                        defaultCountry="NG"
+                        value={field.value}
+                        onChange={(value) => {
+                          field.onChange(value);
+                        }}
+                        disabled={isPending}
+                        placeholder="Enter phone number"
+                        className={` flex h-[50px] w-full rounded-md border-[2px] border-bgPrimary bg-background py-2 px-3 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:border focus-visible:border-bgPrimary  focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 focus-within:border-bgPrimary ${
+                          field.value
+                            ? "border-bgPrimary bg-white "
+                            : "border-border"
+                        } `}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             </>
           </div>
           <Button
@@ -236,7 +278,8 @@ const BusinessInformationForm = () => {
               !form.getValues().businessAddress ||
               !form.getValues().businessIndustry ||
               !form.getValues().businessName ||
-              !form.getValues().businessLocation
+              !form.getValues().businessLocation ||
+              !form.getValues().phone
             }
             type="submit"
             className="w-full"
@@ -245,6 +288,7 @@ const BusinessInformationForm = () => {
           </Button>
         </form>
       </Form>
+      {!isPending && <Loader />}
 
       <Modal
         title="INFO ADDED"

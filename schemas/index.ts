@@ -67,7 +67,6 @@ export const SignupSchema = z.object({
     message: "Last name is required",
   }),
   password: strongPassword,
-  phone: z.string().min(11, { message: "Valid phone number is required" }),
 });
 
 export const LoginSchema = z.object({
@@ -95,7 +94,6 @@ export const PasswordResetSchema = z
 
 export const ChangePasswordSchema = z
   .object({
-    oldPassword: strongPassword,
     newPassword: strongPassword,
     confirmPassword: strongPassword,
   })
@@ -117,6 +115,7 @@ export const BusinessInformationSchema = z.object({
   businessLocation: z.string().min(1, {
     message: "Business Location is required",
   }),
+  phone: z.string().min(6, { message: "Valid phone number is required" }),
 });
 
 export const BusinessIdentitySchema = z.object({

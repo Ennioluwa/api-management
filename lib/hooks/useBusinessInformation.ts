@@ -6,6 +6,7 @@ type BusinessInformationData = {
   name: string;
   address: string;
   country: string;
+  phone: string;
 };
 
 const postBusinessInformation = async (data: BusinessInformationData) => {

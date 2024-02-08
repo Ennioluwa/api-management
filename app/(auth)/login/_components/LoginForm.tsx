@@ -27,6 +27,7 @@ import { useAppDispatch } from "@/lib/hooks";
 import { loginUser, logoutUser } from "@/redux/features/userSlice";
 import { PasswordInput } from "@/components/password-input";
 import { getOtp } from "@/lib/hooks/api/otp.api";
+import Loader from "@/components/Loader";
 
 export const LoginForm = () => {
   const [open, setOpen] = useState(false);
@@ -195,6 +196,7 @@ export const LoginForm = () => {
           </Button>
         </form>
       </Form>
+      {(isPending || isOtpPending) && <Loader />}
 
       <Modal
         title="ENTER OTP"
@@ -217,6 +219,7 @@ export const LoginForm = () => {
         isPendingText="Confirming"
         open={open}
         setOpen={setOpen}
+        email={form.getValues().email}
         cancelButton="Close"
         primaryButton="Confirm & Proceed"
         primaryButtonAction={handleOtpSubmit}

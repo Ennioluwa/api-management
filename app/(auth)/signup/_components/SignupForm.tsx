@@ -28,6 +28,8 @@ import { loginUser } from "@/redux/features/userSlice";
 import { useAppDispatch } from "@/lib/hooks";
 import { getOtp } from "@/lib/hooks/api/otp.api";
 import PhoneInput from "react-phone-number-input";
+import { PuffLoader } from "react-spinners";
+import Loader from "@/components/Loader";
 
 export const SignupForm = () => {
   const [open, setOpen] = useState(false);
@@ -45,7 +47,6 @@ export const SignupForm = () => {
       firstName: "",
       lastName: "",
       password: "",
-      phone: "",
     },
   });
 
@@ -97,8 +98,8 @@ export const SignupForm = () => {
   }, [isSuccess, isError]);
 
   const onSubmit = (values: z.infer<typeof SignupSchema>) => {
-    const { firstName, lastName, email, password, phone } = values;
-    register({ email, password, firstName, lastName, phone });
+    const { firstName, lastName, email, password } = values;
+    register({ email, password, firstName, lastName });
   };
 
   const handleOtpSubmit = () => {
@@ -185,37 +186,6 @@ export const SignupForm = () => {
               />
               <FormField
                 control={form.control}
-                name="phone"
-                render={({ field }) => (
-                  <FormItem className="relative w-full">
-                    {field.value && (
-                      <FormLabel className=" font-normal absolute left-5 top-[0px] text-bgPrimary z-20 bg-white px-2.5 py-0 text-xs">
-                        Phone
-                      </FormLabel>
-                    )}
-                    <FormControl>
-                      <PhoneInput
-                        {...field}
-                        defaultCountry="NG"
-                        value={field.value}
-                        onChange={(value) => {
-                          field.onChange(value);
-                        }}
-                        disabled={isPending}
-                        placeholder="Enter phone number"
-                        className={` flex h-[50px] w-full rounded-md border border-bgPrimary bg-background py-2 px-3 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:border focus-visible:border-bgPrimary  focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 focus-within:border-bgPrimary ${
-                          field.value
-                            ? "border-bgPrimary bg-white "
-                            : "border-border"
-                        } `}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
                 name="password"
                 render={({ field }) => (
                   <FormItem className="relative w-full">
@@ -248,8 +218,7 @@ export const SignupForm = () => {
               !form.getValues().email ||
               !form.getValues().password ||
               !form.getValues().firstName ||
-              !form.getValues().lastName ||
-              !form.getValues().phone
+              !form.getValues().lastName
             }
             type="submit"
             className="w-full"
@@ -261,6 +230,7 @@ export const SignupForm = () => {
       <p className=" text-center mt-10 text-xs">
         (C) 2023. All Rights Reserved.
       </p>
+      {(isPending || isOtpPending) && <Loader />}
       <Modal
         title="ENTER OTP"
         content={
@@ -281,6 +251,7 @@ export const SignupForm = () => {
         setOtp={setOtp}
         resendOtp={() => handleResendOtp(form.getValues().email)}
         open={open}
+        email={form.getValues().email}
         setOpen={setOpen}
         cancelButton="Close"
         primaryButton="Confirm & Proceed"

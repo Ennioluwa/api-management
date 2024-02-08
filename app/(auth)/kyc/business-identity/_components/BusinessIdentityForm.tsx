@@ -25,6 +25,7 @@ import { useBusinessIdentity } from "@/lib/hooks/useBusinessIdentity";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import IsAdminAuth from "@/components/isAdminAuth";
 import { setSetupStatus } from "@/redux/features/userSlice";
+import Loader from "@/components/Loader";
 
 const BusinessIdentityForm = () => {
   const [open, setOpen] = useState(false);
@@ -176,6 +177,7 @@ const BusinessIdentityForm = () => {
           </Button>
         </form>
       </Form>
+      {isPending && <Loader />}
 
       <Modal
         title="BUSINESS ONBOARDED"

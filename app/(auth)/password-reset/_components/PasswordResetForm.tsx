@@ -22,6 +22,7 @@ import { toast } from "sonner";
 import { useAppDispatch } from "@/lib/hooks";
 import { logoutUser } from "@/redux/features/userSlice";
 import { useResetPassword } from "@/lib/hooks/useResetPassword";
+import Loader from "@/components/Loader";
 
 export const PasswordResetForm = () => {
   const [open, setOpen] = useState(false);
@@ -130,6 +131,7 @@ export const PasswordResetForm = () => {
           </Button>
         </form>
       </Form>
+      {isPending && <Loader />}
 
       <Modal
         title="NEW PASSWORD CREATED"

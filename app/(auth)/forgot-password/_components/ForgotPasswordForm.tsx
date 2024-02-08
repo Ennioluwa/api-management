@@ -25,6 +25,7 @@ import { useOtpUserLogin } from "@/lib/hooks/useOtpUserLogin";
 import { useAppDispatch } from "@/lib/hooks";
 import { loginUser, logoutUser } from "@/redux/features/userSlice";
 import { useForgotPassword } from "@/lib/hooks/UseForgotPassword";
+import Loader from "@/components/Loader";
 
 export const ForgotPasswordForm = () => {
   const [open, setOpen] = useState(false);
@@ -134,6 +135,8 @@ export const ForgotPasswordForm = () => {
           </Button>
         </form>
       </Form>
+
+      {(isPending || isOtpPending) && <Loader />}
 
       <Modal
         title="ENTER OTP"

@@ -6,7 +6,6 @@ export type RegisterData = {
   lastName: string;
   email: string;
   password: string;
-  phone: string;
 };
 
 const postUserData = async (data: RegisterData) => {
