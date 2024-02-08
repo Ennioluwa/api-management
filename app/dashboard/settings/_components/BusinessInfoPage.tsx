@@ -33,6 +33,9 @@ import { toast } from "sonner";
 import { useUserRegister } from "@/lib/hooks/useUserRegister";
 import { Lock, UserCirlceAdd } from "iconsax-react";
 import { Checkbox } from "@/components/ui/checkbox";
+import PhoneInputWithCountrySelect from "react-phone-number-input";
+import Loader from "@/components/Loader";
+import { optionsCategory } from "@/data/data";
 
 interface ProfilePageProps {
   setHeader: Dispatch<
@@ -71,15 +74,8 @@ const ProfilePage: FC<ProfilePageProps> = ({ setHeader }) => {
     businessAddress: z.string().min(1, {
       message: "Address is required",
     }),
-
-    disputeEmail: z.string().email({
-      message: "Dispute email is required",
-    }),
-    supportEmail: z.string().email({
-      message: "Support email is required",
-    }),
-    defaultEmail: z.string().email({
-      message: "Default email is required",
+    phone: z.string().min(1, {
+      message: "Phone number is required",
     }),
   });
 
@@ -90,9 +86,7 @@ const ProfilePage: FC<ProfilePageProps> = ({ setHeader }) => {
       businessIndustry: "",
       businessCountry: "",
       businessAddress: "",
-      defaultEmail: "",
-      disputeEmail: "",
-      supportEmail: "",
+      phone: "",
     },
   });
 
@@ -171,8 +165,7 @@ const ProfilePage: FC<ProfilePageProps> = ({ setHeader }) => {
                 <div className=" flex-1">
                   <h5 className=" font-bold">Business Details</h5>
                   <h6 className=" text-xs">
-                    This include information about your business type and your
-                    business industry
+                    This include information about your business industry
                   </h6>
                 </div>
                 <div className=" shrink-0 flex-[1.4]">
@@ -196,21 +189,14 @@ const ProfilePage: FC<ProfilePageProps> = ({ setHeader }) => {
                             <SelectContent>
                               <SelectGroup>
                                 <SelectLabel>Select Industry</SelectLabel>
-                                <SelectItem value="technology2">
-                                  Technology
-                                </SelectItem>
-                                <SelectItem value="agriculture2">
-                                  Agriculture
-                                </SelectItem>
-                                <SelectItem value="construction2">
-                                  Construction
-                                </SelectItem>
-                                <SelectItem value="aviation2">
-                                  Aviation
-                                </SelectItem>
-                                <SelectItem value="fashion2">
-                                  Fashion
-                                </SelectItem>
+                                {optionsCategory.map((category, index) => (
+                                  <SelectItem
+                                    key={index}
+                                    value={category.value}
+                                  >
+                                    {category.label}
+                                  </SelectItem>
+                                ))}
                               </SelectGroup>
                             </SelectContent>
                           </Select>
@@ -285,85 +271,37 @@ const ProfilePage: FC<ProfilePageProps> = ({ setHeader }) => {
               <hr />
               <div className=" flex flex-col lg:flex-row gap-5">
                 <div className=" flex-1">
-                  <h5 className=" font-bold">Dispute Email</h5>
+                  <h5 className=" font-bold">Phone</h5>
                   <h6 className=" text-xs">
-                    This email will be used in case there are disputes and
-                    issues with transactions on your account
+                    You can change your business’ contact number
                   </h6>
                 </div>
                 <div className=" shrink-0 flex-[1.4]">
                   <FormField
                     control={form.control}
-                    name="disputeEmail"
+                    name="phone"
                     render={({ field }) => (
-                      <FormItem className=" relative">
+                      <FormItem className="relative w-full">
+                        {field.value && (
+                          <FormLabel className="font-normal absolute left-5 top-[0px] text-bgPrimary z-20 bg-white px-2.5 py-0 text-xs">
+                            Phone
+                          </FormLabel>
+                        )}
                         <FormControl>
-                          <Input
+                          <PhoneInputWithCountrySelect
                             {...field}
+                            defaultCountry="NG"
+                            value={field.value}
+                            onChange={(value) => {
+                              field.onChange(value);
+                            }}
                             disabled={isPending}
-                            placeholder="Enter Dispute Email"
-                            type="email"
-                            label="Dispute Email"
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-              </div>
-              <hr />
-              <div className=" flex flex-col lg:flex-row gap-5">
-                <div className=" flex-1">
-                  <h5 className=" font-bold">Support Email</h5>
-                  <h6 className=" text-xs">
-                    Email whenever there is a need for your team to help your
-                    customers resolve an issue
-                  </h6>
-                </div>
-                <div className=" shrink-0 flex-[1.4]">
-                  <FormField
-                    control={form.control}
-                    name="supportEmail"
-                    render={({ field }) => (
-                      <FormItem className=" relative">
-                        <FormControl>
-                          <Input
-                            {...field}
-                            disabled={isPending}
-                            placeholder="Enter Support Email"
-                            type="email"
-                            label="Support Email"
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-              </div>
-              <hr />
-              <div className=" flex flex-col lg:flex-row gap-5">
-                <div className=" flex-1">
-                  <h5 className=" font-bold">Default Email</h5>
-                  <h6 className=" text-xs">
-                    This is your official email address and will be used as the
-                    default email if the above email addresses are not set.
-                  </h6>
-                </div>
-                <div className=" shrink-0 flex-[1.4]">
-                  <FormField
-                    control={form.control}
-                    name="defaultEmail"
-                    render={({ field }) => (
-                      <FormItem className=" relative">
-                        <FormControl>
-                          <Input
-                            {...field}
-                            disabled={isPending}
-                            placeholder="Enter Default Email"
-                            type="email"
-                            label="Default Email"
+                            placeholder="Enter phone number"
+                            className={` flex h-[50px] w-full rounded-md border border-bgPrimary bg-background py-2 px-3 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:border focus-visible:border-bgPrimary  focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 focus-within:border-bgPrimary ${
+                              field.value
+                                ? "border-bgPrimary bg-white "
+                                : "border-border"
+                            } `}
                           />
                         </FormControl>
                         <FormMessage />
@@ -388,6 +326,7 @@ const ProfilePage: FC<ProfilePageProps> = ({ setHeader }) => {
           </Button>
         </form>
       </Form>
+      {isPending && <Loader />}
     </div>
   );
 };

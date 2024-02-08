@@ -25,6 +25,7 @@ import { useUserRegister } from "@/lib/hooks/useUserRegister";
 import { Direct, UserCirlceAdd } from "iconsax-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import PhoneInputWithCountrySelect from "react-phone-number-input";
+import Loader from "@/components/Loader";
 
 interface ProfilePageProps {
   setHeader: Dispatch<
@@ -221,6 +222,7 @@ const ProfilePage: FC<ProfilePageProps> = ({ setHeader }) => {
           </Button>
         </form>
       </Form>
+      {isPending && <Loader />}
     </div>
   );
 };

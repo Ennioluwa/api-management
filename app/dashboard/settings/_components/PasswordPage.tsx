@@ -27,6 +27,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { useChangePassword } from "@/lib/hooks/UseForgotPassword";
 import { ChangePasswordSchema } from "@/schemas";
 import { PasswordInput } from "@/components/password-input";
+import Loader from "@/components/Loader";
 
 interface ProfilePageProps {
   setHeader: Dispatch<
@@ -169,6 +170,7 @@ const ProfilePage: FC<ProfilePageProps> = ({ setHeader }) => {
           </Button>
         </form>
       </Form>
+      {isPending && <Loader />}
     </div>
   );
 };

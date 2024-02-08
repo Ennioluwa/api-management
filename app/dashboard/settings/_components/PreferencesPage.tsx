@@ -33,6 +33,7 @@ import { toast } from "sonner";
 import { useUserRegister } from "@/lib/hooks/useUserRegister";
 import { Lock, UserCirlceAdd } from "iconsax-react";
 import { Checkbox } from "@/components/ui/checkbox";
+import Loader from "@/components/Loader";
 
 interface PreferencesPageProps {
   setHeader: Dispatch<
@@ -244,6 +245,7 @@ const PreferencesPage: FC<PreferencesPageProps> = ({ setHeader }) => {
           </Button>
         </form>
       </Form>
+      {isPending && <Loader />}
     </div>
   );
 };

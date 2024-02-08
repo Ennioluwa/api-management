@@ -160,15 +160,6 @@ const BusinessInformationForm = () => {
                                 {category.label}
                               </SelectItem>
                             ))}
-
-                            <SelectItem value="agriculture2">
-                              Agriculture
-                            </SelectItem>
-                            <SelectItem value="construction2">
-                              Construction
-                            </SelectItem>
-                            <SelectItem value="aviation2">Aviation</SelectItem>
-                            <SelectItem value="fashion2">Fashion</SelectItem>
                           </SelectGroup>
                         </SelectContent>
                       </Select>
