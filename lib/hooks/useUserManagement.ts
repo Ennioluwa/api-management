@@ -62,7 +62,7 @@ export const useUserManagement = () => {
   });
 };
 
-export const modifyUserManagement = () => {
+export const useModifyUserManagement = () => {
   return useMutation({
     mutationFn: (data: PutUserManagementData) => putUserManagementData(data),
   });

@@ -38,7 +38,7 @@ import {
 } from "@/redux/features/addUserSlice";
 import { AddUserModalSchema } from "@/schemas";
 import {
-  modifyUserManagement,
+  useModifyUserManagement,
   useUserManagement,
 } from "@/lib/hooks/useUserManagement";
 import { useQueryClient } from "@tanstack/react-query";
@@ -89,7 +89,7 @@ const ModifyUserModal: FC<ModifyUserModalProps> = ({
     isSuccess,
     isError,
     isPending,
-  } = modifyUserManagement();
+  } = useModifyUserManagement();
 
   useEffect(() => {
     if (isSuccess) {

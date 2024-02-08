@@ -166,8 +166,8 @@ const Navbar: FC<NavbarProps> = ({}) => {
                   </Accordion>
                   <div className=" p-5 rounded-lg bg-[#F0F4F9] flex flex-col gap-3 ">
                     <p className=" text-xs">
-                      Can't find what you're looking for? Chat with our support
-                      agents instead.
+                      Can`&apos;t find what you`&apos;re looking for? Chat with
+                      our support agents instead.
                     </p>
                     <Button>Contact Support</Button>
                   </div>
