@@ -64,6 +64,7 @@ const UserHeader: FC<UserHeaderProps> = async ({ email }) => {
         </Link>
       </div>
       <Button
+        onClick={() => router.back()}
         variant={"ghost"}
         className="flex items-center gap-2 px-0 mb-6 py-2 text-lg font-bold text-dark"
       >
@@ -115,7 +116,6 @@ const UserHeader: FC<UserHeaderProps> = async ({ email }) => {
           </div>
         }
         headerTextColor="#A71C1C"
-        // isPending={isOtpPending}
         isPendingText="DELETING"
         open={deleteConfirm}
         setOpen={setDeleteConfirm}
@@ -136,8 +136,6 @@ const UserHeader: FC<UserHeaderProps> = async ({ email }) => {
             </p>
           </div>
         }
-        // isPending={isOtpPending}
-        // isPendingText="DELETING"
         open={deleteSuccess}
         setOpen={setDeleteSuccess}
         cancelButton="CLOSE"

@@ -25,6 +25,7 @@ import {
 } from "@/components/ui/table";
 import { UserTag } from "iconsax-react";
 import { PuffLoader } from "react-spinners";
+import { useRouter } from "next/navigation";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -44,9 +45,9 @@ export function DataTable<TData, TValue>({
     []
   );
   const [sorting, setSorting] = React.useState<SortingState>([]);
-
+  const router = useRouter();
   const handleRowClick = (row: any) => {
-    console.log(row);
+    router.push(`/dashboard/users/${row.email}`);
   };
 
   const table = useReactTable({

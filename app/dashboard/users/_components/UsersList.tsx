@@ -14,6 +14,7 @@ import AddUserModal from "./add-user-modal";
 import { PuffLoader } from "react-spinners";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 interface UsersListProps {}
 
@@ -78,7 +79,7 @@ const UsersList: FC<UsersListProps> = ({}) => {
         info.row.original.emailConfirmed ? (
           <Trash
             variant="Bulk"
-            onClick={() => handleDeleteUser(info.row.original)}
+            onClick={() => handleDelete(info.row.original.email)}
           />
         ) : (
           <Button
@@ -94,17 +95,11 @@ const UsersList: FC<UsersListProps> = ({}) => {
         ),
     },
   ];
+  const router = useRouter();
 
-  async function handleDeleteUser(user: UserManagementData) {
-    // delete user logic
-    console.log(user, "delete user");
-    const data = await deleteUser(user);
-
-    queryClient.invalidateQueries({ queryKey: ["users"] });
-    refetch();
-    console.log(data);
-  }
-
+  const handleDelete = (email: string) => {
+    router.push(`/dashboard/users/${email}`);
+  };
   return (
     <div className=" bg-white rounded-lg mt-5">
       <div className=" p-5">
