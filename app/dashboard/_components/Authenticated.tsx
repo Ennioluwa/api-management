@@ -25,18 +25,18 @@ const Authenticated: FC<AuthenticatedProps> = ({ children }) => {
     queryFn: fetchUsers,
   });
 
-  useLayoutEffect(() => {
-    if (!userData) {
-      console.log("no user");
-      return redirect("/login");
-    } else if (userData.setupStatus === "AccountCreated") {
-      return redirect("/kyc/business-information");
-    } else if (userData.setupStatus === "CompanyCreated") {
-      return redirect("/kyc/business-identity");
-    } else if (userData.changePassword === true) {
-      return redirect("/change-password");
-    } else return;
-  }, []);
+  // useLayoutEffect(() => {
+  //   if (!userData) {
+  //     console.log("no user");
+  //     return redirect("/login");
+  //   } else if (userData.setupStatus === "AccountCreated") {
+  //     return redirect("/kyc/business-information");
+  //   } else if (userData.setupStatus === "CompanyCreated") {
+  //     return redirect("/kyc/business-identity");
+  //   } else if (userData.changePassword === true) {
+  //     return redirect("/change-password");
+  //   } else return;
+  // }, []);
   return <>{children}</>;
 };
 
