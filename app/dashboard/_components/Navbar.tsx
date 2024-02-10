@@ -40,16 +40,18 @@ const Navbar: FC<NavbarProps> = ({}) => {
   const { userData } = useAppSelector((state) => state.user);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 w-full h-16  px-3 bg-white border-b z-40 shadow grid place-items-center">
-      <div className="flex items-center justify-between w-full gap-5 md:gap-12">
-        <div className=" flex items-center gap-3 shrink-0">
-          <MobileSidebar />
-          <Logo />
+    <div className="fixed top-0 left-0 right-0 w-full h-16 z-40 bg-white border-b shadow  ">
+      <nav className=" px-3 h-full grid place-items-center  lg:max-w-[1650px] lg:ml-0">
+        <div className="flex items-center justify-between w-full gap-5 md:gap-12">
+          <div className=" flex items-center gap-3 shrink-0">
+            <MobileSidebar />
+            <Logo />
+          </div>
+          <InvoiceSearch />
+          <Features />
         </div>
-        <InvoiceSearch />
-        <Features />
-      </div>
-    </nav>
+      </nav>
+    </div>
   );
 };
 

@@ -34,7 +34,7 @@ const InvoiceSearch = () => {
 
   return (
     <>
-      <div className=" grow hidden md:block">
+      <div className=" grow hidden md:block max-w-xl">
         <Popover open={!!debouncedSearchTerm && open} onOpenChange={setOpen}>
           <PopoverTrigger
             onClick={(e) => {
