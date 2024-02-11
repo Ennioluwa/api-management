@@ -58,6 +58,11 @@ module.exports = {
           DEFAULT: "#2E2E3A",
         },
       },
+      fontFamily: {
+        sans: ["var(--font-inter)"],
+        mono: ["var(--font-roboto-mono)"],
+      },
+
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
