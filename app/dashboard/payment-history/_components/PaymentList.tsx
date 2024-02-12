@@ -121,8 +121,8 @@ const PaymentList: FC<PaymentListProps> = ({}) => {
           View all transaction history made through your Account
         </p>
       </div>
-      <Tabs defaultValue="all" className="">
-        <TabsList className=" my-2 p-0">
+      <Tabs defaultValue="all" className=" w-full ">
+        <TabsList className=" w-full overflow-x-auto justify-start overflow-y-clip h-auto ">
           <TabsTrigger value="all">All Transactions</TabsTrigger>
           <TabsTrigger value="approved">Approved</TabsTrigger>
           <TabsTrigger value="pending">Pending</TabsTrigger>

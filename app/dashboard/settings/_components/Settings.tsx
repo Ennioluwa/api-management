@@ -19,8 +19,8 @@ const Settings = () => {
         <p className=" w-full text-xs pb-3">{header.subtitle}</p>
       </div>
       <div className="w-full h-full">
-        <Tabs defaultValue="profile" className=" w-full">
-          <TabsList className=" my-2 p-0 h-14 w-full overflow-x-auto overflow-y-clip  justify-start">
+        <Tabs defaultValue="profile" className=" w-full ">
+          <TabsList className=" w-full overflow-x-auto justify-start overflow-y-clip h-auto ">
             <TabsTrigger value="profile">Profile Settings</TabsTrigger>
             <TabsTrigger value="password">Password</TabsTrigger>
             <TabsTrigger value="business-info">Business Info</TabsTrigger>

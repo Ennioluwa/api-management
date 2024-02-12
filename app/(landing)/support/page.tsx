@@ -151,7 +151,7 @@ const Questions = ({}) => {
         </h4>
 
         <Tabs defaultValue="account" className=" p-8 rounded bg-white ">
-          <TabsList className=" overflow-x-auto w-full overflow-y-clip h-20">
+          <TabsList className=" overflow-x-auto w-full overflow-y-clip h-auto justify-start">
             <TabsTrigger value="account">Account-based Help</TabsTrigger>
             <TabsTrigger value="subscription">Subscription</TabsTrigger>
             <TabsTrigger value="user">User Management</TabsTrigger>

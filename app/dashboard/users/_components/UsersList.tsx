@@ -108,8 +108,8 @@ const UsersList: FC<UsersListProps> = ({}) => {
           View all your users and their verification status below in each tabs
         </p>
       </div>
-      <Tabs defaultValue="all" className="">
-        <TabsList className=" my-2 p-0">
+      <Tabs defaultValue="all" className=" w-full ">
+        <TabsList className=" w-full overflow-x-auto justify-start overflow-y-clip h-auto ">
           <TabsTrigger value="all">All Users</TabsTrigger>
           <TabsTrigger value="verified">Verified</TabsTrigger>
           <TabsTrigger value="unverified">Unverified</TabsTrigger>
