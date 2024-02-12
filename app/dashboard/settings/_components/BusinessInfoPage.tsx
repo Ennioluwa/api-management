@@ -35,7 +35,7 @@ import { Lock, UserCirlceAdd } from "iconsax-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import PhoneInputWithCountrySelect from "react-phone-number-input";
 import Loader from "@/components/Loader";
-import { optionsCategory } from "@/data/data";
+import { data_Countries, optionsCategory } from "@/data/data";
 
 interface ProfilePageProps {
   setHeader: Dispatch<
@@ -134,7 +134,7 @@ const ProfilePage: FC<ProfilePageProps> = ({ setHeader }) => {
             <>
               <div className=" flex flex-col lg:flex-row gap-5">
                 <div className=" flex-1">
-                  <h5 className=" font-bold">Business Information</h5>
+                  <h5 className=" font-bold mb-2">Business Information</h5>
                   <h6 className=" text-xs">
                     This include information about your avatar and business name
                   </h6>
@@ -163,7 +163,7 @@ const ProfilePage: FC<ProfilePageProps> = ({ setHeader }) => {
               <hr />
               <div className=" flex flex-col lg:flex-row gap-5">
                 <div className=" flex-1">
-                  <h5 className=" font-bold">Business Details</h5>
+                  <h5 className=" font-bold mb-2">Business Industry</h5>
                   <h6 className=" text-xs">
                     This include information about your business industry
                   </h6>
@@ -183,6 +183,7 @@ const ProfilePage: FC<ProfilePageProps> = ({ setHeader }) => {
                             <SelectTrigger
                               label="Business Industry"
                               value={field.value}
+                              selectValue={field.value}
                             >
                               <SelectValue placeholder="Select Business Industry" />
                             </SelectTrigger>
@@ -210,7 +211,7 @@ const ProfilePage: FC<ProfilePageProps> = ({ setHeader }) => {
               <hr />
               <div className=" flex flex-col lg:flex-row gap-5">
                 <div className=" flex-1">
-                  <h5 className=" font-bold">Location</h5>
+                  <h5 className=" font-bold mb-2">Location</h5>
                   <h6 className=" text-xs">
                     You can change your business’ location address
                   </h6>
@@ -245,19 +246,25 @@ const ProfilePage: FC<ProfilePageProps> = ({ setHeader }) => {
                             onValueChange={field.onChange}
                             disabled={isPending}
                           >
-                            <SelectTrigger label="Country" value={field.value}>
+                            <SelectTrigger
+                              label="Country"
+                              selectValue={field.value}
+                              value={field.value}
+                            >
                               <SelectValue placeholder="Country" />
                             </SelectTrigger>
                             <SelectContent>
                               <SelectGroup>
                                 <SelectLabel>Country</SelectLabel>
-                                <SelectItem value="nigeria">Nigeria</SelectItem>
-                                <SelectItem value="ghana">Ghana</SelectItem>
-                                <SelectItem value="kenya">Kenya</SelectItem>
-                                <SelectItem value="zambia">Zambia</SelectItem>
-                                <SelectItem value="mauritius">
-                                  Mauritius
-                                </SelectItem>
+                                {data_Countries.map((country, index) => (
+                                  <SelectItem
+                                    className=" capitalize"
+                                    key={index}
+                                    value={country}
+                                  >
+                                    {country}
+                                  </SelectItem>
+                                ))}
                               </SelectGroup>
                             </SelectContent>
                           </Select>
@@ -271,7 +278,7 @@ const ProfilePage: FC<ProfilePageProps> = ({ setHeader }) => {
               <hr />
               <div className=" flex flex-col lg:flex-row gap-5">
                 <div className=" flex-1">
-                  <h5 className=" font-bold">Phone</h5>
+                  <h5 className=" font-bold mb-2">Phone</h5>
                   <h6 className=" text-xs">
                     You can change your business’ contact number
                   </h6>
@@ -283,7 +290,7 @@ const ProfilePage: FC<ProfilePageProps> = ({ setHeader }) => {
                     render={({ field }) => (
                       <FormItem className="relative w-full">
                         {field.value && (
-                          <FormLabel className="font-normal absolute left-5 top-[0px] text-bgPrimary z-20 bg-white px-2.5 py-0 text-xs">
+                          <FormLabel className="font-normal absolute left-5 top-[-8px] text-bgPrimary z-20 bg-white px-2.5 py-0 text-xs">
                             Phone
                           </FormLabel>
                         )}
@@ -297,7 +304,7 @@ const ProfilePage: FC<ProfilePageProps> = ({ setHeader }) => {
                             }}
                             disabled={isPending}
                             placeholder="Enter phone number"
-                            className={` flex h-[50px] w-full rounded-md border border-bgPrimary bg-background py-2 px-3 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:border focus-visible:border-bgPrimary  focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 focus-within:border-bgPrimary ${
+                            className={` flex h-[50px] w-full rounded-md border-2 border-bgPrimary bg-background py-2 px-3 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:border focus-visible:border-bgPrimary  focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 focus-within:border-bgPrimary ${
                               field.value
                                 ? "border-bgPrimary bg-white "
                                 : "border-border"

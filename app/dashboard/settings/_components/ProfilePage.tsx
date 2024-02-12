@@ -155,7 +155,7 @@ const ProfilePage: FC<ProfilePageProps> = ({ setHeader }) => {
                   )}
                 />
               </div>
-              <p className=" font-bold pb-5">Role at the business</p>
+              <p className=" font-bold">Role at the business</p>
               <FormField
                 control={form.control}
                 name="roles"

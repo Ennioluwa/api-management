@@ -36,7 +36,7 @@ import { setCompanyId, setSetupStatus } from "@/redux/features/userSlice";
 import { useAppDispatch } from "@/lib/hooks";
 import PhoneInputWithCountrySelect from "react-phone-number-input";
 import Loader from "@/components/Loader";
-import { optionsCategory } from "@/data/data";
+import { data_Countries, optionsCategory } from "@/data/data";
 
 const BusinessInformationForm = () => {
   const [open, setOpen] = useState(false);
@@ -215,11 +215,15 @@ const BusinessInformationForm = () => {
                         <SelectContent>
                           <SelectGroup>
                             <SelectLabel>Country</SelectLabel>
-                            <SelectItem value="nigeria">Nigeria</SelectItem>
-                            <SelectItem value="ghana">Ghana</SelectItem>
-                            <SelectItem value="kenya">Kenya</SelectItem>
-                            <SelectItem value="zambia">Zambia</SelectItem>
-                            <SelectItem value="mauritius">Mauritius</SelectItem>
+                            {data_Countries.map((country, index) => (
+                              <SelectItem
+                                className=" capitalize"
+                                key={index}
+                                value={country}
+                              >
+                                {country}
+                              </SelectItem>
+                            ))}
                           </SelectGroup>
                         </SelectContent>
                       </Select>
