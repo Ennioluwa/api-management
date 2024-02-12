@@ -67,7 +67,7 @@ const Services: FC<ServicesProps> = ({}) => {
             </div>
           ))}
         </div>
-        <div className="flex flex-col md:flex-row justify-between items-center gap-x-20">
+        <div className="flex flex-col lg:flex-row justify-between items-center gap-x-20 gap-y-10">
           <div className="flex flex-col md:flex-row items-center gap-x-7">
             <h5 className=" text-4xl font-bold mb-2.5 max-w-[276px] text-left">
               Our service is Feature-Rich
@@ -78,34 +78,6 @@ const Services: FC<ServicesProps> = ({}) => {
             </p>
           </div>
           <Button onClick={() => router.push("login")}>GET STARTED</Button>
-        </div>
-        <div className=" space-y-10 pt-32">
-          {services.map((service, index) => (
-            <div
-              key={index}
-              className={`flex md:w-[90%] flex-col md:flex-row md:items-center md:h-[220px]  ${
-                index % 2 ? " mr-auto" : " ml-auto"
-              }`}
-            >
-              <div className="bg-[#F0F4F9] md:flex-[0.4] grid place-items-center h-full ">
-                <service.icon size="200px" className=" text-bgPrimary" />
-              </div>
-
-              <div className=" flex flex-col gap-4 w-full text-left py-5 px-8 bg-white rounded md:flex-[1]">
-                <h5 className=" text-3xl font-bold mb-2.5">
-                  Our service is Feature-Rich
-                </h5>
-                <p className=" text-xl mb-2.5 text-left">
-                  We offer a variety of interesting features that you can help
-                  increase yor productivity at work and manage your project
-                  easily
-                </p>
-                <Button onClick={() => router.push("login")} className=" w-fit">
-                  GET STARTED
-                </Button>
-              </div>
-            </div>
-          ))}
         </div>
       </div>
     </div>

@@ -63,7 +63,7 @@ const Questions: FC<QuestionsProps> = ({}) => {
           <Image src={"/svgs/curvedLine.svg"} alt="curved line" fill />
         </div>
 
-        <div className="flex flex-col lg:flex-row lg:items-center gap-6 gap-y-10 pt-5">
+        <div className="flex flex-col lg:flex-row lg:items-center gap-6 gap-y-10 py-20">
           <div className="flex-1 text-left order-2 lg:order-1">
             <Accordion type="single" collapsible>
               {questions.map((question, index) => (

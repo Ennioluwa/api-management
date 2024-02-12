@@ -42,9 +42,23 @@ const UserRoles: FC<UserRolesProps> = ({}) => {
             <h4 className=" text-3xl font-bold">
               {invoiceStats?.totalInvoice}
             </h4>
-            {/* <p className=" text-xs font-bold uppercase text-[#1CA78B] px-2.5 py-1 rounded-r-full rounded-l-full bg-[#1CA78B]/10">
-              + {4}% compared to last month
-            </p> */}
+            <p className=" text-xs font-bold uppercase text-[#1CA78B] px-2.5 py-1 rounded-r-full rounded-l-full bg-[#1CA78B]/10">
+              {invoiceStats?.lastMonthProcessed
+                ? ((invoiceStats?.currentMonthProcessed -
+                    invoiceStats?.lastMonthProcessed) /
+                    invoiceStats?.lastMonthProcessed) *
+                  100
+                : invoiceStats?.currentMonthProcessed * 100 >= 0
+                ? "+"
+                : "-"}{" "}
+              {invoiceStats?.lastMonthProcessed
+                ? ((invoiceStats?.currentMonthProcessed -
+                    invoiceStats?.lastMonthProcessed) /
+                    invoiceStats?.lastMonthProcessed) *
+                  100
+                : invoiceStats?.currentMonthProcessed * 100}
+              % compared to last month
+            </p>
           </div>
           <div className=" px-3 rounded-lg space-y-1 bg-[#9A9AAF]/20 w-full flex flex-col justify-center">
             <p className=" flex items-center gap-1 text-xs font-bold text-[#9a9aaf]">
@@ -98,7 +112,10 @@ const UserRoles: FC<UserRolesProps> = ({}) => {
           <h6 className=" text-xs font-bold">PENDING</h6>
           <h4 className=" text-3xl font-bold flex gap-2.5 items-baseline">
             {invoiceStats?.pendingInvoice}{" "}
-            <span className=" text-[#FFCF5C] text-base ">↑0.7%</span>
+            <span className=" text-[#FFCF5C] text-base ">
+              {invoiceStats?.pendingChange >= 0 ? "↑" : "↓"}
+              {invoiceStats?.pendingChange}%
+            </span>
           </h4>
           {/* <p className=" text-xs font-bold uppercase text-[#FFCF5C] px-2.5 py-1 rounded-r-full rounded-l-full bg-[#FFCF5C]/10">
               + {4}% compared to last month
@@ -108,7 +125,11 @@ const UserRoles: FC<UserRolesProps> = ({}) => {
           <h6 className=" text-xs font-bold">FAILED</h6>
           <h4 className=" text-3xl font-bold flex gap-2.5 items-baseline">
             {invoiceStats?.failedInvoice}{" "}
-            <span className=" text-[#A71C1C] text-base ">↑0.7%</span>
+            <span className=" text-[#A71C1C] text-base ">
+              {" "}
+              {invoiceStats?.failedChange >= 0 ? "↑" : "↓"}
+              {invoiceStats?.failedChange}%
+            </span>
           </h4>
           {/* <p className=" w-fit text-xs font-bold uppercase text-[#A71C1C] px-2.5 py-1 rounded-r-full rounded-l-full bg-[#A71C1C]/10">
               + 16% compared to last week

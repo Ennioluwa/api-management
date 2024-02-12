@@ -4,6 +4,7 @@ import axiosClient from "../axiosInstance";
 export type UserManagementData = {
   firstName: string;
   lastName: string;
+  userName: string;
   email: string;
   roles: string[];
   emailConfirmed?: boolean;

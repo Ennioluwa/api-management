@@ -8,10 +8,14 @@ export const fetchUsers = async () => {
   if (data) return data as UserManagementData[];
 };
 
-export const fetchUserByEmail = async ({ email }: { email: string }) => {
+export const fetchUserByUserName = async ({
+  userName,
+}: {
+  userName: string;
+}) => {
   const {
     data: { data },
-  } = await axiosClient.get(`/api/usermanagement/${email}`);
+  } = await axiosClient.get(`/api/usermanagement/${userName}`);
   if (data) return data as UserManagementData;
 };
 

@@ -59,7 +59,7 @@ const HeroPage: FC<HeroPageProps> = ({}) => {
   );
 
   return (
-    <section className="w-full h-full px-5 md:px-10 py-10 lg:py-20 lg:pt-0 ">
+    <section className="w-full h-full px-5 md:px-10 py-10 lg:py-20 lg:pt-0">
       <div className="lg:container">
         <Carousel className="w-full " setApi={setApi}>
           <CarouselContent>

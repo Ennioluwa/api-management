@@ -16,7 +16,7 @@ const Footer: FC<FooterProps> = ({}) => {
         <div className="flex items-center justify-between gap-5">
           <p>© 2023 API MGT. Inc. Copyright and rights reserved</p>
           <p>Icons</p>
-          <p>Terms and Conditions</p>
+          <p>Terms and Conditions . Privacy Policy</p>
         </div>
       </div>
     </div>

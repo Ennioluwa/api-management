@@ -29,7 +29,7 @@ const accountSteps = [
 const OpenAccount: FC<OpenAccountProps> = ({}) => {
   const router = useRouter();
   return (
-    <div className="py-10 lg:py-20 bg-[#F0F4F9] text-dark text-center px-5 lg:px-10">
+    <div className="pt-10 lg:pt-20 bg-[#F0F4F9] text-dark text-center px-5 lg:px-10">
       <div className="lg:container">
         <h3 className=" text-4xl font-bold mb-2.5">
           Open An Account In Just{" "}
@@ -51,9 +51,17 @@ const OpenAccount: FC<OpenAccountProps> = ({}) => {
             />
           </div>
           <div className="flex-1 text-left max-w-[500px] lg:max-w-full mx-auto">
-            <div>
+            <div className=" ">
               {accountSteps.map((step, index) => (
-                <div key={index} className=" pb-5">
+                <div
+                  key={index}
+                  className="px-5 pb-5 pl-10 border-l-[3px] border-bgPrimary border-dashed relative"
+                >
+                  <div className=" absolute top-0 left-[-22px] h-11 w-11 z-20 p-2 bg-white rounded-full grid place-items-center">
+                    <div className=" bg-bgPrimary w-full h-full text-white grid place-items-center rounded-full">
+                      {index + 1}
+                    </div>
+                  </div>
                   <h6 className=" text-bgPrimary mb-5">STEP {step.position}</h6>
                   <h5 className=" text-4xl font-bold mb-2">{step.title}</h5>
                   <p className=" text-base">{step.subtitle}</p>
@@ -63,7 +71,9 @@ const OpenAccount: FC<OpenAccountProps> = ({}) => {
                   >
                     GET STARTED
                   </Button>
-                  <div className=" w-[215px] h-[2px] border-[1.5px] border-dashed" />
+                  {index !== accountSteps.length - 1 && (
+                    <div className=" w-[215px] h-[2px] border-[1.5px] border-dashed" />
+                  )}
                 </div>
               ))}
             </div>

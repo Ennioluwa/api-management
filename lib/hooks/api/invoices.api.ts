@@ -49,6 +49,8 @@ export type InvoiceStats = {
   lastMonthProcessed: number;
   pendingInvoice: number;
   totalInvoice: number;
+  pendingChange: number;
+  failedChange: number;
 };
 
 export const fetchInvoices = async () => {

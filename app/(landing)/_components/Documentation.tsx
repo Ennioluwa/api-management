@@ -54,11 +54,21 @@ const Documentation: FC<DocumentationProps> = ({}) => {
           <div className="flex-1 text-left">
             <div>
               {documentationSteps.map((step, index) => (
-                <div key={index} className=" pb-5">
+                <div
+                  key={index}
+                  className=" px-5 pb-5 pl-10 border-l-[3px] border-bgPrimary border-dashed relative"
+                >
+                  <div className=" absolute top-0 left-[-22px] h-11 w-11 z-20 p-2 bg-white rounded-full grid place-items-center">
+                    <div className=" bg-bgPrimary w-full h-full text-white grid place-items-center rounded-full">
+                      {index + 1}
+                    </div>
+                  </div>
                   <h6 className=" text-bgPrimary mb-5">STEP {step.position}</h6>
                   <h5 className=" text-4xl font-bold mb-2">{step.title}</h5>
-                  <p className=" text-base">{step.subtitle}</p>
-                  <div className=" w-[215px] h-[2px] border-[1.5px] border-dashed" />
+                  <p className=" text-base mb-5">{step.subtitle}</p>
+                  {index !== documentationSteps.length - 1 && (
+                    <div className=" w-[215px] h-[2px] border-[1.5px] border-dashed" />
+                  )}
                 </div>
               ))}
             </div>

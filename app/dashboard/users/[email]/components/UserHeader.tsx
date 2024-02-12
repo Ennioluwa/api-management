@@ -6,7 +6,7 @@ import { Home2, SecuritySafe } from "iconsax-react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { fetchUserByEmail } from "@/lib/hooks/api/users.api";
+import { fetchUserByUserName } from "@/lib/hooks/api/users.api";
 import { useQuery } from "@tanstack/react-query";
 import Loader from "@/components/Loader";
 import { useAppDispatch } from "@/lib/hooks";
@@ -26,18 +26,20 @@ const UserHeader: FC<UserHeaderProps> = async ({ email }) => {
   const [deleteSuccess, setDeleteSuccess] = useState(false);
   const [deleteConfirm, setDeleteConfirm] = useState(false);
 
-  //   const {
-  //     isPending,
-  //     isError,
-  //     data: user,
-  //     error,
-  //     refetch,
-  //   } = useQuery({
-  //     queryKey: ["user"],
-  //     queryFn: () => fetchUserByEmail({ email }),
-  //   });
+  const {
+    isPending,
+    isError,
+    data: user,
+    error,
+    refetch,
+  } = useQuery({
+    queryKey: ["user"],
+    queryFn: () => fetchUserByUserName({ userName: email }),
+  });
 
-  const user = {} as any;
+  console.log(user);
+
+  // const user = {} as any;
 
   const handleDeleteUser = () => {
     setDeleteConfirm(false);
