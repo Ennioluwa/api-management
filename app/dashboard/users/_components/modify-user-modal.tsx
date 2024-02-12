@@ -36,19 +36,20 @@ import {
   onModifyUserClose,
   onModifyUserOpen,
 } from "@/redux/features/addUserSlice";
-import { AddUserModalSchema } from "@/schemas";
 import {
   useModifyUserManagement,
   useUserManagement,
 } from "@/lib/hooks/useUserManagement";
 import { useQueryClient } from "@tanstack/react-query";
 import Loader from "@/components/Loader";
+import { AddUserModalSchema } from "@/schemas";
+import { handleRole } from "@/lib/utils";
 
 type ModifyUserModalProps = {
   firstName: string;
   lastName: string;
   email: string;
-  roles: Option[];
+  roles: string[];
 };
 
 const ModifyUserModal: FC<ModifyUserModalProps> = ({
@@ -73,13 +74,17 @@ const ModifyUserModal: FC<ModifyUserModalProps> = ({
     },
   ];
 
+  console.log(roles);
+
   const form = useForm<z.infer<typeof AddUserModalSchema>>({
     resolver: zodResolver(AddUserModalSchema),
     defaultValues: {
       email,
       firstName,
       lastName,
-      roles,
+      roles: roles.map((role) => {
+        return { value: role, label: handleRole(role) };
+      }),
     },
   });
 
@@ -94,25 +99,22 @@ const ModifyUserModal: FC<ModifyUserModalProps> = ({
   useEffect(() => {
     if (isSuccess) {
       console.log(isSuccess, data, "success state");
-      toast.success(
-        "User successfully added. An email has been sent to the user to be added"
-      );
+      toast.success("User successfully modified");
       dispatch(onModifyUserClose());
       queryClient.refetchQueries({ queryKey: ["users"] });
       queryClient.invalidateQueries({ queryKey: ["users"] });
     } else if (isError) {
       console.log(isError, data, "error state");
-      toast.error("Add user failed");
+      toast.error("Modify user failed");
     } else return;
   }, [isSuccess, isError]);
 
   const onSubmit = (values: z.infer<typeof AddUserModalSchema>) => {
     console.log(values);
     const { firstName, lastName, email, roles } = values;
-    console.log(roles, "user role");
     const userRoles = roles.map((role) => role.value);
 
-    // modifyUser({ firstName, lastName, roles: userRoles });
+    modifyUser({ firstName, lastName });
   };
 
   return (

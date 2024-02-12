@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import axiosClient from "../axiosInstance";
 
-export type UserManagementData = {
+export type UserDetails = {
   firstName: string;
   lastName: string;
   userName: string;
@@ -9,10 +9,16 @@ export type UserManagementData = {
   roles: string[];
   emailConfirmed?: boolean;
 };
+
+export type UserManagementData = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  roles: string[];
+};
 export type PutUserManagementData = {
   firstName: string;
   lastName: string;
-  roles: string[];
 };
 
 export type DeleteUser = {
@@ -26,14 +32,14 @@ const postUserManagementData = async (data: UserManagementData) => {
       console.log(res);
 
       return {
-        data: res.data.data,
+        data: res.data.data as UserDetails,
       };
     });
 
   return res;
 };
 const putUserManagementData = async (data: PutUserManagementData) => {
-  const res = await axiosClient.put("/api/usermanagement", data).then((res) => {
+  const res = await axiosClient.put("/api/user", data).then((res) => {
     console.log(res);
 
     return {

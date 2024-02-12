@@ -1,12 +1,12 @@
 "use client";
 
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import Link from "next/link";
 import { Home2, SecuritySafe } from "iconsax-react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { fetchUserByUserName } from "@/lib/hooks/api/users.api";
+import { fetchUsers } from "@/lib/hooks/api/users.api";
 import { useQuery } from "@tanstack/react-query";
 import Loader from "@/components/Loader";
 import { useAppDispatch } from "@/lib/hooks";
@@ -14,37 +14,53 @@ import { onModifyUserOpen, onOpen } from "@/redux/features/addUserSlice";
 import Modal from "@/components/Modal";
 import ModifyUserModal from "../../_components/modify-user-modal";
 import AddUserModal from "../../_components/add-user-modal";
+// import { UserData } from "@/redux/features/userSlice";
+import { UserDetails } from "@/lib/hooks/useUserManagement";
+import { PuffLoader } from "react-spinners";
 
 interface UserHeaderProps {
-  email: string;
+  username: string;
 }
 
-const UserHeader: FC<UserHeaderProps> = async ({ email }) => {
+const UserHeader: FC<UserHeaderProps> = async ({ username }) => {
   const router = useRouter();
   const dispatch = useAppDispatch();
 
-  const [deleteSuccess, setDeleteSuccess] = useState(false);
-  const [deleteConfirm, setDeleteConfirm] = useState(false);
+  const [user, setUser] = useState<UserDetails | null>(null);
 
   const {
     isPending,
     isError,
-    data: user,
+    data: users,
     error,
     refetch,
   } = useQuery({
-    queryKey: ["user"],
-    queryFn: () => fetchUserByUserName({ userName: email }),
+    queryKey: ["users"],
+    queryFn: () => fetchUsers(),
   });
 
-  console.log(user);
+  useEffect(() => {
+    if (users) {
+      const userData = users.find((person) => person.userName == username);
+      console.log(users, userData, username);
 
-  // const user = {} as any;
+      if (userData) {
+        setUser(userData);
+      }
+    }
+  }, [users]);
+
+  const [deleteSuccess, setDeleteSuccess] = useState(false);
+  const [deleteConfirm, setDeleteConfirm] = useState(false);
 
   const handleDeleteUser = () => {
     setDeleteConfirm(false);
     setDeleteSuccess(true);
   };
+
+  if (isPending) {
+    return <Loader />;
+  }
 
   return (
     <>
@@ -58,10 +74,10 @@ const UserHeader: FC<UserHeaderProps> = async ({ email }) => {
           <span className=" font-normal ">User Management</span>
         </Link>
         <ChevronRight size="16px" />
-        <Link href={`/dashboard/users/${user?.email}`} className=" contents">
+        <Link href={`/dashboard/users/${user?.userName}`} className=" contents">
           <span className=" text-black flex gap-1">
-            {user?.firstName}
-            {user?.lastName}
+            <span>{user?.firstName}</span>
+            <span>{user?.lastName}</span>
           </span>
         </Link>
       </div>
@@ -74,20 +90,18 @@ const UserHeader: FC<UserHeaderProps> = async ({ email }) => {
         Back
       </Button>
 
-      <div className="lg:container lg:ml-0 grid place-items-center p-5 rounded-lg bg-[#fff]/60">
-        <div className="flex flex-col items-center text-center gap-3 bg-white container max-w-[300px] mx-auto p-5 border border-dashed border-[#2488FF0D]/10 rounded-lg">
+      <div className="lg:container lg:ml-0 grid place-items-center p-8 rounded-lg bg-[#fff]/60">
+        <div className="flex flex-col items-center text-center gap-4 bg-white container max-w-[300px] mx-auto p-8 border border-dashed border-[#2488FF0D]/10 rounded-lg">
           <h2 className=" text-3xl font-bold text-black flex gap-1">
-            {/* {user?.firstName}{user?.lastName}  */}
-            Al-Mohammad Aliyu
+            <span>{user?.firstName}</span>
+            <span>{user?.lastName}</span>
           </h2>
-          <p className=" text-[#0062FF] text-xs font-bold">
-            {user?.roles || "IT Support"}
-          </p>
+          <p className=" text-[#0062FF] text-xs font-bold">{user?.roles}</p>
           <div className="flex items-center gap-2">
             <span>
               <SecuritySafe size={30} variant="Bulk" color="#1CA78B" />
             </span>
-            <span>{user?.email || "almohammad@gmail.com"}</span>
+            <span>{user?.email}</span>
           </div>
           <div className="flex justify-between w-full gap-3 rounded-b-lg overflow-clip">
             <Button
@@ -147,12 +161,14 @@ const UserHeader: FC<UserHeaderProps> = async ({ email }) => {
           dispatch(onOpen());
         }}
       />
-      <ModifyUserModal
-        firstName=""
-        lastName=""
-        email=""
-        roles={[{ label: "Super Admin", value: "ClientAdmins" }]}
-      />
+      {user && (
+        <ModifyUserModal
+          firstName={user?.firstName}
+          lastName={user?.lastName}
+          email={user?.email}
+          roles={user?.roles}
+        />
+      )}
       <AddUserModal />
       {/* {pending && <Loader />} */}
     </>

@@ -106,9 +106,9 @@ export const SignupForm = () => {
     otpLogin({ email: form.getValues().email, otp });
   };
 
-  const handleResendOtp = async (email: string) => {
+  const handleResendOtp = async (username: string) => {
     try {
-      const data = await getOtp({ email });
+      const data = await getOtp({ username });
       console.log(data);
 
       toast.success("Otp successfully sent");

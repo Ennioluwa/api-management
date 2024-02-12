@@ -6,7 +6,7 @@ import { DataTable } from "./data-table";
 import { useQuery } from "@tanstack/react-query";
 import { fetchUsers, resendVerification } from "@/lib/hooks/api/users.api";
 import { deleteUser } from "@/lib/hooks/api/users.api";
-import { UserManagementData } from "@/lib/hooks/useUserManagement";
+import { UserDetails } from "@/lib/hooks/useUserManagement";
 import { useQueryClient } from "@tanstack/react-query";
 import { ColumnDef } from "@tanstack/react-table";
 import { Edit2, Trash } from "iconsax-react";
@@ -31,11 +31,9 @@ const UsersList: FC<UsersListProps> = ({}) => {
 
     // staleTime: 5000,
   });
-  const [allUsers, setAllUsers] = useState<UserManagementData[]>([]);
-  const [verifiedUsers, setVerifiedUsers] = useState<UserManagementData[]>([]);
-  const [unverifiedUsers, setUnverifiedUsers] = useState<UserManagementData[]>(
-    []
-  );
+  const [allUsers, setAllUsers] = useState<UserDetails[]>([]);
+  const [verifiedUsers, setVerifiedUsers] = useState<UserDetails[]>([]);
+  const [unverifiedUsers, setUnverifiedUsers] = useState<UserDetails[]>([]);
 
   useEffect(() => {
     if (users) {
@@ -47,9 +45,9 @@ const UsersList: FC<UsersListProps> = ({}) => {
     }
   }, [users]);
 
-  const handleResendVerification = async (email: string) => {
+  const handleResendVerification = async (username: string) => {
     try {
-      const data = await resendVerification({ email });
+      const data = await resendVerification({ username });
       toast.success("Email successfully sent");
     } catch (error) {
       toast.error("An error has occured here");
@@ -58,7 +56,7 @@ const UsersList: FC<UsersListProps> = ({}) => {
   };
 
   const queryClient = useQueryClient();
-  const columns: ColumnDef<UserManagementData>[] = [
+  const columns: ColumnDef<UserDetails>[] = [
     {
       header: "Name",
       cell: (info) =>
@@ -79,16 +77,13 @@ const UsersList: FC<UsersListProps> = ({}) => {
         info.row.original.emailConfirmed ? (
           <Trash
             variant="Bulk"
-            onClick={() => handleDelete(info.row.original.email)}
+            onClick={() => handleDelete(info.row.original.userName)}
           />
         ) : (
           <Button
             className=" uppercase"
-            onClick={() =>
-              handleResendVerification(
-                encodeURIComponent(info.row.original.email)
-              )
-            }
+            // todo
+            onClick={() => handleResendVerification(info.row.original.userName)}
           >
             Resend verification
           </Button>
@@ -97,8 +92,8 @@ const UsersList: FC<UsersListProps> = ({}) => {
   ];
   const router = useRouter();
 
-  const handleDelete = (email: string) => {
-    router.push(`/dashboard/users/${email}`);
+  const handleDelete = (userName: string) => {
+    router.push(`/dashboard/users/${userName}`);
   };
   return (
     <div className=" bg-white rounded-lg mt-5">

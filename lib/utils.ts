@@ -49,3 +49,15 @@ export function getCurrencySymbol(code: string) {
 
   return currency.symbol;
 }
+
+export const handleRole = (role?: string) => {
+  if (role === "ClientAdmins") {
+    return "Super Admin";
+  } else if (role === "ClientSalesReps") {
+    return "Sales Rep.";
+  } else if (role === "ClientFinanceOfficers") {
+    return "Finance Officer";
+  } else {
+    return "Member";
+  }
+};

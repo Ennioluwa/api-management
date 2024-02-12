@@ -27,6 +27,7 @@ import { MessageQuestion, Messages1, NotificationBing } from "iconsax-react";
 import { Search } from "./SearchInput";
 import { useAppSelector } from "@/lib/hooks";
 import { accountQuestions } from "@/data/data";
+import { handleRole } from "@/lib/utils";
 
 interface FeaturesProps {}
 
@@ -57,24 +58,11 @@ const Features: FC<FeaturesProps> = ({}) => {
     setQuestions(filtered);
   }
 
-  const handleRole = (role?: string) => {
-    if (role === "ClientAdmins") {
-      newRole = "Admin";
-    } else if (role === "ClientSalesReps") {
-      newRole = "Sales Rep.";
-    } else if (role === "ClientFinanceOfficers") {
-      newRole = "Finance Officer";
-    } else {
-      newRole = "Member";
-    }
-
-    return newRole;
-  };
   return (
     <div className=" flex items-center gap-5">
       <Sheet>
         <SheetTrigger>
-          <Messages1 variant="Bulk" size={30} />
+          <Messages1 className=" hidden sm:block" variant="Bulk" size={30} />
         </SheetTrigger>
         <SheetContent className=" w-[440px] bg-transparent bg-white bg-opacity-80 overflow-y-auto">
           <div className="  py-5 rounded-lg flex flex-col gap-3 h-full">
@@ -166,9 +154,9 @@ const Features: FC<FeaturesProps> = ({}) => {
 
       <Popover>
         <PopoverTrigger asChild>
-          <div className=" flex flex-col cursor-pointer">
-            <p>{userData?.firstName}</p>
-            <p>
+          <div className=" sm:pl-5 flex flex-col cursor-pointer">
+            <p className=" font-semibold text-sm">{userData?.firstName}</p>
+            <p className=" text-xs text-[#9A9AAF]">
               {userData?.roles[0] ? handleRole(userData?.roles[0]) : "Member"}
             </p>
           </div>

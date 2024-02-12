@@ -1,6 +1,6 @@
 "use client";
 
-import { useAppSelector } from "@/lib/hooks";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { Dispatch, FC, SetStateAction, useEffect } from "react";
 
 import * as z from "zod";
@@ -26,6 +26,8 @@ import { Direct, UserCirlceAdd } from "iconsax-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import PhoneInputWithCountrySelect from "react-phone-number-input";
 import Loader from "@/components/Loader";
+import { useModifyUserManagement } from "@/lib/hooks/useUserManagement";
+import { setName } from "@/redux/features/userSlice";
 
 interface ProfilePageProps {
   setHeader: Dispatch<
@@ -38,6 +40,8 @@ interface ProfilePageProps {
 
 const ProfilePage: FC<ProfilePageProps> = ({ setHeader }) => {
   const { userData } = useAppSelector((state) => state.user);
+
+  const dispatch = useAppDispatch();
 
   const roles = [
     { label: "Super Admin", id: "ClientAdmins" },
@@ -52,17 +56,11 @@ const ProfilePage: FC<ProfilePageProps> = ({ setHeader }) => {
   ];
 
   const FormSchema = z.object({
-    email: z.string().email({
-      message: "Email is required",
-    }),
     firstName: z.string().min(1, {
       message: "First name is required",
     }),
     lastName: z.string().min(1, {
       message: "Last name is required",
-    }),
-    phone: z.string().min(1, {
-      message: "Phone number is required",
     }),
     roles: z.array(z.string()).refine((value) => value.some((item) => item), {
       message: "You have to select at least one item.",
@@ -82,15 +80,21 @@ const ProfilePage: FC<ProfilePageProps> = ({ setHeader }) => {
 
   const {
     data,
-    mutate: register,
+    mutate: modify,
     isSuccess,
     isError,
     isPending,
-  } = useUserRegister();
+  } = useModifyUserManagement();
 
   useEffect(() => {
     if (isSuccess) {
       console.log(isSuccess, data, "success state");
+      dispatch(
+        setName({
+          firstName: form.getValues().firstName,
+          lastName: form.getValues().lastName,
+        })
+      );
       toast.success("User details saved");
     } else if (isError) {
       console.log(isError, data, "error state");
@@ -98,7 +102,11 @@ const ProfilePage: FC<ProfilePageProps> = ({ setHeader }) => {
     } else return;
   }, [isSuccess, isError]);
 
-  const onSubmit = (values: z.infer<typeof FormSchema>) => {};
+  const onSubmit = (values: z.infer<typeof FormSchema>) => {
+    const { firstName, lastName } = values;
+
+    modify({ firstName, lastName });
+  };
 
   useEffect(() => {
     setHeader({
@@ -107,6 +115,7 @@ const ProfilePage: FC<ProfilePageProps> = ({ setHeader }) => {
         "Modify your profile information and make adjustments to the editable ones below",
     });
   }, []);
+
   return (
     <div className="py-3 px-5 bg-white lg:max-w-[468px]">
       <p className=" flex gap-2 items-center text-black text-xs pb-5">
@@ -176,6 +185,7 @@ const ProfilePage: FC<ProfilePageProps> = ({ setHeader }) => {
                               >
                                 <FormControl>
                                   <Checkbox
+                                    disabled
                                     checked={field.value?.includes(item.id)}
                                     onCheckedChange={(checked) => {
                                       return checked
@@ -191,7 +201,7 @@ const ProfilePage: FC<ProfilePageProps> = ({ setHeader }) => {
                                     }}
                                   />
                                 </FormControl>
-                                <FormLabel className="font-normal text-sm">
+                                <FormLabel className="font-normal text-xs">
                                   {item.label}
                                 </FormLabel>
                               </FormItem>
@@ -210,10 +220,8 @@ const ProfilePage: FC<ProfilePageProps> = ({ setHeader }) => {
           <Button
             disabled={
               isPending ||
-              !form.getValues().email ||
               !form.getValues().firstName ||
-              !form.getValues().lastName ||
-              !form.getValues().phone
+              !form.getValues().lastName
             }
             type="submit"
             className="w-full"

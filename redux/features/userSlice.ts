@@ -90,6 +90,20 @@ export const userSlice = createSlice({
       state.userData.companyStatus = action.payload;
       localStorage.setItem("userData", JSON.stringify(newData));
     },
+    setName: (
+      state,
+      action: PayloadAction<{ firstName: string; lastName: string }>
+    ) => {
+      if (!state.userData) {
+        return;
+      }
+      let newData = state.userData;
+      newData.firstName = action.payload.firstName;
+      state.userData.firstName = action.payload.firstName;
+      newData.lastName = action.payload.lastName;
+      state.userData.lastName = action.payload.lastName;
+      localStorage.setItem("userData", JSON.stringify(newData));
+    },
     logoutUser: (state) => {
       state.userData = null;
       localStorage.removeItem("userData");
@@ -107,6 +121,7 @@ export const {
   setCompanyId,
   setChangePassword,
   setCompanyStatus,
+  setName,
 } = userSlice.actions;
 
 export default userSlice.reducer;

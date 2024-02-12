@@ -26,10 +26,6 @@ const InvoiceProcessing = ({}) => {
       accessorKey: "invoiceNumber",
     },
     {
-      header: "TOTAL ITEMS",
-      accessorKey: "totalItems",
-    },
-    {
       header: "AMOUNT",
       cell: (info) => `-$${info.row.original.totalAmount}`,
     },
@@ -45,17 +41,6 @@ const InvoiceProcessing = ({}) => {
       header: "DATE",
       cell: (info) =>
         info.row && formatter?.format(new Date(info.row.original.createDate)),
-    },
-    {
-      header: "ACTION",
-      cell: (info) => (
-        <div className="flex items-center gap-2">
-          <DocumentDownload
-            variant="Bulk"
-            // onClick={() => handleDeleteUser(info.row.original)}
-          />
-        </div>
-      ),
     },
   ];
 

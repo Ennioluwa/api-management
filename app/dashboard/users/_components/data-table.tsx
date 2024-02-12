@@ -47,7 +47,7 @@ export function DataTable<TData, TValue>({
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const router = useRouter();
   const handleRowClick = (row: any) => {
-    router.push(`/dashboard/users/${row.email}`);
+    router.push(`/dashboard/users/${row.userName}`);
   };
 
   const table = useReactTable({

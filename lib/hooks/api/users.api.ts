@@ -1,37 +1,30 @@
 import axiosClient from "@/lib/axiosInstance";
-import { UserManagementData } from "../useUserManagement";
+import { UserDetails, UserManagementData } from "../useUserManagement";
 
 export const fetchUsers = async () => {
   const {
     data: { data },
   } = await axiosClient.get(`/api/usermanagement`);
-  if (data) return data as UserManagementData[];
+  if (data) return data as UserDetails[];
 };
 
-export const fetchUserByUserName = async ({
-  userName,
-}: {
-  userName: string;
-}) => {
-  const {
-    data: { data },
-  } = await axiosClient.get(`/api/usermanagement/${userName}`);
-  if (data) return data as UserManagementData;
-};
-
-export const deleteUser = async (user: UserManagementData) => {
+export const deleteUser = async (user: UserDetails) => {
   const {
     data: { data },
   } = await axiosClient.delete(`/api/usermanagement`, { data: user });
   return data;
 };
 
-export const resendVerification = async ({ email }: { email: string }) => {
-  if (!email) return;
+export const resendVerification = async ({
+  username,
+}: {
+  username: string;
+}) => {
+  if (!username) return;
 
   const {
     data: { data },
-  } = await axiosClient.get(`api/UserManagement/${email}`);
+  } = await axiosClient.get(`api/UserManagement/${username}`);
   console.log(data);
 
   if (data) return data;
