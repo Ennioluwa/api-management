@@ -7,7 +7,7 @@ import { getOtp } from "@/lib/hooks/api/otp.api";
 import { Button } from "./ui/button";
 import Loader from "./Loader";
 
-const OtpTimer = ({ email }: { email: string }) => {
+const OtpTimer = ({ username }: { username: string }) => {
   const [seconds, setSeconds] = useState(5);
   const [minutes, setMinutes] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -17,10 +17,10 @@ const OtpTimer = ({ email }: { email: string }) => {
     setSeconds(30);
   };
 
-  const handleResendOtp = async (email: string) => {
+  const handleResendOtp = async (username: string) => {
     setLoading(true);
     try {
-      const data = await getOtp({ email }).finally(() => {
+      const data = await getOtp({ username }).finally(() => {
         setLoading(false);
       });
       console.log(data);
@@ -61,7 +61,7 @@ const OtpTimer = ({ email }: { email: string }) => {
         <Button
           variant="ghost"
           className=" w-full text-bgPrimary hover:bg-transparent"
-          onClick={() => handleResendOtp(email)}
+          onClick={() => handleResendOtp(username)}
           disabled={seconds > 0 || minutes > 0}
         >
           RESEND OTP

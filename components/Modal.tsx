@@ -116,7 +116,7 @@ const Modal: FC<ModalProps> = ({
                 shouldAutoFocus
                 inputType="text"
               />
-              <OtpTimer email={email} />
+              <OtpTimer username={email} />
             </>
           )}
         </div>
