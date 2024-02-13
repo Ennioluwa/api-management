@@ -12,7 +12,7 @@ const navItems = [
   { name: "Home", link: "/" },
   { name: "About us", link: "/about" },
   { name: "Support", link: "/support" },
-  { name: "Documentation", link: "/documentation" },
+  // { name: "Documentation", link: "/documentation" },
   { name: "Contact us", link: "/contact" },
 ];
 
@@ -42,10 +42,10 @@ const Navbar = () => {
           </div>
         </div>
         <div className=" items-center gap-3 hidden xl:flex">
-          <Button variant={"outline"}>
+          {/* <Button variant={"outline"}>
             <Code variant="Bold" size="18px" />
             REQUEST A DEMO
-          </Button>
+          </Button> */}
           <Link href="/login">
             <Button>
               <UserCirlceAdd variant="Bold" size="18px" />
