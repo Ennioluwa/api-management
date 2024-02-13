@@ -14,37 +14,10 @@ const customerImages = [
   { name: "grammarly", src: "/svgs/grammarly.svg" },
 ];
 
-const services = [
-  {
-    title: "Daily Analytics",
-    subtitle:
-      "We always provide useful informatin to make it easier for you every day",
-    icon: Chart,
-  },
-  {
-    title: "Daily Analytics",
-    subtitle:
-      "We always provide useful informatin to make it easier for you every day",
-    icon: Chart,
-  },
-  {
-    title: "Daily Analytics",
-    subtitle:
-      "We always provide useful informatin to make it easier for you every day",
-    icon: Chart,
-  },
-  {
-    title: "Daily Analytics",
-    subtitle:
-      "We always provide useful informatin to make it easier for you every day",
-    icon: Chart,
-  },
-];
-
 const Services: FC<ServicesProps> = ({}) => {
   const router = useRouter();
   return (
-    <div className="pt-10 bg-blue-50 lg:pt-20 text-dark text-center container">
+    <div className="pt-10 bg-blue-50 lg:pt-32 text-dark text-center container">
       <>
         <h3 className=" text-4xl font-bold mb-2.5">
           Used By Over 2000 <span className=" text-bgPrimary  ">Customers</span>
@@ -55,7 +28,7 @@ const Services: FC<ServicesProps> = ({}) => {
         <div className="relative h-[26px] flex-1 mx-auto">
           <Image src={"/svgs/curvedLine.svg"} alt="curved line" fill />
         </div>
-        <div className=" pt-10 flex flex-wrap justify-center items-center gap-5 md:gap-10 pb-20">
+        <div className=" pt-10 flex flex-wrap justify-center items-center gap-5 md:gap-10 pb-32">
           {customerImages.map((image, index) => (
             <div key={index} className="relative h-9 flex-1">
               <Image

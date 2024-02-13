@@ -18,6 +18,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
 // import { FormError } from "@/components/form-error";
 // import { FormSuccess } from "@/components/form-success";
 // import { login } from "@/actions/login";
@@ -157,11 +158,11 @@ export const ContactForm = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input
+                    <Textarea
                       {...field}
+                      rows={5}
                       disabled={isPending}
                       placeholder="Message Body"
-                      type="text"
                     />
                   </FormControl>
                   <FormMessage />

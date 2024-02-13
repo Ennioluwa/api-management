@@ -27,7 +27,7 @@ const documentationSteps = [
 
 const Documentation: FC<DocumentationProps> = ({}) => {
   return (
-    <div className="pt-10 lg:pt-20 bg-[#F0F4F9] text-dark text-center container">
+    <div className="pt-10 lg:pt-32 bg-[#F0F4F9] text-dark text-center container">
       <>
         <h3 className=" text-4xl font-bold mb-2.5">
           Well-Documented{" "}
