@@ -46,7 +46,10 @@ export const MobileSidebar = () => {
         <Menu className="h-5 w-5" />
       </Button>
       <Sheet open={isOpen} onOpenChange={() => dispatch(onClose())}>
-        <SheetContent side="left" className="p-2 pt-10">
+        <SheetContent
+          side="right"
+          className="p-0 border-l-0 shadow text-white max-h-full max-w-[220px]"
+        >
           <Sidebar />
         </SheetContent>
       </Sheet>

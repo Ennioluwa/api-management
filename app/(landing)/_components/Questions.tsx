@@ -51,8 +51,8 @@ const questions = [
 
 const Questions: FC<QuestionsProps> = ({}) => {
   return (
-    <div className="pt-10 lg:pt-20 bg-[#F0F4F9] text-dark text-center px-5 lg:px-10">
-      <div className="lg:container">
+    <div className="pt-10 lg:pt-20 bg-[#F0F4F9] text-dark text-center container">
+      <>
         <h3 className=" text-4xl font-bold mb-2.5">
           Frequently Asked <span className=" text-bgPrimary  ">Questions</span>
         </h3>
@@ -85,7 +85,7 @@ const Questions: FC<QuestionsProps> = ({}) => {
             />
           </div>
         </div>
-      </div>
+      </>
     </div>
   );
 };

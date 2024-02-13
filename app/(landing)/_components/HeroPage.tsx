@@ -58,9 +58,19 @@ const HeroPage: FC<HeroPageProps> = ({}) => {
     [api]
   );
 
+  useEffect(() => {
+    if (!api) {
+      return;
+    }
+    api.on("select", () => {
+      console.log("api selected", api.selectedScrollSnap());
+      setActive(api.selectedScrollSnap());
+    });
+  }, [api]);
+
   return (
     <section className="h-full container py-20 lg:min-h-[calc(100svh-4rem)] w-full flex justify-center items-center">
-      <Carousel className="w-full " setApi={setApi}>
+      <Carousel opts={{ loop: true }} className="w-full " setApi={setApi}>
         <CarouselContent>
           {heroProps.map((item, index) => (
             <CarouselItem key={index}>

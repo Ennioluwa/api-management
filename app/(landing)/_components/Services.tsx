@@ -44,8 +44,8 @@ const services = [
 const Services: FC<ServicesProps> = ({}) => {
   const router = useRouter();
   return (
-    <div className="pt-10 bg-blue-50 lg:pt-20 text-dark text-center px-5 lg:px-10">
-      <div className="lg:container">
+    <div className="pt-10 bg-blue-50 lg:pt-20 text-dark text-center container">
+      <>
         <h3 className=" text-4xl font-bold mb-2.5">
           Used By Over 2000 <span className=" text-bgPrimary  ">Customers</span>
         </h3>
@@ -79,7 +79,7 @@ const Services: FC<ServicesProps> = ({}) => {
           </div>
           <Button onClick={() => router.push("login")}>GET STARTED</Button>
         </div>
-      </div>
+      </>
     </div>
   );
 };
