@@ -59,70 +59,70 @@ const HeroPage: FC<HeroPageProps> = ({}) => {
   );
 
   return (
-    <section className="w-full h-full px-5 md:px-10 py-10 lg:py-20 lg:pt-0">
-      <div className="lg:container">
-        <Carousel className="w-full " setApi={setApi}>
-          <CarouselContent>
-            {heroProps.map((item, index) => (
-              <CarouselItem key={index}>
-                <div className="flex flex-col lg:flex-row items-center gap-5 justify-between w-full lg:min-h-[calc(100vh_-_240px)] max-h-[800px] ">
-                  <div className="flex items-center h-full w-full lg:w-1/2 ">
-                    <div>
-                      <h1 className="font-extrabold text-5xl lg:text-7xl text-gray-800">
-                        {item.title}{" "}
-                        <span className="text-blue-500">{item.title2}</span>
-                      </h1>
-                      <p className="my-4 text-gray-500">{item.subtitle}</p>
-                      <div className="w-full lg:w-1/4 my-4">
-                        <Button
-                          onClick={() => router.push("/login")}
-                          className="uppercase font-bold rounded-lg"
-                        >
-                          Get Started
-                        </Button>
-                      </div>
-                      <div className="w-full gap-10 gap-y-2 flex flex-col md:flex-row md:items-center mt-10">
-                        {item.additionalInfo.map((info, index) => (
-                          <div className="" key={index}>
-                            <p className="font-bold text-lg text-bgPrimary">
-                              {info.title}
-                            </p>
-                            <p className="text-sm text-gray-400">
-                              {info.subtitle}
-                            </p>
-                          </div>
-                        ))}
-                      </div>
+    <section className="h-full container py-20 lg:min-h-[calc(100svh-4rem)] w-full flex justify-center items-center">
+      <Carousel className="w-full " setApi={setApi}>
+        <CarouselContent>
+          {heroProps.map((item, index) => (
+            <CarouselItem key={index}>
+              <div className="flex flex-col lg:flex-row items-center gap-5 justify-between w-full  ">
+                <div className="flex items-center h-full w-full lg:w-1/2 ">
+                  <div className=" w-full">
+                    <h1 className="font-extrabold text-5xl md:text-7xl text-gray-800">
+                      {item.title}{" "}
+                      <span className="text-blue-500">{item.title2}</span>
+                    </h1>
+                    <p className="my-4 text-gray-500 text-xl">
+                      {item.subtitle}
+                    </p>
+                    <div className="w-full lg:w-1/4 my-4">
+                      <Button
+                        onClick={() => router.push("/login")}
+                        className="uppercase font-bold rounded-lg"
+                      >
+                        Get Started
+                      </Button>
+                    </div>
+                    <div className="w-full gap-10 gap-y-2 flex flex-wrap md:items-center mt-20">
+                      {item.additionalInfo.map((info, index) => (
+                        <div className=" space-y-1" key={index}>
+                          <p className="font-bold text-3xl text-bgPrimary">
+                            {info.title}
+                          </p>
+                          <p className="text-lg text-gray-400">
+                            {info.subtitle}
+                          </p>
+                        </div>
+                      ))}
                     </div>
                   </div>
-                  <div className="relative w-full lg:w-1/2 aspect-square max-w-[500px] lg:max-w-full mx-auto h-min">
-                    <Image
-                      src={item.imgUrl}
-                      alt="Hero"
-                      fill
-                      className=" object-cover h-min"
-                    />
-                  </div>
                 </div>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          <div className="flex items-center justify-center w-full gap-2 pt-10">
-            <div
-              onClick={() => onDotButtonClick(0)}
-              className={`${
-                active === 0 ? "bg-blue-500" : "bg-gray-400"
-              } w-4 h-4 rounded-full  cursor-pointer`}
-            />
-            <div
-              onClick={() => onDotButtonClick(1)}
-              className={`${
-                active === 1 ? "bg-blue-500" : "bg-gray-400"
-              } w-4 h-4 rounded-full  cursor-pointer`}
-            />
-          </div>
-        </Carousel>
-      </div>
+                <div className="relative w-full lg:w-1/2 aspect-square max-w-[500px] lg:max-w-full mx-auto h-min">
+                  <Image
+                    src={item.imgUrl}
+                    alt="Hero"
+                    fill
+                    className=" object-cover h-min"
+                  />
+                </div>
+              </div>
+            </CarouselItem>
+          ))}
+        </CarouselContent>
+        <div className="flex items-center justify-center w-full gap-2 pt-10">
+          <div
+            onClick={() => onDotButtonClick(0)}
+            className={`${
+              active === 0 ? "bg-blue-500" : "bg-gray-400"
+            } w-4 h-4 rounded-full  cursor-pointer`}
+          />
+          <div
+            onClick={() => onDotButtonClick(1)}
+            className={`${
+              active === 1 ? "bg-blue-500" : "bg-gray-400"
+            } w-4 h-4 rounded-full  cursor-pointer`}
+          />
+        </div>
+      </Carousel>
     </section>
   );
 };
