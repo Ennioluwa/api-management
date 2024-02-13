@@ -42,7 +42,7 @@ const UserRoles: FC<UserRolesProps> = ({}) => {
             <h4 className=" text-3xl font-bold">
               {invoiceStats?.totalInvoice}
             </h4>
-            <p className=" text-xs font-bold uppercase text-[#1CA78B] px-2.5 py-1 rounded-r-full rounded-l-full bg-[#1CA78B]/10">
+            {/* <p className=" text-xs font-bold uppercase text-[#1CA78B] px-2.5 py-1 rounded-r-full rounded-l-full bg-[#1CA78B]/10">
               {invoiceStats?.lastMonthProcessed
                 ? ((invoiceStats?.currentMonthProcessed -
                     invoiceStats?.lastMonthProcessed) /
@@ -58,7 +58,7 @@ const UserRoles: FC<UserRolesProps> = ({}) => {
                   100
                 : invoiceStats?.currentMonthProcessed * 100}
               % compared to last month
-            </p>
+            </p> */}
           </div>
           <div className=" px-3 rounded-lg space-y-1 bg-[#9A9AAF]/20 w-full flex flex-col justify-center">
             <p className=" flex items-center gap-1 text-xs font-bold text-[#9a9aaf]">
