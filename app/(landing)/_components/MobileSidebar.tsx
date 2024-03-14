@@ -48,7 +48,7 @@ export const MobileSidebar = () => {
       <Sheet open={isOpen} onOpenChange={() => dispatch(onClose())}>
         <SheetContent
           side="right"
-          className="p-0 border-l-0 shadow text-white max-h-full max-w-[220px]"
+          className="p-0 border-l-0 shadow bg-bgPrimary text-white max-h-full max-w-[220px] overflow-auto"
         >
           <Sidebar />
         </SheetContent>

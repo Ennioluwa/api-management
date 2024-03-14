@@ -118,7 +118,6 @@ const InvoiceSearch = () => {
                 <div className="flex gap-3 items-center text-xs">
                   <TimerStart variant="Bulk" size={18} />
                   <p>{formatter?.format(new Date(invoice.createDate))}</p>
-                  <Link href={`/dashboard/invoice`}></Link>
                   <Button
                     className=" ml-auto font-bold text-xs"
                     variant="ghost"

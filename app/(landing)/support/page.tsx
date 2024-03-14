@@ -141,7 +141,7 @@ const Questions = ({}) => {
   };
 
   return (
-    <div className=" bg-[#F0F4F9] text-dark text-center p-5 lg:p-10 min-h-[calc(100vh_-_80px)]">
+    <div className=" bg-[#F0F4F9] text-dark text-center p-5 lg:p-10 min-h-[calc(100dvh_-_80px)]">
       <div className="lg:container">
         <HomeNav text="Help and Support" />
         <h3 className=" text-4xl font-bold mb-2.5">Help and Suport</h3>

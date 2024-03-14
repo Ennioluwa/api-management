@@ -6,8 +6,8 @@ interface pageProps {}
 
 const page: FC<pageProps> = ({}) => {
   return (
-    <div className=" bg-[#f1f1f1] text-dark text-center  min-h-[calc(100vh_-_80px)]">
-      <div className="flex flex-col justify-between min-h-[calc(100vh_-_80px)]">
+    <div className=" bg-[#f1f1f1] text-dark text-center  min-h-[calc(100dvh_-_80px)]">
+      <div className="flex flex-col justify-between min-h-[calc(100dvh_-_80px)]">
         <div className="lg:container p-5 lg:p-10 mb-auto">
           <HomeNav text="About us" />
           <h3 className=" text-4xl font-bold mb-2.5">About us</h3>

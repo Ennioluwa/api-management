@@ -20,7 +20,7 @@ const Sidebar: FC<SidebarProps> = ({}) => {
   const pathname = usePathname();
 
   return (
-    <div className="  bg-bgPrimary w-full h-full py-14 pr-5 text-white">
+    <div className="   w-full h-full py-14 pr-5 overflow-auto text-white">
       <div className=" flex flex-col gap-1 font-bold">
         {navItems.map((item, index) => {
           const active = pathname === item.link;
@@ -37,7 +37,7 @@ const Sidebar: FC<SidebarProps> = ({}) => {
           );
         })}
       </div>
-      <div className=" flex flex-col gap-3 pl-5 mt-5">
+      <div className=" flex flex-col gap-3 pl-5 mt-10">
         <Button
           variant={"outline"}
           className=" inline-flex items-center w-full font-bold"
