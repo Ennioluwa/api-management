@@ -1,4 +1,10 @@
-import React, { ChangeEvent, useCallback, useRef, useState } from "react";
+import React, {
+  ChangeEvent,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { Search } from "./SearchInput";
 import { useDebounce } from "@/components/ui/multiple-selector";
 import {
@@ -12,16 +18,29 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Loader from "@/components/Loader";
 import { ThreeCircles } from "react-loader-spinner";
+import { Transaction, fetchInvoices } from "@/lib/hooks/api/invoices.api";
+import { formatter } from "@/lib/utils";
+import { useRouter } from "next/navigation";
 
 const InvoiceSearch = () => {
+  const router = useRouter();
+
+  const {
+    isPending,
+    isError,
+    data: invoices,
+    error,
+    refetch,
+  } = useQuery({
+    queryKey: ["invoices"],
+    queryFn: fetchInvoices,
+  });
+
+  const [invoice, setInvoice] = useState<Transaction | undefined>(undefined);
   const [searchTerm, setSearchTerm] = useState("");
   const [open, setOpen] = useState(true);
 
   const searchRef = useRef(null);
-
-  function closePopover() {
-    setOpen(false);
-  }
 
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
@@ -29,8 +48,13 @@ const InvoiceSearch = () => {
     setSearchTerm(event.target.value);
   }, []);
 
-  if (debouncedSearchTerm) {
-  }
+  useEffect(() => {
+    if (isPending || !invoices) return;
+    const value = invoices.find(
+      (data) => data.invoiceNumber === debouncedSearchTerm
+    );
+    setInvoice(value);
+  }, [debouncedSearchTerm, isPending]);
 
   return (
     <>
@@ -61,34 +85,58 @@ const InvoiceSearch = () => {
             <p className=" text-xl font-bold">
               Search Result for &quot;{debouncedSearchTerm}&quot;
             </p>
-            <div className=" bg-white rounded-lg p-5 shadow border-[1px] border-gray-100 flex flex-col gap-3 ">
-              <div className=" flex items-start gap-5">
-                <div className=" p-3 bg-[#F0F4F9] rounded-full shrink-0">
-                  <DocumentFilter variant="Bulk" size={30} color="#0062FF" />
+            {!isPending && invoice ? (
+              <div className=" bg-white rounded-lg p-5 shadow border-[1px] border-gray-100 flex flex-col gap-3 ">
+                <div className=" flex items-start gap-5">
+                  <div className=" p-3 bg-[#F0F4F9] rounded-full shrink-0">
+                    <DocumentFilter variant="Bulk" size={30} color="#0062FF" />
+                  </div>
+                  <div className=" flex flex-col gap-3">
+                    <h5 className=" font-bold">Invoice Details</h5>
+                    <p className=" text-xs flex gap-2 items-center">
+                      Amount{" "}
+                      <span className=" font-bold">${invoice.totalAmount}</span>
+                    </p>
+                    <p className=" text-xs flex gap-2 items-center">
+                      No. of Items{" "}
+                      <span className=" font-bold">{invoice.totalItems}</span>
+                    </p>
+                  </div>
+                  <span
+                    className={`${
+                      invoice.uploadStatus.toLowerCase() === "error"
+                        ? "bg-red-400/10 text-red-400"
+                        : invoice.uploadStatus.toLowerCase() === "pending"
+                        ? "bg-yellow-400/10 text-yellow-400"
+                        : "bg-green-400/10 text-green-400"
+                    } ml-auto p-1 px-3 rounded text-xs"`}
+                  >
+                    {invoice.uploadStatus}
+                  </span>
                 </div>
-                <div className=" flex flex-col gap-3">
-                  <h5 className=" font-bold">Invoice Details</h5>
-                  <p className=" text-xs flex gap-2 items-center">
-                    Amount <span className=" font-bold">$951, 764</span>
-                  </p>
-                  <p className=" text-xs flex gap-2 items-center">
-                    No. of Items <span className=" font-bold">17</span>
-                  </p>
+                <hr />
+                <div className="flex gap-3 items-center text-xs">
+                  <TimerStart variant="Bulk" size={18} />
+                  <p>{formatter?.format(new Date(invoice.createDate))}</p>
+                  <Link href={`/dashboard/invoice`}></Link>
+                  <Button
+                    className=" ml-auto font-bold text-xs"
+                    variant="ghost"
+                    onClick={() => {
+                      router.push(
+                        `/dashboard/invoices/${invoice.invoiceNumber}`
+                      );
+                      setOpen(false);
+                    }}
+                  >
+                    LEARN MORE &rarr;
+                  </Button>
                 </div>
-                <span className=" ml-auto p-1 px-3 bg-green-400/10 text-green-400 rounded text-xs">
-                  Successful
-                </span>
               </div>
-              <hr />
-              <div className="flex gap-3 items-center text-xs">
-                <TimerStart variant="Bulk" size={18} />
-                <p>07/3/2023 9:45:01 PM</p>
-                <Link href={`/dashboard/invoice`}></Link>
-                <Button className=" ml-auto font-bold text-xs" variant="ghost">
-                  LEARN MORE &rarr;
-                </Button>
-              </div>
-            </div>
+            ) : (
+              <p className=" text-center">Nothing found for that Query</p>
+            )}
+
             <div className=" w-full grid place-items-center">
               <div className=" w-[88px] h-[88px] rounded-full bg-white grid place-items-center ">
                 <ThreeCircles
