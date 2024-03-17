@@ -57,7 +57,7 @@ const AccountUsers: FC<AccountUsersProps> = ({}) => {
       <h2 className=" text-3xl font-bold pb-4">Account Users</h2>
       <div className=" flex flex-col gap-4">
         {users.map((user, index) => {
-          if (index > 8) return;
+          if (index > 6) return;
           return (
             <div key={index} className=" flex flex-col gap-4">
               <div className=" flex justify-between items-center">
