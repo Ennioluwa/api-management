@@ -59,6 +59,26 @@ export const fetchInvoices = async () => {
   } = await axiosClient.get(`/api/transaction`);
   if (data) return data as Transaction[];
 };
+
+export const fetchInvoicesByDate = async ({
+  startDate,
+  endDate,
+}: {
+  startDate: string;
+  endDate: string;
+}) => {
+  if (!startDate || !endDate) {
+    console.log("missing start date and end date");
+    return;
+  }
+  const {
+    data: { data },
+  } = await axiosClient.get(
+    `/api/transaction/daterange?StartDate=${startDate}&&EndDate=${endDate}`
+  );
+  if (data) return data as Transaction[];
+};
+
 export const fetchInvoiceStats = async () => {
   const {
     data: { data },

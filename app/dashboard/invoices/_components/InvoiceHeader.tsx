@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 // import { Calendar } from "@/components/ui/calendar";
 import { useAppDispatch } from "@/lib/hooks";
 import { addDays, format } from "date-fns";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import {
   Popover,
   PopoverContent,
@@ -14,6 +14,10 @@ import { cn } from "@/lib/utils";
 import { DateRange } from "react-day-picker";
 import { Calendar as CalendarIcon } from "iconsax-react";
 import { Calendar } from "@/components/ui/calendar";
+import {
+  setInvoiceEndDate,
+  setInvoiceStartDate,
+} from "@/redux/features/dateRangeSlice";
 
 interface InvoiceListProps {}
 
@@ -27,15 +31,31 @@ const InvoiceList: FC<InvoiceListProps> = ({}) => {
 
   if (range?.from) {
     if (!range.to) {
-      footer = <p>{format(range.from, "PPP")}</p>;
+      footer = <p>select end date</p>;
     } else if (range.to) {
       footer = (
         <p>
-          {format(range.from, "PPP")}–{format(range.to, "PPP")}
+          {format(range.from, "MM/dd/yyyy")}–{format(range.to, "MM/dd/yyyy")}
+          {/* {format(range.from, "PPP")}–{format(range.to, "PPP")} */}
         </p>
       );
     }
   }
+
+  useEffect(() => {
+    if (range && range.from) {
+      dispatch(setInvoiceStartDate(format(range.from, "MM/dd/yyyy")));
+    } else {
+      dispatch(setInvoiceStartDate(undefined));
+    }
+    if (range && range.to) {
+      dispatch(setInvoiceEndDate(format(range.to, "MM/dd/yyyy")));
+    } else {
+      dispatch(setInvoiceEndDate(undefined));
+    }
+  }, [range]);
+
+  // console.log(range?.from?.toLocaleDateString());
 
   return (
     <div className=" flex gap-4 justify-between items-center">

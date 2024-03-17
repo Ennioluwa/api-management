@@ -112,7 +112,7 @@ const Features: FC<FeaturesProps> = ({}) => {
         <SheetTrigger>
           <NotificationBing variant="Bulk" size={30} />
         </SheetTrigger>
-        <SheetContent className=" w-[440px] bg-transparent bg-white bg-opacity-80 overflow-y-auto">
+        <SheetContent className=" w-full md:w-[440px] bg-transparent bg-white bg-opacity-80 overflow-y-auto">
           <div className="  py-5 rounded-lg flex flex-col gap-3 h-full">
             <div className=" flex items-center gap-5 text-left">
               <div className=" p-1 bg-white z-50 rounded-lg">
