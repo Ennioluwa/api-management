@@ -29,6 +29,8 @@ const UserRoles: FC<UserRolesProps> = ({}) => {
       </div>
     );
 
+  console.log(invoiceStats);
+
   return (
     <div className=" rounded-lg bg-white p-5 mt-5">
       <h3 className=" font-bold pb-2.5 ">AT A GLANCE</h3>
@@ -107,6 +109,19 @@ const UserRoles: FC<UserRolesProps> = ({}) => {
             </p>
           </div>
         </div>
+        <div className="p-5 border border-dashed border-[#9A9AAF] rounded-lg flex-1 space-y-1.5">
+          <h6 className=" text-xs font-bold">SUCCESSFUL</h6>
+          <h4 className=" text-3xl font-bold flex gap-2.5 items-baseline">
+            {invoiceStats?.pendingInvoice}{" "}
+            <span className=" text-[#1CA78B] text-base ">
+              {invoiceStats?.pendingChange >= 0 ? "↑" : "↓"}
+              {Math.abs(invoiceStats?.pendingChange)}%
+            </span>
+          </h4>
+          {/* <p className=" text-xs font-bold uppercase text-[#FFCF5C] px-2.5 py-1 rounded-r-full rounded-l-full bg-[#FFCF5C]/10">
+              + {4}% compared to last month
+            </p> */}
+        </div>
 
         <div className="p-5 border border-dashed border-[#9A9AAF] rounded-lg flex-1 space-y-1.5">
           <h6 className=" text-xs font-bold">PENDING</h6>
@@ -114,21 +129,21 @@ const UserRoles: FC<UserRolesProps> = ({}) => {
             {invoiceStats?.pendingInvoice}{" "}
             <span className=" text-[#FFCF5C] text-base ">
               {invoiceStats?.pendingChange >= 0 ? "↑" : "↓"}
-              {invoiceStats?.pendingChange}%
+              {Math.abs(invoiceStats?.pendingChange)}%
             </span>
           </h4>
           {/* <p className=" text-xs font-bold uppercase text-[#FFCF5C] px-2.5 py-1 rounded-r-full rounded-l-full bg-[#FFCF5C]/10">
               + {4}% compared to last month
             </p> */}
         </div>
+
         <div className="p-5 border border-dashed border-[#9A9AAF] rounded-lg flex-1 space-y-1.5">
           <h6 className=" text-xs font-bold">FAILED</h6>
           <h4 className=" text-3xl font-bold flex gap-2.5 items-baseline">
             {invoiceStats?.failedInvoice}{" "}
             <span className=" text-[#A71C1C] text-base ">
-              {" "}
               {invoiceStats?.failedChange >= 0 ? "↑" : "↓"}
-              {invoiceStats?.failedChange}%
+              {Math.abs(invoiceStats?.failedChange)}%
             </span>
           </h4>
           {/* <p className=" w-fit text-xs font-bold uppercase text-[#A71C1C] px-2.5 py-1 rounded-r-full rounded-l-full bg-[#A71C1C]/10">
