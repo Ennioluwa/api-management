@@ -3,7 +3,7 @@
 import { FC, useEffect, useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { DataTable } from "./data-table";
-import { useQuery } from "@tanstack/react-query";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { useQueryClient } from "@tanstack/react-query";
 import { ColumnDef } from "@tanstack/react-table";
 import { DocumentDownload, Edit2, Trash } from "iconsax-react";
@@ -27,28 +27,18 @@ const InvoiceList: FC<InvoiceListProps> = ({}) => {
   const {
     isPending,
     isError,
-    data: invoicesList,
+    data: invoices,
     error,
-  } = useQuery({
-    queryKey: ["invoices"],
-    queryFn: fetchInvoices,
-  });
-
-  const {
-    isPending: isDatePending,
-    isError: isDateError,
-    data: invoicesDateList,
-    error: invoiceDateError,
     refetch,
   } = useQuery({
-    queryKey: ["invoicesDate"],
+    queryKey: ["invoicesDate", { invoiceStartDate, invoiceEndDate }],
     queryFn: () =>
       fetchInvoicesByDate({
         startDate: invoiceStartDate,
         endDate: invoiceEndDate,
       }),
+    placeholderData: keepPreviousData,
   });
-  const [invoices, setInvoices] = useState<Transaction[] | undefined>([]);
   const [allInvoices, setAllInvoices] = useState<Transaction[]>([]);
   const [pendingInvoices, setPendingInvoices] = useState<Transaction[]>([]);
   const [successfulInvoices, setSuccessfulInvoices] = useState<Transaction[]>(
@@ -68,39 +58,32 @@ const InvoiceList: FC<InvoiceListProps> = ({}) => {
     }
   }, [invoices]);
 
-  useEffect(() => {
-    console.log(invoicesDateList, "date list");
-    console.log(invoicesList, "list");
-    console.log(invoiceStartDate, invoiceEndDate, "start and end dates");
+  // useEffect(() => {
+  //   console.log(invoicesDateList, "date list");
+  //   console.log(invoicesList, "list");
+  //   console.log(invoiceStartDate, invoiceEndDate, "start and end dates");
 
-    if (isDatePending) return;
+  //   if (isDatePending) return;
 
-    if ((!invoiceStartDate || !invoiceEndDate) && invoicesList) {
-      console.log("invoices list setting");
+  //   if ((!invoiceStartDate || !invoiceEndDate) && invoicesList) {
+  //     console.log("invoices list setting");
 
-      setInvoices(invoicesList);
-    } else if (invoiceStartDate && invoiceEndDate) {
-      console.log("date list setting");
-      setInvoices(invoicesDateList);
-    } else {
-      console.log("no list setting");
-      setInvoices([]);
-    }
-  }, [
-    invoicesDateList,
-    invoicesList,
-    invoiceStartDate,
-    invoiceEndDate,
-    isDatePending,
-  ]);
+  //     setInvoices(invoicesList);
+  //   } else if (invoiceStartDate && invoiceEndDate) {
+  //     console.log("date list setting");
+  //     setInvoices(invoicesDateList);
+  //   } else {
+  //     console.log("no list setting");
+  //     setInvoices([]);
+  //   }
+  // }, [
+  //   invoicesDateList,
+  //   invoicesList,
+  //   invoiceStartDate,
+  //   invoiceEndDate,
+  //   isDatePending,
+  // ]);
 
-  useEffect(() => {
-    if (invoiceStartDate && invoiceEndDate) {
-      refetch();
-    }
-  }, [invoiceStartDate, invoiceEndDate]);
-
-  const queryClient = useQueryClient();
   const columns: ColumnDef<Transaction>[] = [
     {
       header: "INVOICE ID",
@@ -146,12 +129,12 @@ const InvoiceList: FC<InvoiceListProps> = ({}) => {
           <TabsTrigger value="pending">Pending Invoices</TabsTrigger>
           <TabsTrigger value="failed">Failed Invoices</TabsTrigger>
         </TabsList>
-        {(isPending || isDatePending) && (
+        {isPending && (
           <div className=" w-full h-full grid place-items-center py-20">
             <PuffLoader color="#0062FF" />
           </div>
         )}
-        {!isPending && !isDatePending && (
+        {!isPending && (
           <>
             <TabsContent className=" px-5" value="all">
               <DataTable columns={columns} data={allInvoices} />

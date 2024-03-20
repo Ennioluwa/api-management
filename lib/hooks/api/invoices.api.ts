@@ -60,6 +60,21 @@ export const fetchInvoices = async () => {
   if (data) return data as Transaction[];
 };
 
+export const fetchInvoicesById = async ({
+  invoiceId,
+}: {
+  invoiceId: string;
+}) => {
+  if (!invoiceId) {
+    console.log("missing invoice id");
+    throw new Error("missing invoice id");
+  }
+  const {
+    data: { data },
+  } = await axiosClient.get(`/api/transaction/${invoiceId}`);
+  if (data) return data as any;
+};
+
 export const fetchInvoicesByDate = async ({
   startDate,
   endDate,
@@ -68,8 +83,10 @@ export const fetchInvoicesByDate = async ({
   endDate: string;
 }) => {
   if (!startDate || !endDate) {
-    console.log("missing start date and end date");
-    return;
+    const {
+      data: { data },
+    } = await axiosClient.get(`/api/transaction`);
+    if (data) return data as Transaction[];
   }
   const {
     data: { data },
