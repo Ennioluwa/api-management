@@ -41,13 +41,13 @@ const Sidebar: FC<SidebarProps> = ({ mobile }) => {
 
   return (
     <aside
-      className={`absolute left-0 top-0 h-full w-[240px] md:flex ${
-        mobile ? "flex mt-auto" : "hidden"
+      className={`absolute left-0 top-0 h-full  md:flex ${
+        mobile ? "flex mt-auto w-full" : "hidden pt-16 w-[240px]"
       } `}
     >
       <div
-        className={`"  overflow-y-auto w-[240px] ${
-          mobile ? "h-full pt-5" : "h-[calc(100dvh-4rem)] "
+        className={`"  overflow-y-auto  ${
+          mobile ? "h-full pt-5 w-full" : "h-[calc(100dvh-4rem)] w-[240px] "
         } `}
       >
         <div className=" flex flex-col justify-between gap-10 h-full pl-3 pt-8 shrink-0">
