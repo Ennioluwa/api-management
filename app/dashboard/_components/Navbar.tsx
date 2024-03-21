@@ -33,11 +33,13 @@ import Link from "next/link";
 import { Checkbox } from "@/components/ui/checkbox";
 import Features from "./Features";
 import InvoiceSearch from "./InvoiceSearch";
+import { useRouter } from "next/navigation";
 
 interface NavbarProps {}
 
 const Navbar: FC<NavbarProps> = ({}) => {
   const { userData } = useAppSelector((state) => state.user);
+  const router = useRouter();
 
   return (
     <div className="fixed top-0 left-0 right-0 w-full h-16 z-40 bg-white border-b shadow  ">
@@ -45,7 +47,12 @@ const Navbar: FC<NavbarProps> = ({}) => {
         <div className="flex items-center justify-between w-full gap-5 md:gap-12">
           <div className=" flex items-center gap-3 shrink-0">
             <MobileSidebar />
-            <Logo />
+            <div
+              className=" cursor-pointer"
+              onClick={() => router.push("/dashboard/home")}
+            >
+              <Logo />
+            </div>
           </div>
           <InvoiceSearch />
           <Features />
