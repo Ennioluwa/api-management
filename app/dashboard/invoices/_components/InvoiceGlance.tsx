@@ -9,17 +9,9 @@ import { PuffLoader } from "react-spinners";
 interface UserRolesProps {}
 
 const UserRoles: FC<UserRolesProps> = ({}) => {
-  const {
-    isPending,
-    isError,
-    data: invoiceStats,
-    error,
-    refetch,
-  } = useQuery({
+  const { isPending, data: invoiceStats } = useQuery({
     queryKey: ["invoice stats"],
     queryFn: fetchInvoiceStats,
-
-    // staleTime: 5000,
   });
 
   if (isPending || !invoiceStats)
@@ -29,8 +21,6 @@ const UserRoles: FC<UserRolesProps> = ({}) => {
       </div>
     );
 
-  console.log(invoiceStats);
-
   return (
     <div className=" rounded-lg bg-white p-5 mt-5">
       <h3 className=" font-bold pb-2.5 ">AT A GLANCE</h3>
@@ -38,29 +28,12 @@ const UserRoles: FC<UserRolesProps> = ({}) => {
         An intuitive way to see all your general invoices for a quick access
       </p>
       <div className="flex flex-col md:flex-row flex-wrap md:items-stretch gap-4">
-        <div className=" p-5  border border-dashed border-[#9A9AAF] rounded-lg md:flex-[2] grid grid-cols-3 gap-3">
+        <div className=" p-5  border border-dashed border-[#9A9AAF] rounded-lg md:grow grid grid-cols-3 gap-3">
           <div className="space-y-1.5">
             <h6 className=" text-xs font-bold">TOTAL INVOICES</h6>
             <h4 className=" text-3xl font-bold">
               {invoiceStats?.totalInvoice}
             </h4>
-            {/* <p className=" text-xs font-bold uppercase text-[#1CA78B] px-2.5 py-1 rounded-r-full rounded-l-full bg-[#1CA78B]/10">
-              {invoiceStats?.lastMonthProcessed
-                ? ((invoiceStats?.currentMonthProcessed -
-                    invoiceStats?.lastMonthProcessed) /
-                    invoiceStats?.lastMonthProcessed) *
-                  100
-                : invoiceStats?.currentMonthProcessed * 100 >= 0
-                ? "+"
-                : "-"}{" "}
-              {invoiceStats?.lastMonthProcessed
-                ? ((invoiceStats?.currentMonthProcessed -
-                    invoiceStats?.lastMonthProcessed) /
-                    invoiceStats?.lastMonthProcessed) *
-                  100
-                : invoiceStats?.currentMonthProcessed * 100}
-              % compared to last month
-            </p> */}
           </div>
           <div className=" px-3 rounded-lg space-y-1 bg-[#9A9AAF]/20 w-full flex flex-col justify-center">
             <p className=" flex items-center gap-1 text-xs font-bold text-[#9a9aaf]">
@@ -109,21 +82,18 @@ const UserRoles: FC<UserRolesProps> = ({}) => {
             </p>
           </div>
         </div>
-        <div className="p-5 border border-dashed border-[#9A9AAF] rounded-lg flex-1 space-y-1.5">
+        <div className="p-5 border border-dashed border-[#9A9AAF] rounded-lg shrink space-y-1.5">
           <h6 className=" text-xs font-bold">SUCCESSFUL</h6>
           <h4 className=" text-3xl font-bold flex gap-2.5 items-baseline">
-            {invoiceStats?.pendingInvoice}{" "}
+            {invoiceStats?.successInvoice}
             <span className=" text-[#1CA78B] text-base ">
-              {invoiceStats?.pendingChange >= 0 ? "↑" : "↓"}
-              {Math.abs(invoiceStats?.pendingChange)}%
+              {invoiceStats?.successChange >= 0 ? "↑" : "↓"}
+              {Math.abs(invoiceStats?.successChange)}%
             </span>
           </h4>
-          {/* <p className=" text-xs font-bold uppercase text-[#FFCF5C] px-2.5 py-1 rounded-r-full rounded-l-full bg-[#FFCF5C]/10">
-              + {4}% compared to last month
-            </p> */}
         </div>
 
-        <div className="p-5 border border-dashed border-[#9A9AAF] rounded-lg flex-1 space-y-1.5">
+        <div className="p-5 border border-dashed border-[#9A9AAF] rounded-lg shrink space-y-1.5">
           <h6 className=" text-xs font-bold">PENDING</h6>
           <h4 className=" text-3xl font-bold flex gap-2.5 items-baseline">
             {invoiceStats?.pendingInvoice}{" "}
@@ -132,12 +102,9 @@ const UserRoles: FC<UserRolesProps> = ({}) => {
               {Math.abs(invoiceStats?.pendingChange)}%
             </span>
           </h4>
-          {/* <p className=" text-xs font-bold uppercase text-[#FFCF5C] px-2.5 py-1 rounded-r-full rounded-l-full bg-[#FFCF5C]/10">
-              + {4}% compared to last month
-            </p> */}
         </div>
 
-        <div className="p-5 border border-dashed border-[#9A9AAF] rounded-lg flex-1 space-y-1.5">
+        <div className="p-5 border border-dashed border-[#9A9AAF] rounded-lg shrink space-y-1.5">
           <h6 className=" text-xs font-bold">FAILED</h6>
           <h4 className=" text-3xl font-bold flex gap-2.5 items-baseline">
             {invoiceStats?.failedInvoice}{" "}
@@ -146,9 +113,6 @@ const UserRoles: FC<UserRolesProps> = ({}) => {
               {Math.abs(invoiceStats?.failedChange)}%
             </span>
           </h4>
-          {/* <p className=" w-fit text-xs font-bold uppercase text-[#A71C1C] px-2.5 py-1 rounded-r-full rounded-l-full bg-[#A71C1C]/10">
-              + 16% compared to last week
-            </p> */}
         </div>
       </div>
     </div>
