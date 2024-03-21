@@ -12,7 +12,7 @@ const navItems = [
   { name: "Home", link: "/" },
   { name: "About us", link: "/about" },
   { name: "Support", link: "/support" },
-  // { name: "Documentation", link: "/documentation" },
+  { name: "Documentation", link: "https://vsdc.azurewebsites.net/api-docs" },
   { name: "Contact us", link: "/contact" },
 ];
 
@@ -23,7 +23,7 @@ const Navbar = () => {
     <nav className="fixed top-0 left-0 right-0 w-full h-16 grid place-items-center  bg-white border-b z-40 shadow">
       <div className=" flex items-center justify-between w-full container">
         <div className=" flex items-center relative gap-5">
-          <Logo />
+          <Logo landing />
           <div className=" w-full shrink- hidden md:block">
             {navItems.map((item, index) => {
               const active = pathname === item.link;

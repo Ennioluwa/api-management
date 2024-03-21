@@ -14,7 +14,6 @@ import {
 } from "@/redux/features/navigationSlice";
 import Sidebar from "./Sidebar";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import Logo from "@/app/(landing)/_components/Logo";
 
 export const MobileSidebar = () => {
   const pathname = usePathname();
@@ -60,10 +59,6 @@ export const MobileSidebar = () => {
           className="p-2 bg-bgPrimary border-bgPrimary text-white h-full overflow-auto"
         >
           <div className="  py-3 pl-1.5 rounded  flex flex-col items-start gap-5">
-            {/* <div className=" mt-6 bg-white p-2 rounded w-full">
-              <Logo />
-            </div> */}
-
             <Sidebar mobile />
           </div>
         </SheetContent>

@@ -28,8 +28,6 @@ import { useRouter } from "next/navigation";
 
 const InvoiceSearch = () => {
   const router = useRouter();
-
-  // const [invoice, setInvoice] = useState<Transaction | undefined>(undefined);
   const [searchTerm, setSearchTerm] = useState("");
   const [open, setOpen] = useState(true);
 
@@ -46,7 +44,7 @@ const InvoiceSearch = () => {
     setSearchTerm(event.target.value);
   }, []);
 
-  console.log(invoice);
+  // console.log(invoice);
 
   return (
     <>

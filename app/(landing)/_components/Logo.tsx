@@ -1,17 +1,24 @@
+"use client";
+
 import Image from "next/image";
+import Link from "next/link";
 import { FC } from "react";
 
-interface LogoProps {}
+interface LogoProps {
+  landing?: boolean;
+}
 
-const Logo: FC<LogoProps> = ({}) => {
+const Logo: FC<LogoProps> = ({ landing }) => {
   return (
-    <img
-      src={"/FiscalLogoNew.png"}
-      alt="logo"
-      width={150}
-      height={33}
-      // quality={100}
-    />
+    <Link href={landing ? "/" : "/dashboard/home"}>
+      <Image
+        src={"/FiscalLogoNew.png"}
+        alt="logo"
+        width={150}
+        height={33}
+        priority
+      />
+    </Link>
   );
 };
 

@@ -47,12 +47,7 @@ const Navbar: FC<NavbarProps> = ({}) => {
         <div className="flex items-center justify-between w-full gap-5 md:gap-12">
           <div className=" flex items-center gap-3 shrink-0">
             <MobileSidebar />
-            <div
-              className=" cursor-pointer"
-              onClick={() => router.push("/dashboard/home")}
-            >
-              <Logo />
-            </div>
+            <Logo />
           </div>
           <InvoiceSearch />
           <Features />
