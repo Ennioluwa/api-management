@@ -41,7 +41,9 @@ const TransactionDetails: FC<TransactionDetailsProps> = ({ transactionId }) => {
 
   useEffect(() => {
     if (payments) {
-      const payment = payments.find((payment) => payment.id == transactionId);
+      const payment = payments.data.find(
+        (payment) => payment.id == transactionId
+      );
 
       if (payment) {
         setPayment(payment);
