@@ -2,7 +2,6 @@
 
 import { FC, useEffect, useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { DataTable } from "./data-table";
 import { useQuery } from "@tanstack/react-query";
 import { UserManagementData } from "@/lib/hooks/useUserManagement";
 import { useQueryClient } from "@tanstack/react-query";
@@ -16,6 +15,7 @@ import { PuffLoader } from "react-spinners";
 import ChangePaymentMethod from "./change-payment-option";
 import { useAppSelector } from "@/lib/hooks";
 import { formatter, getCurrencySymbol } from "@/lib/utils";
+import { DataTable } from "../../invoices/_components/data-table";
 
 interface SubscriptionListProps {}
 
@@ -54,28 +54,31 @@ const SubscriptionList: FC<SubscriptionListProps> = ({}) => {
     }
   }, [subscriptions]);
 
-  const queryClient = useQueryClient();
   const columns: ColumnDef<Subscriptions>[] = [
     {
-      header: "Transaction ID.",
-      cell: (info) => `${info.row.original.terminalId}`,
+      header: "Subscription ID.",
+      cell: (info) => (
+        <span className=" font-bold">{info.row.original.terminalId}</span>
+      ),
     },
     {
       header: "Users",
       accessorKey: "paymentMethod",
       cell: (info) => (
         <div className="flex items-center gap-2">
-          <p>{info.row.original.totalUsers}</p>
+          <p className=" font-bold">{info.row.original.totalUsers}</p>
         </div>
       ),
     },
     {
       header: "Amount",
       accessorKey: "price",
-      cell: (info) =>
-        `${getCurrencySymbol(info.row.original.currency)}${
-          info.row.original.price
-        }`,
+      cell: (info) => (
+        <span className=" font-bold">
+          {getCurrencySymbol(info.row.original.currency)}
+          {info.row.original.price}
+        </span>
+      ),
     },
     {
       header: "Date",
@@ -84,8 +87,17 @@ const SubscriptionList: FC<SubscriptionListProps> = ({}) => {
     },
     {
       header: "Status",
-      cell: (info) =>
-        info.row.original.status === "Active" ? "Active" : "Expired",
+      cell: (info) => (
+        <span
+          className={` text-xs w-fit px-3 py-1.5 rounded ${
+            info.row.original.status.toLowerCase() === "active"
+              ? "bg-[#1CA78B]/5 text-[#1CA78B]"
+              : "bg-[#A71C1C]/5 text-[#A71C1C] "
+          }`}
+        >
+          {info.row.original.status === "Active" ? "Active" : "Expired"}
+        </span>
+      ),
     },
   ];
 
@@ -99,7 +111,7 @@ const SubscriptionList: FC<SubscriptionListProps> = ({}) => {
         </p>
       </div>
       <Tabs defaultValue="all" className=" w-full ">
-        <TabsList className=" w-full overflow-x-auto justify-start overflow-y-clip h-auto ">
+        <TabsList className=" w-full overflow-x-auto justify-start overflow-y-clip h-auto bg-white border-b border-[#EFEFEF]">
           <TabsTrigger value="all">All Subscription</TabsTrigger>
           <TabsTrigger value="active">Active</TabsTrigger>
           <TabsTrigger value="expired">Expired</TabsTrigger>
@@ -111,21 +123,17 @@ const SubscriptionList: FC<SubscriptionListProps> = ({}) => {
         )}
         {!isPending && (
           <>
-            <TabsContent className=" px-5" value="all">
-              <DataTable type="all" columns={columns} data={allSubscriptions} />
+            <TabsContent value="all">
+              <DataTable columns={columns} data={allSubscriptions} invoice />
             </TabsContent>
-            <TabsContent className=" px-5" value="active">
-              <DataTable
-                type="active"
-                columns={columns}
-                data={activeSubscriptions}
-              />
+            <TabsContent value="active">
+              <DataTable columns={columns} data={activeSubscriptions} invoice />
             </TabsContent>
-            <TabsContent className=" px-5" value="expired">
+            <TabsContent value="expired">
               <DataTable
-                type="expired"
                 columns={columns}
                 data={expiredSubscriptions}
+                invoice
               />
             </TabsContent>
           </>

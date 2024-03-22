@@ -91,8 +91,11 @@ const UserHeader: FC<UserHeaderProps> = async ({ username }) => {
       </Button>
 
       <div className="lg:container lg:ml-0 grid place-items-center p-8 rounded-lg bg-[#fff]/60">
-        <div className="flex flex-col items-center text-center gap-4 bg-white container max-w-[300px] mx-auto p-8 border border-dashed border-[#2488FF0D]/10 rounded-lg">
-          <h2 className=" text-3xl font-bold text-black flex gap-1">
+        <div className="flex flex-col items-center text-center gap-4 bg-white container max-w-[600px] overflow-clip w-fit mx-auto p-8 border border-dashed border-[#2488FF0D]/10 rounded-lg">
+          <div className=" h-[150px] w-[150px] bg-gray-500 uppercase rounded-full text-white grid place-items-center text-7xl font-bold">
+            {user?.firstName.slice(0, 1)}
+          </div>
+          <h2 className=" text-3xl font-bold text-black flex flex-wrap gap-1">
             <span>{user?.firstName}</span>
             <span>{user?.lastName}</span>
           </h2>

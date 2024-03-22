@@ -51,6 +51,15 @@ export type InvoiceStats = {
   totalInvoice: number;
   pendingChange: number;
   failedChange: number;
+  successInvoice: number;
+  successChange: number;
+};
+
+export type PaginationData = {
+  CurrentPage: number;
+  TotalPages: number;
+  HasPreviousPage: boolean;
+  HasNextPage: boolean;
 };
 
 export const fetchInvoices = async () => {
@@ -78,22 +87,29 @@ export const fetchInvoicesById = async ({
 export const fetchInvoicesByDate = async ({
   startDate,
   endDate,
+  pageIndex,
 }: {
   startDate: string;
   endDate: string;
+  pageIndex?: number;
 }) => {
   if (!startDate || !endDate) {
-    const {
-      data: { data },
-    } = await axiosClient.get(`/api/transaction`);
-    if (data) return data as Transaction[];
+    const response = await axiosClient.get(
+      `/api/transaction?PageIndex=${pageIndex || 1}`
+    );
+
+    const { data }: { data: Transaction[] } = response.data;
+    const pagination: PaginationData = response.headers["x-pagination"];
+    return { data, pagination };
   }
-  const {
-    data: { data },
-  } = await axiosClient.get(
-    `/api/transaction/daterange?StartDate=${startDate}&&EndDate=${endDate}`
+  const response = await axiosClient.get(
+    `/api/transaction/daterange?PageIndex=${
+      pageIndex || 1
+    }&&StartDate=${startDate}&&EndDate=${endDate}`
   );
-  if (data) return data as Transaction[];
+  const { data }: { data: Transaction[] } = response.data;
+  const pagination: PaginationData = response.headers["x-pagination"];
+  return { data, pagination };
 };
 
 export const fetchInvoiceStats = async () => {

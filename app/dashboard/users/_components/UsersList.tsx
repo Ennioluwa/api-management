@@ -9,7 +9,7 @@ import { deleteUser } from "@/lib/hooks/api/users.api";
 import { UserDetails } from "@/lib/hooks/useUserManagement";
 import { useQueryClient } from "@tanstack/react-query";
 import { ColumnDef } from "@tanstack/react-table";
-import { Edit2, Trash } from "iconsax-react";
+import { Edit2, SecuritySafe, Trash } from "iconsax-react";
 import AddUserModal from "./add-user-modal";
 import { PuffLoader } from "react-spinners";
 import { Button } from "@/components/ui/button";
@@ -59,26 +59,49 @@ const UsersList: FC<UsersListProps> = ({}) => {
   const columns: ColumnDef<UserDetails>[] = [
     {
       header: "Name",
-      cell: (info) =>
-        `${info.row.original.firstName} ${info.row.original.lastName}`,
+      cell: (info) => (
+        <span className=" flex items-center gap-3 font-bold">
+          <span className=" h-8 w-8 bg-gray-500 uppercase rounded-full text-white grid place-items-center text-lg font-semibold">
+            {info.row.original.firstName.slice(0, 1)}
+          </span>
+          {info.row.original.firstName} {info.row.original.lastName}
+        </span>
+      ),
     },
     {
       header: "Email",
-      accessorKey: "email",
+      cell: (info) => (
+        <span className=" font-normal flex items-center gap-3">
+          {info.row.original.emailConfirmed && (
+            <SecuritySafe size={18} color="#1CA78B" variant="Bulk" />
+          )}
+          {info.row.original.email}
+        </span>
+      ),
     },
     {
       header: "Role",
       accessorKey: "roles",
-      cell: (info) => info.row.original.roles[0] || "",
+      cell: (info) => (
+        <span className=" font-bold">{info.row.original.roles[0] || ""}</span>
+      ),
     },
     {
       header: "Actions",
       cell: (info) =>
         info.row.original.emailConfirmed ? (
-          <Trash
-            variant="Bulk"
-            onClick={() => handleDelete(info.row.original.userName)}
-          />
+          <div className="flex gap-3">
+            <Edit2
+              variant="Bulk"
+              size={18}
+              // onClick={() => handleDelete(info.row.original.userName)}
+            />
+            <Trash
+              variant="Bulk"
+              size={18}
+              // onClick={() => handleDelete(info.row.original.userName)}
+            />
+          </div>
         ) : (
           <Button
             className=" uppercase"
@@ -117,21 +140,13 @@ const UsersList: FC<UsersListProps> = ({}) => {
         {!isPending && (
           <>
             <TabsContent className=" px-5" value="all">
-              <DataTable type="all" columns={columns} data={allUsers} />
+              <DataTable columns={columns} data={allUsers} />
             </TabsContent>
             <TabsContent className=" px-5" value="verified">
-              <DataTable
-                type="verified"
-                columns={columns}
-                data={verifiedUsers}
-              />
+              <DataTable columns={columns} data={verifiedUsers} />
             </TabsContent>
             <TabsContent className=" px-5" value="unverified">
-              <DataTable
-                type="unverified"
-                columns={columns}
-                data={unverifiedUsers}
-              />
+              <DataTable columns={columns} data={unverifiedUsers} />
             </TabsContent>
           </>
         )}

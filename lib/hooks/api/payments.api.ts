@@ -1,4 +1,5 @@
 import axiosClient from "@/lib/axiosInstance";
+import { PaginationData } from "./invoices.api";
 
 export type PaymentHistory = {
   id: number;
@@ -12,13 +13,17 @@ export type PaymentHistory = {
 
 export const fetchPaymentHistory = async ({
   companyId,
+  pageIndex,
 }: {
   companyId: number | undefined;
+  pageIndex?: number;
 }) => {
   if (!companyId) return;
+  const response = await axiosClient.get(
+    `/api/payments/${companyId}?PageIndex=${pageIndex || 1}`
+  );
 
-  const {
-    data: { data },
-  } = await axiosClient.get(`/api/payments/${companyId}`);
-  if (data) return data as PaymentHistory[];
+  const { data }: { data: PaymentHistory[] } = response.data;
+  const pagination: PaginationData = response.headers["x-pagination"];
+  return { data, pagination };
 };

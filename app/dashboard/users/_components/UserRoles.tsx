@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { fetchUsers } from "@/lib/hooks/api/users.api";
 import { useQuery } from "@tanstack/react-query";
 import { FC, useEffect, useState } from "react";
+import { PuffLoader } from "react-spinners";
 
 interface UserRolesProps {}
 
@@ -77,25 +78,31 @@ const UserRoles: FC<UserRolesProps> = ({}) => {
         depending on the assigned role (Super Admin, Manager, Customer Support),
         a user can have access to what they needs
       </p>
-      <div className="flex flex-col md:flex-row w-full justify-start items-center gap-5 flex-wrap">
-        {Object.entries(roles).map(([role, count], index) => {
-          return (
-            <div
-              key={index}
-              className="p-4 border border-dashed rounded-lg space-y-2 min-w-40 md:max-w-80 w-full flex-1 "
-            >
-              <h5 className=" text-xs font-bold">{matchOptions(role)}</h5>
-              <h6 className=" text-xl">{count} Users</h6>
-              <Button
-                className=" text-xs text-bgPrimary font-bold p-0 m-0 h-fit"
-                variant="ghost"
+      {isPending ? (
+        <div className=" bg-white w-full h-[112px] grid place-items-center">
+          <PuffLoader color="#0062FF" />
+        </div>
+      ) : (
+        <div className="flex flex-col md:flex-row w-full justify-start items-center gap-5 flex-wrap">
+          {Object.entries(roles).map(([role, count], index) => {
+            return (
+              <div
+                key={index}
+                className="p-4 border border-[#9A9AAF] border-dashed rounded-lg space-y-2 min-w-40 md:max-w-80 w-full flex-1 "
               >
-                LEARN MORE
-              </Button>
-            </div>
-          );
-        })}
-      </div>
+                <h5 className=" text-xs font-bold">{matchOptions(role)}</h5>
+                <h6 className=" text-xl">{count} Users</h6>
+                <Button
+                  className=" text-xs text-bgPrimary font-bold p-0 m-0 h-fit"
+                  variant="ghost"
+                >
+                  LEARN MORE
+                </Button>
+              </div>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 };

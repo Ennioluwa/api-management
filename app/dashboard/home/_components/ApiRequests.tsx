@@ -1,10 +1,39 @@
+import { useAppSelector } from "@/lib/hooks";
+import { fetchDashboardProps } from "@/lib/hooks/api/dashboard.api";
+import { useQuery } from "@tanstack/react-query";
 import { FC } from "react";
+import { PuffLoader } from "react-spinners";
 
 interface ApiRequestsProps {
   empty?: boolean;
 }
 
 const ApiRequests: FC<ApiRequestsProps> = ({ empty }) => {
+  const { userData } = useAppSelector((state) => state.user);
+  const {
+    isPending,
+    isError,
+    data: dashboard,
+    error,
+    refetch,
+  } = useQuery({
+    queryKey: ["dashboard"],
+    queryFn: () => fetchDashboardProps({ companyId: userData?.companyId }),
+  });
+
+  if ((isPending && !empty) || (!dashboard && !empty))
+    return (
+      <div
+        className={` grid place-items-center w-full bg-blue rounded-lg py-6 flex-1 ${
+          empty
+            ? " bg-white text-black"
+            : " bg-transparent border border-dashed border-white text-white"
+        }`}
+      >
+        <PuffLoader color="#fff" />
+      </div>
+    );
+
   return (
     <div
       className={`${
@@ -15,8 +44,10 @@ const ApiRequests: FC<ApiRequestsProps> = ({ empty }) => {
     >
       <div className=" space-y-1">
         <p className=" text-xs font-bold">API REQUESTS</p>
-        <p className=" text-3xl font-bold">{empty ? 0 : 13701}</p>
-        <p className=" font-bold text-xs">from last 10 days</p>
+        <p className=" text-3xl font-bold">
+          {empty ? 0 : dashboard.apiCallCount || 0}
+        </p>
+        <p className=" font-bold text-xs">total requests made</p>
       </div>
       {empty ? (
         <svg

@@ -3,16 +3,9 @@
 import * as React from "react";
 import {
   ColumnDef,
-  ColumnFiltersState,
-  SortingState,
-  VisibilityState,
   flexRender,
   getCoreRowModel,
-  getFacetedRowModel,
-  getFacetedUniqueValues,
-  getFilteredRowModel,
   getPaginationRowModel,
-  getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
 import {
@@ -27,23 +20,22 @@ import { CardPos, UserTag } from "iconsax-react";
 import { PuffLoader } from "react-spinners";
 import { useRouter } from "next/navigation";
 import { DataTablePagination } from "@/components/data-table-pagination";
+import { PaginationData } from "@/lib/hooks/api/invoices.api";
+import { NonDataTablePagination } from "@/components/non-data-table-pagination";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  pagination?: PaginationData;
+  invoice?: boolean;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  pagination,
+  invoice,
 }: DataTableProps<TData, TValue>) {
-  const [rowSelection, setRowSelection] = React.useState({});
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
-  );
-  const [sorting, setSorting] = React.useState<SortingState>([]);
   const router = useRouter();
 
   const handleRowClick = (row: any) => {
@@ -53,23 +45,9 @@ export function DataTable<TData, TValue>({
   const table = useReactTable({
     data,
     columns,
-    state: {
-      sorting,
-      columnVisibility,
-      rowSelection,
-      columnFilters,
-    },
     enableRowSelection: true,
-    onRowSelectionChange: setRowSelection,
-    onSortingChange: setSorting,
-    onColumnFiltersChange: setColumnFilters,
-    onColumnVisibilityChange: setColumnVisibility,
     getCoreRowModel: getCoreRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getFacetedRowModel: getFacetedRowModel(),
-    getFacetedUniqueValues: getFacetedUniqueValues(),
   });
 
   if (data === undefined)
@@ -79,16 +57,18 @@ export function DataTable<TData, TValue>({
       </div>
     );
 
+  console.log(table.getRowModel().rows.length);
+
   return (
-    <div className=" space-y-4">
-      <div className="rounded-md">
+    <div className=" space-y-5">
+      <div className=" bg-white px-2 pb-3 rounded-b-lg">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id}>
+                    <TableHead key={header.id} className=" font-bold uppercase">
                       {header.isPlaceholder
                         ? null
                         : flexRender(
@@ -143,7 +123,20 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <DataTablePagination table={table} />
+
+      {invoice && table.getRowModel().rows.length ? (
+        pagination ? (
+          <NonDataTablePagination
+            hasNextPage={pagination.HasNextPage}
+            hasPreviousPage={pagination.HasNextPage}
+            currentPage={pagination.CurrentPage}
+            totalPages={pagination.TotalPages}
+            url="/api/transaction"
+          />
+        ) : (
+          <DataTablePagination table={table} />
+        )
+      ) : null}
     </div>
   );
 }

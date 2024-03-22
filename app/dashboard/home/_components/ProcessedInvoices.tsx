@@ -21,8 +21,14 @@ const ProcessedInvoices: FC<ProcessedInvoicesProps> = ({ empty }) => {
 
   if ((isPending && !empty) || (!invoiceStats && !empty))
     return (
-      <div className=" grid place-items-center w-full bg-white rounded-lg py-6 flex-1">
-        <PuffLoader color="#0062FF" />
+      <div
+        className={` grid place-items-center w-full bg-blue rounded-lg py-6 flex-1 ${
+          empty
+            ? " bg-white text-black"
+            : " bg-transparent border border-dashed border-white text-white"
+        }`}
+      >
+        <PuffLoader color="#fff" />
       </div>
     );
 

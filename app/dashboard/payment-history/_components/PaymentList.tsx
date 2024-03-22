@@ -2,8 +2,7 @@
 
 import { FC, useEffect, useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { DataTable } from "./data-table";
-import { useQuery } from "@tanstack/react-query";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { fetchUsers } from "@/lib/hooks/api/users.api";
 import { deleteUser } from "@/lib/hooks/api/users.api";
 import { UserManagementData } from "@/lib/hooks/useUserManagement";
@@ -18,21 +17,17 @@ import {
 } from "@/lib/hooks/api/payments.api";
 import { useAppSelector } from "@/lib/hooks";
 import { formatter } from "@/lib/utils";
+import { DataTable } from "../../invoices/_components/data-table";
 
 interface PaymentListProps {}
 
 const PaymentList: FC<PaymentListProps> = ({}) => {
   const { userData } = useAppSelector((state) => state.user);
 
-  const {
-    isPending,
-    isError,
-    data: payments,
-    error,
-    refetch,
-  } = useQuery({
+  const { isPending, isError, data, error, refetch } = useQuery({
     queryKey: ["payments"],
     queryFn: () => fetchPaymentHistory({ companyId: userData?.companyId }),
+    placeholderData: keepPreviousData,
   });
 
   const [allPayments, setAllPayments] = useState<PaymentHistory[]>([]);
@@ -43,34 +38,38 @@ const PaymentList: FC<PaymentListProps> = ({}) => {
   const [pendingPayments, setPendingPayments] = useState<PaymentHistory[]>([]);
 
   useEffect(() => {
-    if (payments) {
+    if (data?.data) {
+      let payments = data.data;
       setAllPayments(payments);
 
       setApprovedPayments(payments.filter((u) => u.status === "Active"));
       setPendingPayments(payments.filter((u) => u.status !== "Active"));
       setFailedPayments(payments.filter((u) => u.status !== "Active"));
     }
-  }, [payments]);
+  }, [data]);
 
   const queryClient = useQueryClient();
   const columns: ColumnDef<PaymentHistory>[] = [
     {
       header: "Transaction ID.",
-      cell: (info) => `${info.row.original.id}`,
+      cell: (info) => (
+        <span className=" font-bold">${info.row.original.id}</span>
+      ),
     },
     {
       header: "Channel",
       accessorKey: "paymentMethod",
       cell: (info) => (
         <div className="flex items-center gap-2">
-          <p>{info.row.original.paymentMethod}</p>
+          <p className=" font-bold">{info.row.original.paymentMethod}</p>
         </div>
       ),
     },
     {
       header: "Amount",
-      accessorKey: "amount",
-      cell: (info) => `-₦${info.row.original.amount}`,
+      cell: (info) => (
+        <span className=" font-bold">-₦{info.row.original.amount}</span>
+      ),
     },
     {
       header: "Date",
@@ -114,15 +113,15 @@ const PaymentList: FC<PaymentListProps> = ({}) => {
   ];
 
   return (
-    <div className=" bg-white rounded-lg mt-5">
-      <div className=" p-5">
+    <div className="  mt-5">
+      <div className=" p-5 bg-white rounded-t-lg">
         <h3 className=" font-bold pb-2.5 ">Billing History</h3>
         <p className=" w-full md:w-2/3 lg:w-1/2 text-xs">
           View all transaction history made through your Account
         </p>
       </div>
       <Tabs defaultValue="all" className=" w-full ">
-        <TabsList className=" w-full overflow-x-auto justify-start overflow-y-clip h-auto ">
+        <TabsList className=" w-full overflow-x-auto justify-start overflow-y-clip h-auto bg-white border-b border-[#EFEFEF]">
           <TabsTrigger value="all">All Transactions</TabsTrigger>
           <TabsTrigger value="approved">Approved</TabsTrigger>
           <TabsTrigger value="pending">Pending</TabsTrigger>
@@ -135,28 +134,36 @@ const PaymentList: FC<PaymentListProps> = ({}) => {
         )}
         {!isPending && (
           <>
-            <TabsContent className=" px-5" value="all">
-              <DataTable type="all" columns={columns} data={allPayments} />
-            </TabsContent>
-            <TabsContent className=" px-5" value="approved">
+            <TabsContent value="all">
               <DataTable
-                type="verified"
+                columns={columns}
+                data={allPayments}
+                pagination={data?.pagination}
+                invoice
+              />
+            </TabsContent>
+            <TabsContent value="approved">
+              <DataTable
                 columns={columns}
                 data={approvedPayments}
+                pagination={data?.pagination}
+                invoice
               />
             </TabsContent>
-            <TabsContent className=" px-5" value="pending">
+            <TabsContent value="pending">
               <DataTable
-                type="unverified"
                 columns={columns}
                 data={pendingPayments}
+                pagination={data?.pagination}
+                invoice
               />
             </TabsContent>
-            <TabsContent className=" px-5" value="failed">
+            <TabsContent value="failed">
               <DataTable
-                type="unverified"
                 columns={columns}
                 data={failedPayments}
+                pagination={data?.pagination}
+                invoice
               />
             </TabsContent>
           </>
