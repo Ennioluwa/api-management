@@ -127,7 +127,7 @@ const UsersList: FC<UsersListProps> = ({}) => {
         </p>
       </div>
       <Tabs defaultValue="all" className=" w-full ">
-        <TabsList className=" w-full overflow-x-auto justify-start overflow-y-clip h-auto ">
+        <TabsList className=" w-full overflow-x-auto justify-start overflow-y-clip h-auto bg-white border-b border-[#EFEFEF]">
           <TabsTrigger value="all">All Users</TabsTrigger>
           <TabsTrigger value="verified">Verified</TabsTrigger>
           <TabsTrigger value="unverified">Unverified</TabsTrigger>
