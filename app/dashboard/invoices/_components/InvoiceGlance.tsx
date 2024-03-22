@@ -28,14 +28,14 @@ const UserRoles: FC<UserRolesProps> = ({}) => {
         An intuitive way to see all your general invoices for a quick access
       </p>
       <div className="flex flex-col md:flex-row flex-wrap md:items-stretch gap-4">
-        <div className=" p-5  border border-dashed border-[#9A9AAF] rounded-lg md:grow grid grid-cols-3 gap-3">
+        <div className=" p-5  border border-dashed border-[#9A9AAF] rounded-lg md:grow flex flex-col md:flex-row justify-center gap-3">
           <div className="space-y-1.5">
-            <h6 className=" text-xs font-bold">TOTAL INVOICES</h6>
+            <h6 className=" text-xs font-bold text-nowrap">TOTAL INVOICES</h6>
             <h4 className=" text-3xl font-bold">
               {invoiceStats?.totalInvoice}
             </h4>
           </div>
-          <div className=" px-3 rounded-lg space-y-1 bg-[#9A9AAF]/20 w-full flex flex-col justify-center">
+          <div className=" p-3 rounded-lg space-y-1 bg-[#9A9AAF]/20 w-full flex flex-col justify-center">
             <p className=" flex items-center gap-1 text-xs font-bold text-[#9a9aaf]">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -58,7 +58,7 @@ const UserRoles: FC<UserRolesProps> = ({}) => {
               {invoiceStats?.currentMonthProcessed}
             </p>
           </div>
-          <div className=" px-3 rounded-lg space-y-1 bg-[#9A9AAF]/20 w-full h-full flex flex-col justify-center">
+          <div className=" p-3 rounded-lg space-y-1 bg-[#9A9AAF]/20 w-full h-full flex flex-col justify-center">
             <p className=" flex items-center gap-1 text-xs font-bold text-[#0062FF] uppercase">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
