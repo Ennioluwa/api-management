@@ -5,7 +5,7 @@ import TransactionDetails from "./_components/TransactionDetails";
 
 export default function Page({ params }: { params: { id: string } }) {
   return (
-    <div>
+    <div className=" lg:container lg:ml-0">
       <div className=" flex items-center gap-2 mb-6 py-2 text-xs font-bold text-dark ">
         <Link href="/dashboard/home" className=" contents">
           <Home2 variant="Outline" size="18px" color="#292D32" />
