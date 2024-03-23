@@ -99,7 +99,8 @@ export const fetchInvoicesByDate = async ({
     );
 
     const { data }: { data: Transaction[] } = response.data;
-    const pagination: PaginationData = response.headers["x-pagination"];
+    let pagination = response.headers["x-pagination"];
+    if (pagination) pagination = JSON.parse(pagination) as PaginationData;
     return { data, pagination };
   }
   const response = await axiosClient.get(

@@ -25,12 +25,15 @@ const InvoiceList: FC<InvoiceListProps> = ({}) => {
     (state) => state.dateRange
   );
 
+  const [pageIndex, setPageIndex] = useState(1);
+
   const { data, isPending } = useQuery({
-    queryKey: ["invoicesDate", { invoiceStartDate, invoiceEndDate }],
+    queryKey: ["invoicesDate", { invoiceStartDate, invoiceEndDate, pageIndex }],
     queryFn: () =>
       fetchInvoicesByDate({
         startDate: invoiceStartDate,
         endDate: invoiceEndDate,
+        pageIndex,
       }),
     placeholderData: keepPreviousData,
   });
@@ -61,7 +64,7 @@ const InvoiceList: FC<InvoiceListProps> = ({}) => {
     {
       header: "INVOICE ID",
       cell: (info) => (
-        <span className=" font-bold">${info.row.original.invoiceNumber}</span>
+        <span className=" font-bold">{info.row.original.invoiceNumber}</span>
       ),
     },
 
@@ -86,7 +89,7 @@ const InvoiceList: FC<InvoiceListProps> = ({}) => {
             className={` text-xs w-fit px-3 py-1.5 rounded ${
               status.toLowerCase() === "uploaded"
                 ? "bg-[#1CA78B]/5 text-[#1CA78B]"
-                : status.toLowerCase() === "failed"
+                : status.toLowerCase() === "error"
                 ? "bg-[#A71C1C]/5 text-[#A71C1C] "
                 : "bg-[#FFCF5C]/5 text-[#FFCF5C]"
             }`}
@@ -145,6 +148,8 @@ const InvoiceList: FC<InvoiceListProps> = ({}) => {
                 columns={columns}
                 data={allInvoices}
                 invoice
+                pageIndex={pageIndex}
+                setPageIndex={setPageIndex}
               />
             </TabsContent>
             <TabsContent value="successful">

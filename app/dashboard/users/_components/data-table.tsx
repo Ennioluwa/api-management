@@ -27,12 +27,18 @@ interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   pagination?: PaginationData;
+  invoice?: boolean;
+  pageIndex?: number;
+  setPageIndex?: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
   pagination,
+  invoice,
+  pageIndex,
+  setPageIndex,
 }: DataTableProps<TData, TValue>) {
   const router = useRouter();
   const handleRowClick = (row: any) => {
@@ -116,13 +122,14 @@ export function DataTable<TData, TValue>({
         </Table>
       </div>
       {table.getRowModel().rows.length ? (
-        pagination ? (
+        pagination && pageIndex && setPageIndex ? (
           <NonDataTablePagination
             hasNextPage={pagination.HasNextPage}
-            hasPreviousPage={pagination.HasNextPage}
+            hasPreviousPage={pagination.HasPreviousPage}
             currentPage={pagination.CurrentPage}
             totalPages={pagination.TotalPages}
-            url="/api/transaction"
+            pageIndex={pageIndex}
+            setPageIndex={setPageIndex}
           />
         ) : (
           <DataTablePagination table={table} />
