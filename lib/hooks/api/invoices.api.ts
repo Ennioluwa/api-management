@@ -88,14 +88,18 @@ export const fetchInvoicesByDate = async ({
   startDate,
   endDate,
   pageIndex,
+  lastId,
 }: {
   startDate: string;
   endDate: string;
   pageIndex?: number;
+  lastId?: number;
 }) => {
   if (!startDate || !endDate) {
     const response = await axiosClient.get(
-      `/api/transaction?PageIndex=${pageIndex || 1}`
+      `/api/transaction?PageIndex=${pageIndex || 1}${
+        lastId !== undefined && pageIndex !== 1 ? `&lastId=${lastId}` : ""
+      }`
     );
 
     const { data }: { data: Transaction[] } = response.data;
@@ -106,10 +110,13 @@ export const fetchInvoicesByDate = async ({
   const response = await axiosClient.get(
     `/api/transaction/daterange?PageIndex=${
       pageIndex || 1
-    }&&StartDate=${startDate}&&EndDate=${endDate}`
+    }&StartDate=${startDate}&EndDate=${endDate}${
+      lastId !== undefined && pageIndex !== 1 ? `&lastId=${lastId}` : ""
+    }`
   );
   const { data }: { data: Transaction[] } = response.data;
-  const pagination: PaginationData = response.headers["x-pagination"];
+  let pagination = response.headers["x-pagination"];
+  if (pagination) pagination = JSON.parse(pagination) as PaginationData;
   return { data, pagination };
 };
 

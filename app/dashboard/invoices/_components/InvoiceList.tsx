@@ -26,6 +26,7 @@ const InvoiceList: FC<InvoiceListProps> = ({}) => {
   );
 
   const [pageIndex, setPageIndex] = useState(1);
+  const [lastId, setLastId] = useState<number | undefined>(undefined);
 
   const { data, isPending } = useQuery({
     queryKey: ["invoicesDate", { invoiceStartDate, invoiceEndDate, pageIndex }],
@@ -34,6 +35,7 @@ const InvoiceList: FC<InvoiceListProps> = ({}) => {
         startDate: invoiceStartDate,
         endDate: invoiceEndDate,
         pageIndex,
+        lastId,
       }),
     placeholderData: keepPreviousData,
   });
@@ -48,6 +50,10 @@ const InvoiceList: FC<InvoiceListProps> = ({}) => {
   useEffect(() => {
     if (data?.data) {
       let invoices = data.data;
+
+      invoices[invoices.length - 1] &&
+        setLastId(invoices[invoices.length - 1]?.id);
+
       setAllInvoices(invoices);
 
       setPendingInvoices(invoices.filter((u) => u.uploadStatus === "Pending"));
