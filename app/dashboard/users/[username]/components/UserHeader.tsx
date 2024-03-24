@@ -102,8 +102,8 @@ const UserHeader: FC<UserHeaderProps> = async ({ username }) => {
             <span>{user?.lastName}</span>
           </h2>
           <p className=" text-[#0062FF] text-xs font-bold flex gap-2 items-center flex-wrap text-center">
-            {user?.roles.map((role) => (
-              <span>{role}</span>
+            {user?.roles.map((role, i) => (
+              <span key={i}>{role}</span>
             ))}
           </p>
           <div className="flex items-center gap-2">
