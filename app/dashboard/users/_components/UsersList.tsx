@@ -55,13 +55,12 @@ const UsersList: FC<UsersListProps> = ({}) => {
     console.log(error);
   };
 
-  const queryClient = useQueryClient();
   const columns: ColumnDef<UserDetails>[] = [
     {
       header: "Name",
       cell: (info) => (
         <span className=" flex items-center gap-3 font-bold">
-          <span className=" h-8 w-8 bg-gray-500 uppercase rounded-full text-white grid place-items-center text-lg font-semibold">
+          <span className="shrink-0 h-8 w-8 bg-gray-500 uppercase rounded-full text-white grid place-items-center text-lg font-semibold">
             {info.row.original.firstName.slice(0, 1)}
           </span>
           {info.row.original.firstName} {info.row.original.lastName}

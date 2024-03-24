@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import { fetchUsers } from "@/lib/hooks/api/users.api";
 import { useQuery } from "@tanstack/react-query";
 import Loader from "@/components/Loader";
-import { useAppDispatch } from "@/lib/hooks";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { onModifyUserOpen, onOpen } from "@/redux/features/addUserSlice";
 import Modal from "@/components/Modal";
 import ModifyUserModal from "../../_components/modify-user-modal";
@@ -25,6 +25,8 @@ interface UserHeaderProps {
 const UserHeader: FC<UserHeaderProps> = async ({ username }) => {
   const router = useRouter();
   const dispatch = useAppDispatch();
+
+  const { userData } = useAppSelector((state) => state.user);
 
   const [user, setUser] = useState<UserDetails | null>(null);
 
@@ -91,7 +93,7 @@ const UserHeader: FC<UserHeaderProps> = async ({ username }) => {
       </Button>
 
       <div className="lg:container lg:ml-0 grid place-items-center p-8 rounded-lg bg-[#fff]/60">
-        <div className="flex flex-col items-center text-center gap-4 bg-white container max-w-[600px] overflow-clip w-fit mx-auto p-8 border border-dashed border-[#2488FF0D]/10 rounded-lg">
+        <div className="flex flex-col items-center text-center gap-4 min-w-96 bg-white container max-w-[600px] overflow-clip w-fit mx-auto p-8 border border-dashed border-[#0062FF]/40 rounded-lg">
           <div className=" h-[150px] w-[150px] bg-gray-500 uppercase rounded-full text-white grid place-items-center text-7xl font-bold">
             {user?.firstName.slice(0, 1)}
           </div>
@@ -99,7 +101,11 @@ const UserHeader: FC<UserHeaderProps> = async ({ username }) => {
             <span>{user?.firstName}</span>
             <span>{user?.lastName}</span>
           </h2>
-          <p className=" text-[#0062FF] text-xs font-bold">{user?.roles}</p>
+          <p className=" text-[#0062FF] text-xs font-bold flex gap-2 items-center flex-wrap text-center">
+            {user?.roles.map((role) => (
+              <span>{role}</span>
+            ))}
+          </p>
           <div className="flex items-center gap-2">
             <span>
               <SecuritySafe size={30} variant="Bulk" color="#1CA78B" />
@@ -114,6 +120,7 @@ const UserHeader: FC<UserHeaderProps> = async ({ username }) => {
               EDIT
             </Button>
             <Button
+              disabled={userData?.email === user?.email}
               className=" flex-1 w-full rounded-none"
               onClick={() => setDeleteConfirm(true)}
             >

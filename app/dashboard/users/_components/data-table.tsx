@@ -41,17 +41,18 @@ export function DataTable<TData, TValue>({
   setPageIndex,
 }: DataTableProps<TData, TValue>) {
   const router = useRouter();
-  const handleRowClick = (row: any) => {
-    router.push(`/dashboard/users/${row.userName}`);
-  };
 
   const table = useReactTable({
     data,
     columns,
-    enableRowSelection: true,
+    enableRowSelection: false,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
   });
+
+  const handleRowClick = (row: any) => {
+    router.push(`/dashboard/users/${row.userName}`);
+  };
 
   if (data === undefined)
     return (
@@ -89,16 +90,24 @@ export function DataTable<TData, TValue>({
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
                   className=" cursor-pointer"
-                  onClick={() => handleRowClick(row.original)}
                 >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
-                  ))}
+                  {row.getVisibleCells().map((cell) => {
+                    // console.log(cell.column.id);
+                    return (
+                      <TableCell
+                        key={cell.id}
+                        onClick={() =>
+                          cell.column.id !== "Actions" &&
+                          handleRowClick(row.original)
+                        }
+                      >
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </TableCell>
+                    );
+                  })}
                 </TableRow>
               ))
             ) : (

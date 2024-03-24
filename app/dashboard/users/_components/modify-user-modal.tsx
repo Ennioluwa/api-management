@@ -38,6 +38,7 @@ import {
 } from "@/redux/features/addUserSlice";
 import {
   useModifyUserManagement,
+  useModifyUserManagementRole,
   useUserManagement,
 } from "@/lib/hooks/useUserManagement";
 import { useQueryClient } from "@tanstack/react-query";
@@ -94,7 +95,7 @@ const ModifyUserModal: FC<ModifyUserModalProps> = ({
     isSuccess,
     isError,
     isPending,
-  } = useModifyUserManagement();
+  } = useModifyUserManagementRole();
 
   useEffect(() => {
     if (isSuccess) {
@@ -114,7 +115,11 @@ const ModifyUserModal: FC<ModifyUserModalProps> = ({
     const { firstName, lastName, email, roles } = values;
     const userRoles = roles.map((role) => role.value);
 
-    modifyUser({ firstName, lastName });
+    if (!userRoles.length) {
+      return toast.error("Role is required");
+    }
+
+    modifyUser({ firstName, lastName, roles: userRoles, email });
   };
 
   return (

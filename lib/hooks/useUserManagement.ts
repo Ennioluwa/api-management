@@ -16,6 +16,7 @@ export type UserManagementData = {
   email: string;
   roles: string[];
 };
+
 export type PutUserManagementData = {
   firstName: string;
   lastName: string;
@@ -38,8 +39,21 @@ const postUserManagementData = async (data: UserManagementData) => {
 
   return res;
 };
+
 const putUserManagementData = async (data: PutUserManagementData) => {
   const res = await axiosClient.put("/api/user", data).then((res) => {
+    console.log(res);
+
+    return {
+      data: res.data.data,
+    };
+  });
+
+  return res;
+};
+
+const putUserManagementRoleData = async (data: PutUserManagementData) => {
+  const res = await axiosClient.put("/api/usermanagement", data).then((res) => {
     console.log(res);
 
     return {
@@ -72,6 +86,11 @@ export const useUserManagement = () => {
 export const useModifyUserManagement = () => {
   return useMutation({
     mutationFn: (data: PutUserManagementData) => putUserManagementData(data),
+  });
+};
+export const useModifyUserManagementRole = () => {
+  return useMutation({
+    mutationFn: (data: UserManagementData) => putUserManagementRoleData(data),
   });
 };
 
