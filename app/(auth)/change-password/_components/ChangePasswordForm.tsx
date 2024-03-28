@@ -155,7 +155,6 @@ export const ChangePasswordForm = () => {
             }
             type="submit"
             className="w-full"
-            onClick={() => onSubmit(form.getValues())}
           >
             {isPending ? "PROCEEDING..." : "PROCEED"}
           </Button>
