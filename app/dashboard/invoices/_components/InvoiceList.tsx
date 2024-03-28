@@ -48,6 +48,13 @@ const InvoiceList: FC<InvoiceListProps> = ({}) => {
   const [failedInvoices, setFailedInvoices] = useState<Transaction[]>([]);
 
   useEffect(() => {
+    if (pageIndex !== 1) {
+      setPageIndex(1);
+    }
+    setLastId(undefined);
+  }, [invoiceEndDate, invoiceStartDate]);
+
+  useEffect(() => {
     if (data?.data) {
       let invoices = data.data;
 
@@ -63,8 +70,6 @@ const InvoiceList: FC<InvoiceListProps> = ({}) => {
       setFailedInvoices(invoices.filter((u) => u.uploadStatus === "Error"));
     }
   }, [data]);
-
-  console.log(data?.pagination);
 
   const columns: ColumnDef<Transaction>[] = [
     {
