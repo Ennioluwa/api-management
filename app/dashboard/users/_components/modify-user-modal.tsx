@@ -62,6 +62,7 @@ const ModifyUserModal: FC<ModifyUserModalProps> = ({
   const dispatch = useAppDispatch();
   const queryClient = useQueryClient();
   const { isModifyOpen } = useAppSelector((state) => state.userManagement);
+  const { userData } = useAppSelector((state) => state.user);
 
   const OPTIONS: Option[] = [
     { label: "Super Admin", value: "ClientAdmins" },
@@ -223,6 +224,12 @@ const ModifyUserModal: FC<ModifyUserModalProps> = ({
                             <FormControl>
                               <MultipleSelector
                                 value={field.value}
+                                disabled={
+                                  userData?.email === email ||
+                                  userData?.roles.findIndex(
+                                    (role) => role === "ClientAdmins"
+                                  ) === -1
+                                }
                                 onChange={field.onChange}
                                 options={OPTIONS}
                                 className={`${

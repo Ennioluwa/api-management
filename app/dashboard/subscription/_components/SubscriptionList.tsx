@@ -2,7 +2,7 @@
 
 import { FC, useEffect, useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useQuery } from "@tanstack/react-query";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { UserManagementData } from "@/lib/hooks/useUserManagement";
 import { useQueryClient } from "@tanstack/react-query";
 import { ColumnDef } from "@tanstack/react-table";
@@ -15,22 +15,21 @@ import { PuffLoader } from "react-spinners";
 import ChangePaymentMethod from "./change-payment-option";
 import { useAppSelector } from "@/lib/hooks";
 import { formatter, getCurrencySymbol } from "@/lib/utils";
-import { DataTable } from "../../invoices/_components/data-table";
+import { DataTable } from "./data-table";
 
 interface SubscriptionListProps {}
 
 const SubscriptionList: FC<SubscriptionListProps> = ({}) => {
   const { userData } = useAppSelector((state) => state.user);
 
-  const {
-    isPending,
-    isError,
-    data: subscriptions,
-    error,
-    refetch,
-  } = useQuery({
-    queryKey: ["subscriptions"],
-    queryFn: () => fetchSubscriptions({ companyId: userData?.companyId }),
+  const [pageIndex, setPageIndex] = useState(1);
+  const [lastId, setLastId] = useState<number | undefined>(undefined);
+
+  const { isPending, data } = useQuery({
+    queryKey: ["subscriptions", { pageIndex }],
+    queryFn: () =>
+      fetchSubscriptions({ companyId: userData?.companyId, pageIndex, lastId }),
+    placeholderData: keepPreviousData,
   });
 
   const [allSubscriptions, setAllSubscriptions] = useState<Subscriptions[]>([]);
@@ -42,7 +41,9 @@ const SubscriptionList: FC<SubscriptionListProps> = ({}) => {
   >([]);
 
   useEffect(() => {
-    if (subscriptions) {
+    if (data?.data) {
+      let subscriptions = data.data;
+
       setAllSubscriptions(subscriptions);
 
       setActiveSubscriptions(
@@ -52,7 +53,7 @@ const SubscriptionList: FC<SubscriptionListProps> = ({}) => {
         subscriptions.filter((u) => u.status !== "Active")
       );
     }
-  }, [subscriptions]);
+  }, [data]);
 
   const columns: ColumnDef<Subscriptions>[] = [
     {
@@ -102,8 +103,8 @@ const SubscriptionList: FC<SubscriptionListProps> = ({}) => {
   ];
 
   return (
-    <div className=" bg-white rounded-lg">
-      <div className=" p-5">
+    <div className=" rounded-lg grow">
+      <div className=" p-5 bg-white">
         <h3 className=" font-bold pb-2.5 ">Subscriptions List</h3>
         <p className=" w-full text-xs">
           From here you can see a list of all you subscriptions and their
@@ -117,24 +118,20 @@ const SubscriptionList: FC<SubscriptionListProps> = ({}) => {
           <TabsTrigger value="expired">Expired</TabsTrigger>
         </TabsList>
         {isPending && (
-          <div className=" w-full h-full grid place-items-center py-20">
+          <div className=" bg-white w-full h-full grid place-items-center py-20">
             <PuffLoader color="#0062FF" />
           </div>
         )}
         {!isPending && (
           <>
             <TabsContent value="all">
-              <DataTable columns={columns} data={allSubscriptions} invoice />
+              <DataTable columns={columns} data={allSubscriptions} />
             </TabsContent>
             <TabsContent value="active">
-              <DataTable columns={columns} data={activeSubscriptions} invoice />
+              <DataTable columns={columns} data={activeSubscriptions} />
             </TabsContent>
             <TabsContent value="expired">
-              <DataTable
-                columns={columns}
-                data={expiredSubscriptions}
-                invoice
-              />
+              <DataTable columns={columns} data={expiredSubscriptions} />
             </TabsContent>
           </>
         )}

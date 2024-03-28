@@ -14,13 +14,17 @@ export type PaymentHistory = {
 export const fetchPaymentHistory = async ({
   companyId,
   pageIndex,
+  lastId,
 }: {
   companyId: number | undefined;
   pageIndex?: number;
+  lastId?: number;
 }) => {
   if (!companyId) return;
   const response = await axiosClient.get(
-    `/api/payments/${companyId}?PageIndex=${pageIndex || 1}`
+    `/api/payments/${companyId}?PageIndex=${pageIndex || 1}${
+      lastId !== undefined && pageIndex !== 1 ? `&lastId=${lastId}` : ""
+    }`
   );
 
   const { data }: { data: PaymentHistory[] } = response.data;

@@ -7,7 +7,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { fetchUsers } from "@/lib/hooks/api/users.api";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import Loader from "@/components/Loader";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { onModifyUserOpen, onOpen } from "@/redux/features/addUserSlice";
@@ -15,20 +15,26 @@ import Modal from "@/components/Modal";
 import ModifyUserModal from "../../_components/modify-user-modal";
 import AddUserModal from "../../_components/add-user-modal";
 // import { UserData } from "@/redux/features/userSlice";
-import { UserDetails } from "@/lib/hooks/useUserManagement";
+import {
+  UserDetails,
+  useDeleteUserManagement,
+} from "@/lib/hooks/useUserManagement";
 import { PuffLoader } from "react-spinners";
+import { toast } from "sonner";
 
 interface UserHeaderProps {
   username: string;
 }
 
-const UserHeader: FC<UserHeaderProps> = async ({ username }) => {
+const UserHeader: FC<UserHeaderProps> = ({ username }) => {
   const router = useRouter();
   const dispatch = useAppDispatch();
 
   const { userData } = useAppSelector((state) => state.user);
 
   const [user, setUser] = useState<UserDetails | null>(null);
+
+  const queryClient = useQueryClient();
 
   const {
     isPending,
@@ -41,10 +47,20 @@ const UserHeader: FC<UserHeaderProps> = async ({ username }) => {
     queryFn: () => fetchUsers(),
   });
 
+  const {
+    data,
+    mutate: deleteUser,
+    isPending: isDeletePending,
+    isSuccess: isDeleteSuccess,
+    isError: isDeleteError,
+  } = useDeleteUserManagement();
+
   useEffect(() => {
     if (users) {
-      const userData = users.find((person) => person.userName == username);
-      console.log(users, userData, username);
+      const decodedUsername = decodeURIComponent(username);
+      const userData = users.find(
+        (person) => person.userName == decodedUsername
+      );
 
       if (userData) {
         setUser(userData);
@@ -56,13 +72,25 @@ const UserHeader: FC<UserHeaderProps> = async ({ username }) => {
   const [deleteConfirm, setDeleteConfirm] = useState(false);
 
   const handleDeleteUser = () => {
-    setDeleteConfirm(false);
-    setDeleteSuccess(true);
+    if (!username) return console.log("username is required");
+    const decodedUsername = decodeURIComponent(username);
+    deleteUser({ username: decodedUsername });
   };
 
-  if (isPending) {
-    return <Loader />;
-  }
+  useEffect(() => {
+    if (isDeleteSuccess) {
+      console.log(isDeleteSuccess, data, "success state");
+      toast.success("User has been deleted");
+      setDeleteConfirm(false);
+      setDeleteSuccess(true);
+      queryClient.refetchQueries({ queryKey: ["users"] });
+      queryClient.invalidateQueries({ queryKey: ["users"] });
+      router.push("/dashboard/users");
+    } else if (isDeleteError) {
+      console.log(isDeleteError, data, "error state");
+      toast.error("An error occured while deleting user");
+    } else return;
+  }, [isDeleteSuccess, isDeleteError]);
 
   return (
     <>
@@ -114,13 +142,25 @@ const UserHeader: FC<UserHeaderProps> = async ({ username }) => {
           </div>
           <div className="flex justify-between w-full gap-3 rounded-b-lg overflow-clip">
             <Button
+              disabled={
+                userData?.email !== user?.email &&
+                userData?.roles.findIndex((role) => role === "ClientAdmins") ===
+                  -1
+              }
               className=" flex-1 w-full rounded-none"
-              onClick={() => dispatch(onModifyUserOpen())}
+              onClick={() => {
+                if (!user?.userName) return;
+                dispatch(onModifyUserOpen());
+              }}
             >
               EDIT
             </Button>
             <Button
-              disabled={userData?.email === user?.email}
+              disabled={
+                userData?.email === user?.email ||
+                userData?.roles.findIndex((role) => role === "ClientAdmins") ===
+                  -1
+              }
               className=" flex-1 w-full rounded-none"
               onClick={() => setDeleteConfirm(true)}
             >
@@ -142,6 +182,7 @@ const UserHeader: FC<UserHeaderProps> = async ({ username }) => {
           </div>
         }
         headerTextColor="#A71C1C"
+        isPending={isDeletePending}
         isPendingText="DELETING"
         open={deleteConfirm}
         setOpen={setDeleteConfirm}
@@ -169,6 +210,7 @@ const UserHeader: FC<UserHeaderProps> = async ({ username }) => {
         primaryButtonAction={() => {
           setDeleteSuccess(false);
           dispatch(onOpen());
+          router.push("/dashboard/users");
         }}
       />
       {user && (

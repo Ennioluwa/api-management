@@ -3,9 +3,6 @@
 import { FC, useEffect, useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import { fetchUsers } from "@/lib/hooks/api/users.api";
-import { deleteUser } from "@/lib/hooks/api/users.api";
-import { UserManagementData } from "@/lib/hooks/useUserManagement";
 import { useQueryClient } from "@tanstack/react-query";
 import { ColumnDef } from "@tanstack/react-table";
 import { DocumentDownload, Edit2, Trash } from "iconsax-react";
@@ -17,7 +14,7 @@ import {
 } from "@/lib/hooks/api/payments.api";
 import { useAppSelector } from "@/lib/hooks";
 import { formatter } from "@/lib/utils";
-import { DataTable } from "../../invoices/_components/data-table";
+import { DataTable } from "./data-table";
 
 interface PaymentListProps {}
 
@@ -128,7 +125,7 @@ const PaymentList: FC<PaymentListProps> = ({}) => {
           <TabsTrigger value="failed">Failed</TabsTrigger>
         </TabsList>
         {isPending && (
-          <div className=" w-full h-full grid place-items-center py-20">
+          <div className=" bg-white w-full h-full grid place-items-center py-20">
             <PuffLoader color="#0062FF" />
           </div>
         )}
@@ -139,7 +136,6 @@ const PaymentList: FC<PaymentListProps> = ({}) => {
                 columns={columns}
                 data={allPayments}
                 pagination={data?.pagination}
-                invoice
               />
             </TabsContent>
             <TabsContent value="approved">
@@ -147,7 +143,6 @@ const PaymentList: FC<PaymentListProps> = ({}) => {
                 columns={columns}
                 data={approvedPayments}
                 pagination={data?.pagination}
-                invoice
               />
             </TabsContent>
             <TabsContent value="pending">
@@ -155,7 +150,6 @@ const PaymentList: FC<PaymentListProps> = ({}) => {
                 columns={columns}
                 data={pendingPayments}
                 pagination={data?.pagination}
-                invoice
               />
             </TabsContent>
             <TabsContent value="failed">
@@ -163,7 +157,6 @@ const PaymentList: FC<PaymentListProps> = ({}) => {
                 columns={columns}
                 data={failedPayments}
                 pagination={data?.pagination}
-                invoice
               />
             </TabsContent>
           </>

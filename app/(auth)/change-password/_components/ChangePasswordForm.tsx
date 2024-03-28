@@ -40,6 +40,7 @@ export const ChangePasswordForm = () => {
   const form = useForm<z.infer<typeof ChangePasswordSchema>>({
     resolver: zodResolver(ChangePasswordSchema),
     defaultValues: {
+      oldPassword: "",
       newPassword: "",
       confirmPassword: "",
     },
@@ -69,10 +70,12 @@ export const ChangePasswordForm = () => {
   }, [isSuccess, isError]);
 
   const onSubmit = (values: z.infer<typeof ChangePasswordSchema>) => {
-    if (!userData) return router.push("/login");
     console.log(values);
-    const { newPassword } = values;
-    changePassword({ email: userData?.email, newPassword });
+
+    if (!userData) return "no userdata present";
+    console.log(values);
+    const { newPassword, oldPassword } = values;
+    changePassword({ email: userData?.email, newPassword, oldPassword });
   };
 
   return (
@@ -84,6 +87,25 @@ export const ChangePasswordForm = () => {
         >
           <div className="flex flex-col gap-5">
             <>
+              <FormField
+                control={form.control}
+                name="oldPassword"
+                render={({ field }) => (
+                  <FormItem className=" relative">
+                    <FormControl>
+                      <PasswordInput
+                        {...field}
+                        disabled={isPending}
+                        PrefixIcon={Lock}
+                        variant="TwoTone"
+                        label="Old Password"
+                        placeholder="Enter Old Password"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <FormField
                 control={form.control}
                 name="newPassword"
@@ -133,6 +155,7 @@ export const ChangePasswordForm = () => {
             }
             type="submit"
             className="w-full"
+            onClick={() => onSubmit(form.getValues())}
           >
             {isPending ? "PROCEEDING..." : "PROCEED"}
           </Button>

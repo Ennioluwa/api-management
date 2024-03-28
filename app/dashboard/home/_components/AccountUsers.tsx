@@ -1,5 +1,4 @@
 import { fetchUsers } from "@/lib/hooks/api/users.api";
-import { DeleteUserManagement } from "@/lib/hooks/useUserManagement";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Trash } from "iconsax-react";
 import { useRouter } from "next/navigation";
@@ -22,28 +21,12 @@ const AccountUsers: FC<AccountUsersProps> = ({}) => {
   } = useQuery({
     queryKey: ["users"],
     queryFn: fetchUsers,
-
-    // staleTime: 5000,
   });
-
-  const {
-    isError: isDeleteError,
-    isSuccess: isDeleteSuccess,
-    data: isDeleteData,
-    isPending: isDeletePending,
-    mutate: deleteUser,
-  } = DeleteUserManagement();
 
   const handleDelete = (userName: string) => {
     console.log(userName);
     router.push(`/dashboard/users/${userName}`);
   };
-
-  useEffect(() => {
-    console.log(isDeleteData, "data ");
-    queryClient.refetchQueries({ queryKey: ["users"] });
-    queryClient.invalidateQueries({ queryKey: ["users"] });
-  }, [isDeleteError, isDeleteSuccess]);
 
   if (isPending || users === undefined)
     return (

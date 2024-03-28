@@ -1,18 +1,10 @@
 "use client";
 
-import * as React from "react";
 import {
   ColumnDef,
-  ColumnFiltersState,
-  SortingState,
-  VisibilityState,
   flexRender,
   getCoreRowModel,
-  getFacetedRowModel,
-  getFacetedUniqueValues,
-  getFilteredRowModel,
   getPaginationRowModel,
-  getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
 import {
@@ -23,30 +15,28 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { CardPos, UserTag } from "iconsax-react";
+import { CardPos } from "iconsax-react";
 import { PuffLoader } from "react-spinners";
 import { useRouter } from "next/navigation";
 import { DataTablePagination } from "@/components/data-table-pagination";
+import { PaginationData } from "@/lib/hooks/api/invoices.api";
+import { NonDataTablePagination } from "@/components/non-data-table-pagination";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  type: string;
+  pagination?: PaginationData;
+  pageIndex?: number;
+  setPageIndex?: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
-  type,
+  pagination,
+  pageIndex,
+  setPageIndex,
 }: DataTableProps<TData, TValue>) {
-  const [rowSelection, setRowSelection] = React.useState({});
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
-  );
-  const [sorting, setSorting] = React.useState<SortingState>([]);
-
   const handleRowClick = (row: any) => {
     router.push(`/dashboard/payment-history/${row.id}`);
   };
@@ -54,23 +44,9 @@ export function DataTable<TData, TValue>({
   const table = useReactTable({
     data,
     columns,
-    state: {
-      sorting,
-      columnVisibility,
-      rowSelection,
-      columnFilters,
-    },
     enableRowSelection: true,
-    onRowSelectionChange: setRowSelection,
-    onSortingChange: setSorting,
-    onColumnFiltersChange: setColumnFilters,
-    onColumnVisibilityChange: setColumnVisibility,
     getCoreRowModel: getCoreRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getFacetedRowModel: getFacetedRowModel(),
-    getFacetedUniqueValues: getFacetedUniqueValues(),
   });
 
   const router = useRouter();
@@ -83,15 +59,15 @@ export function DataTable<TData, TValue>({
     );
 
   return (
-    <div className=" space-y-4">
-      <div className="rounded-md">
+    <div className=" space-y-5">
+      <div className=" bg-white px-2 pb-3 rounded-b-lg">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id}>
+                    <TableHead key={header.id} className=" font-bold uppercase">
                       {header.isPlaceholder
                         ? null
                         : flexRender(
@@ -114,12 +90,7 @@ export function DataTable<TData, TValue>({
                   onClick={() => handleRowClick(row.original)}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell
-                      key={cell.id}
-                      onClick={() =>
-                        router.push(`/dashboard/api-keys/${cell.getValue()}`)
-                      }
-                    >
+                    <TableCell key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()
@@ -138,11 +109,11 @@ export function DataTable<TData, TValue>({
                       className=" h-[100px] w-[100px]"
                     />
                     <h6 className=" font-bold pt-4 pb-2">
-                      There are no transactions yet.
+                      There are no payments yet.
                     </h6>
                     <p>
-                      When you perform a transaction on your account, they will
-                      appear here
+                      When you make payments on this account, they will appear
+                      here
                     </p>
                   </div>
                 </TableCell>
@@ -151,7 +122,20 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <DataTablePagination table={table} />
+      {table.getRowModel().rows.length ? (
+        pagination && pageIndex && setPageIndex ? (
+          <NonDataTablePagination
+            hasNextPage={pagination.HasNextPage}
+            hasPreviousPage={pagination.HasPreviousPage}
+            currentPage={pagination.CurrentPage}
+            totalPages={pagination.TotalPages}
+            pageIndex={pageIndex}
+            setPageIndex={setPageIndex}
+          />
+        ) : (
+          <DataTablePagination table={table} />
+        )
+      ) : null}
     </div>
   );
 }

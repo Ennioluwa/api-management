@@ -36,24 +36,19 @@ const SubscriptionFee = () => {
 
   const { userData } = useAppSelector((state) => state.user);
 
-  const {
-    isPending,
-    isError,
-    data: subscription,
-    error,
-    refetch,
-  } = useQuery({
+  const { isPending, isError, data, error, refetch } = useQuery({
     queryKey: ["subscriptions"],
     queryFn: () => fetchSubscriptions({ companyId: userData?.companyId }),
   });
 
   useEffect(() => {
-    if (subscription) {
+    if (data?.data) {
+      let subscriptions = data.data;
       setActiveSubscription(
-        subscription.find((sub) => sub.status === "Active")
+        subscriptions.find((sub) => sub.status === "Active")
       );
     }
-  }, [subscription]);
+  }, [data]);
 
   return (
     <>

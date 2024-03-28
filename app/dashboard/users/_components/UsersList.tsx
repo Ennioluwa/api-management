@@ -118,8 +118,8 @@ const UsersList: FC<UsersListProps> = ({}) => {
     router.push(`/dashboard/users/${userName}`);
   };
   return (
-    <div className=" bg-white rounded-lg mt-5">
-      <div className=" p-5">
+    <div className=" rounded-lg mt-5">
+      <div className=" bg-white p-5">
         <h3 className=" font-bold pb-2.5 ">Users List</h3>
         <p className=" w-full md:w-2/3 lg:w-1/2 text-xs">
           View all your users and their verification status below in each tabs
@@ -132,19 +132,19 @@ const UsersList: FC<UsersListProps> = ({}) => {
           <TabsTrigger value="unverified">Unverified</TabsTrigger>
         </TabsList>
         {isPending && (
-          <div className=" w-full h-full grid place-items-center py-20">
+          <div className=" bg-white w-full h-full grid place-items-center py-20">
             <PuffLoader color="#0062FF" />
           </div>
         )}
         {!isPending && (
           <>
-            <TabsContent className=" px-5" value="all">
+            <TabsContent value="all">
               <DataTable columns={columns} data={allUsers} />
             </TabsContent>
-            <TabsContent className=" px-5" value="verified">
+            <TabsContent value="verified">
               <DataTable columns={columns} data={verifiedUsers} />
             </TabsContent>
-            <TabsContent className=" px-5" value="unverified">
+            <TabsContent value="unverified">
               <DataTable columns={columns} data={unverifiedUsers} />
             </TabsContent>
           </>

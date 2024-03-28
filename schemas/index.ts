@@ -73,7 +73,7 @@ export const LoginSchema = z.object({
   email: z.string().email({
     message: "Email is required",
   }),
-  password: strongPassword,
+  password: z.string().min(1, { message: "Password is required" }),
 });
 
 export const ForgotPasswordSchema = z.object({
@@ -94,7 +94,7 @@ export const PasswordResetSchema = z
 
 export const ChangePasswordSchema = z
   .object({
-    oldPassword: strongPassword || undefined,
+    oldPassword: z.string().min(1, { message: "Password is required" }),
     newPassword: strongPassword,
     confirmPassword: strongPassword,
   })

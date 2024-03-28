@@ -23,7 +23,7 @@ export type PutUserManagementData = {
 };
 
 export type DeleteUser = {
-  email: string;
+  username: string;
 };
 
 const postUserManagementData = async (data: UserManagementData) => {
@@ -66,7 +66,7 @@ const putUserManagementRoleData = async (data: PutUserManagementData) => {
 
 const deleteUserManagementData = async (data: DeleteUser) => {
   const res = await axiosClient
-    .post(`/api/user/delete?email=${data.email}`)
+    .delete(`/api/UserManagement/${data.username}`)
     .then((res) => {
       console.log(res);
       return {
@@ -94,7 +94,7 @@ export const useModifyUserManagementRole = () => {
   });
 };
 
-export const DeleteUserManagement = () => {
+export const useDeleteUserManagement = () => {
   return useMutation({
     mutationFn: (data: DeleteUser) => deleteUserManagementData(data),
   });

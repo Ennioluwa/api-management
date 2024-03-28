@@ -1,6 +1,5 @@
 "use client";
 
-import * as React from "react";
 import {
   ColumnDef,
   flexRender,
@@ -16,7 +15,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { CardPos, UserTag } from "iconsax-react";
+import { CardPos } from "iconsax-react";
 import { PuffLoader } from "react-spinners";
 import { useRouter } from "next/navigation";
 import { DataTablePagination } from "@/components/data-table-pagination";
@@ -112,11 +111,11 @@ export function DataTable<TData, TValue>({
                       className=" h-[100px] w-[100px]"
                     />
                     <h6 className=" font-bold pt-4 pb-2">
-                      There are no transactions yet.
+                      There are no invoices yet.
                     </h6>
                     <p>
-                      When you perform a transaction on your account, they will
-                      appear here
+                      When you create an invoice on your account, it will appear
+                      here
                     </p>
                   </div>
                 </TableCell>
@@ -126,8 +125,8 @@ export function DataTable<TData, TValue>({
         </Table>
       </div>
 
-      {pagination && table.getRowModel().rows.length ? (
-        pageIndex && setPageIndex ? (
+      {invoice && table.getRowModel().rows.length ? (
+        pagination && pageIndex && setPageIndex ? (
           <NonDataTablePagination
             hasNextPage={pagination.HasNextPage}
             hasPreviousPage={pagination.HasPreviousPage}
