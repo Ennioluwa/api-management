@@ -31,20 +31,19 @@ const InvoiceSearch = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [open, setOpen] = useState(true);
 
-  const searchRef = useRef(null);
+  const searchRef = useRef<HTMLInputElement>(null);
 
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
   const { isPending, data: invoice } = useQuery({
     queryKey: ["invoiceKey", { debouncedSearchTerm }],
     queryFn: () => fetchInvoicesById({ invoiceId: debouncedSearchTerm }),
+    retry: false,
   });
 
   const handleSearch = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
   }, []);
-
-  // console.log(invoice);
 
   return (
     <>
@@ -61,6 +60,10 @@ const InvoiceSearch = () => {
               <Search
                 value={searchTerm}
                 onChange={handleSearch}
+                handleClose={() => {
+                  setSearchTerm("");
+                  searchRef?.current?.focus();
+                }}
                 ref={searchRef}
                 onFocus={() => setOpen(true)}
                 placeholder="Search for Invoices..."
@@ -122,7 +125,7 @@ const InvoiceSearch = () => {
                       setOpen(false);
                     }}
                   >
-                    LEARN MORE &rarr;
+                    INVOICE DETAILS &rarr;
                   </Button>
                 </div>
               </div>
