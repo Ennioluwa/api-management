@@ -89,7 +89,7 @@ const SubscriptionList: FC<SubscriptionListProps> = ({}) => {
       header: "Status",
       cell: (info) => (
         <span
-          className={` text-xs w-fit px-3 py-1.5 rounded ${
+          className={` font-bold text-xs w-fit px-3 py-1.5 rounded ${
             info.row.original.status.toLowerCase() === "active"
               ? "bg-[#1CA78B]/5 text-[#1CA78B]"
               : "bg-[#A71C1C]/5 text-[#A71C1C] "

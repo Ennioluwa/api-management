@@ -81,19 +81,19 @@ const PaymentList: FC<PaymentListProps> = ({}) => {
       cell: (info) =>
         info.row.original.status === "Active" ? (
           <p
-            className={` bg-[#1CA78B]/5 text-[#1CA78B] text-xs w-fit px-3 py-1.5 rounded `}
+            className={` font-bold bg-[#1CA78B]/5 text-[#1CA78B] text-xs w-fit px-3 py-1.5 rounded `}
           >
             Approved
           </p>
         ) : info.row.original.status === "Pending" ? (
           <p
-            className={` bg-[#FFCF5C]/5 text-[#FFCF5C] text-xs w-fit px-3 py-1.5 rounded `}
+            className={`font-bold bg-[#FFCF5C]/5 text-[#FFCF5C] text-xs w-fit px-3 py-1.5 rounded `}
           >
             Pending
           </p>
         ) : (
           <p
-            className={` bg-[#A71C1C]/5 text-[#A71C1C] text-xs w-fit px-3 py-1.5 rounded `}
+            className={`font-bold bg-[#A71C1C]/5 text-[#A71C1C] text-xs w-fit px-3 py-1.5 rounded `}
           >
             Failed
           </p>

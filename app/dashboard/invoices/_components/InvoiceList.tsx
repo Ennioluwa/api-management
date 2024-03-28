@@ -92,7 +92,7 @@ const InvoiceList: FC<InvoiceListProps> = ({}) => {
         const status = info.row.original.uploadStatus;
         return (
           <span
-            className={` text-xs w-fit px-3 py-1.5 rounded ${
+            className={` font-bold text-xs w-fit px-3 py-1.5 rounded ${
               status.toLowerCase() === "uploaded"
                 ? "bg-[#1CA78B]/5 text-[#1CA78B]"
                 : status.toLowerCase() === "error"

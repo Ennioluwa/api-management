@@ -25,7 +25,7 @@ const InvoiceProcessing = ({}) => {
     {
       header: "INVOICE ID",
       cell: (info) => (
-        <span className=" font-bold">${info.row.original.invoiceNumber}</span>
+        <span className=" font-bold">{info.row.original.invoiceNumber}</span>
       ),
     },
 
@@ -47,10 +47,10 @@ const InvoiceProcessing = ({}) => {
         const status = info.row.original.uploadStatus;
         return (
           <span
-            className={` text-xs w-fit px-3 py-1.5 rounded ${
+            className={` text-xs font-bold w-fit px-3 py-1.5 rounded ${
               status.toLowerCase() === "uploaded"
                 ? "bg-[#1CA78B]/5 text-[#1CA78B]"
-                : status.toLowerCase() === "failed"
+                : status.toLowerCase() === "error"
                 ? "bg-[#A71C1C]/5 text-[#A71C1C] "
                 : "bg-[#FFCF5C]/5 text-[#FFCF5C]"
             }`}

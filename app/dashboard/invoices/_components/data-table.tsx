@@ -42,8 +42,6 @@ export function DataTable<TData, TValue>({
 }: DataTableProps<TData, TValue>) {
   const router = useRouter();
 
-  console.log(pagination, "pagination");
-
   const handleRowClick = (row: any) => {
     router.push(`/dashboard/invoices/${row.invoiceNumber}`);
   };
@@ -62,8 +60,6 @@ export function DataTable<TData, TValue>({
         <PuffLoader color="#0062FF" />
       </div>
     );
-
-  console.log(table.getRowModel().rows.length);
 
   return (
     <div className=" space-y-5">
@@ -130,8 +126,8 @@ export function DataTable<TData, TValue>({
         </Table>
       </div>
 
-      {invoice && table.getRowModel().rows.length ? (
-        pagination && pageIndex && setPageIndex ? (
+      {pagination && table.getRowModel().rows.length ? (
+        pageIndex && setPageIndex ? (
           <NonDataTablePagination
             hasNextPage={pagination.HasNextPage}
             hasPreviousPage={pagination.HasPreviousPage}
