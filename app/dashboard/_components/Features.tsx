@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, useState } from "react";
+import { ChangeEvent, FC, useRef, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -38,6 +38,8 @@ const Features: FC<FeaturesProps> = ({}) => {
 
   const [questions, setQuestions] = useState(accountQuestions);
   const [search, setSearch] = useState("");
+
+  const searchRef = useRef<HTMLInputElement>(null);
 
   function handleSearch(e: ChangeEvent<HTMLInputElement>) {
     const value = e.target.value;
@@ -79,6 +81,12 @@ const Features: FC<FeaturesProps> = ({}) => {
               </SheetHeader>
             </div>
             <Search
+              handleClose={() => {
+                setSearch("");
+                setQuestions(accountQuestions);
+                searchRef?.current?.focus();
+              }}
+              ref={searchRef}
               value={search}
               onChange={handleSearch}
               placeholder="Search for Help"
